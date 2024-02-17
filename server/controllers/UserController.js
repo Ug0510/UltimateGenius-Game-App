@@ -1,5 +1,5 @@
-//UserController.js
-
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 // Controller functions for CRUD operations
@@ -12,7 +12,7 @@ exports.createUser = async (req, res) => {
         
 
         // Check if required fields are missing
-        const requiredFields = ['userName', 'userType', 'email', 'password'];
+        const requiredFields = ['userName', 'userType','userGender', 'email', 'password'];
         const missingFields = requiredFields.filter(field => !req.body[field]);
         if (missingFields.length > 0) {
             return res.status(400).json({ error: `Missing required fields: ${missingFields.join(', ')}` });
@@ -34,6 +34,10 @@ exports.createUser = async (req, res) => {
         if (!/^[a-zA-Z0-9]+$/.test(req.body.password)) {
             return res.status(400).json({ error: 'Password should be alphanumeric' });
         }
+
+        // Encrypt password
+        const saltRounds = 10;
+        req.body.password = await bcrypt.hash(req.body.password, saltRounds);
 
         // Check if avatar field is blank then set base avatar
         if (!req.body.avatar) {
@@ -73,3 +77,40 @@ exports.getUser = async (req, res) => {
     }
 };
 
+// Controller for user login
+exports.loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        console.log(req.body);
+
+        // Check if user with the provided email exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+
+        // Compare passwords
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+        console.log(process.env.JWT_SECRET);
+        // Generate JWT token
+        const token = jwt.sign({ userId: user._id }, "#@ppY_&_$@D", { expiresIn: '1h' });
+
+        // Create a copy of the user object and delete sensitive fields
+        const userToSend = { ...user.toObject() }; 
+        delete userToSend.password;
+        delete userToSend.__v;
+        delete userToSend._id;
+
+        // Return token and user data (excluding password)
+        res.json({
+            token,
+            user: userToSend
+        });
+    } catch (error) {
+        console.error('Error logging in user:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
