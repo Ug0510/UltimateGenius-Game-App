@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 const db = require('./config/mongoose');
+const bodyParser = require('body-parser');
+
+// Middleware
+app.use(bodyParser.json());
 
 // Import routes
 const routes = require('./routes');
