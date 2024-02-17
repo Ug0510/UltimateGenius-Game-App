@@ -1,0 +1,23 @@
+{
+  "name": "ultimate-genius",
+  "version": "1.0.0",
+  "description": "game application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ug0510/UltimateGenius-Game-App.git"
+  },
+  "keywords": [
+    "game",
+    "quiz"
+  ],
+  "author": "Udit Gupta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ug0510/UltimateGenius-Game-App/issues"
+  },
+  "homepage": "https://github.com/Ug0510/UltimateGenius-Game-App#readme"
+}
