@@ -8,5 +8,6 @@ const router = express.Router();
 router.post('/create-qb',authenticate,checkTeacher,QBController.createQuestionBank);
 router.post('/create-question',authenticate,checkTeacher,QuestionController.createQuestion);
 router.post('/:questionBankId/add-questions',authenticate,checkTeacher,QBController.addQuestions);
+router.get('/:questionBankId/questions-list',authenticate,checkTeacher,QBController.getQuestionsInQuestionBank);
 
 module.exports = router;

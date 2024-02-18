@@ -51,3 +51,30 @@ exports.addQuestions = async (req, res) => {
     }
 };
 
+// controller to get list of all questions in a question bank
+exports.getQuestionsInQuestionBank = async (req, res) => {
+    try {
+        const { questionBankId } = req.params;
+
+        // Find the question bank by ID
+        const questionBank = await QuestionBank.findById(questionBankId).populate('questions');
+
+        if (!questionBank) {
+            return res.status(404).json({ error: 'Question bank not found' });
+        }
+
+        // Extract required fields from each question
+        const questions = questionBank.questions.map(question => ({
+          _id: question._id,
+          content: question.content,
+          options: question.options,
+          category: question.category,
+          difficultyLevel: question.difficultyLevel
+        }));
+
+        res.json(questions);
+    } catch (error) {
+        console.error('Error fetching questions from question bank:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
