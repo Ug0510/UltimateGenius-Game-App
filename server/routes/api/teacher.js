@@ -7,7 +7,8 @@ const router = express.Router();
 
 router.post('/create-qb',authenticate,checkTeacher,QBController.createQuestionBank);
 router.post('/create-question',authenticate,checkTeacher,QuestionController.createQuestion);
-router.post('/:questionBankId/add-questions',authenticate,checkTeacher,QBController.addQuestions);
+router.post('/:questionBankId/add-questions',authenticate,checkTeacher,QBController.addQuestionsInQuestionBank);
+router.delete('/:questionBankId/remove-questions',authenticate,checkTeacher,QBController.removeQuestionsFromQuestionBank);
 router.get('/:questionBankId/questions-list',authenticate,checkTeacher,QBController.getQuestionsInQuestionBank);
 
 module.exports = router;

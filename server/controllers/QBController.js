@@ -25,7 +25,7 @@ exports.createQuestionBank = async (req, res) => {
 };
 
 // Controller to add questions to an existing question bank
-exports.addQuestions = async (req, res) => {
+exports.addQuestionsInQuestionBank = async (req, res) => {
     try {
         const { questionBankId } = req.params;
         const { questionIds } = req.body;
@@ -86,3 +86,43 @@ exports.getQuestionsInQuestionBank = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+// controller to remove questions from a question bank
+exports.removeQuestionsFromQuestionBank = async (req, res) => {
+    try {
+        let { questionBankId } = req.params;
+        const { questionIds } = req.body;
+
+        // Trim leading and trailing spaces from the question bank ID
+        questionBankId = questionBankId.trim();
+
+        // Find the question bank by ID
+        const questionBank = await QuestionBank.findById(questionBankId);
+        if (!questionBank) {
+            return res.status(404).json({ error: 'Question bank not found' });
+        }
+
+        // Remove the question IDs from the question bank
+        questionBank.questions = questionBank.questions.filter(questionId => !questionIds.includes(questionId.toString()));
+
+
+        // Update the questionBanks property of each question being removed
+        for (const questionId of questionIds) {
+            const question = await Question.findById(questionId);
+            if (question) {
+                question.questionBanks = question.questionBanks.filter(id => id.toString() !== questionBankId.toString());
+                await question.save();
+            }
+        }
+
+        // Save the updated question bank
+        const updatedQuestionBank = await questionBank.save();
+
+        res.json(updatedQuestionBank);
+    } catch (error) {
+        console.error('Error removing questions from question bank:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
