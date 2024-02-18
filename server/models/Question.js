@@ -22,6 +22,11 @@ const questionSchema = new mongoose.Schema({
         enum: ['easy', 'medium', 'hard'],
         required: true
     },
+    questionBanks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'QuestionBank',
+        default: []
+    }],
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

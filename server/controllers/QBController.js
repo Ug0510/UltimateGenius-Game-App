@@ -29,8 +29,6 @@ exports.addQuestions = async (req, res) => {
     try {
         const { questionBankId } = req.params;
         const { questionIds } = req.body;
-        console.log(questionBankId);
-        console.log(questionIds);
 
         // Find the question bank by ID
         const questionBank = await QuestionBank.findById(questionBankId);
@@ -41,6 +39,15 @@ exports.addQuestions = async (req, res) => {
         // Add the question IDs to the question bank
         questionBank.questions.push(...questionIds);
 
+        // Update the questionBanks property of each question
+        for (const questionId of questionIds) {
+            const question = await Question.findById(questionId);
+            if (question) {
+                question.questionBanks.push(questionBankId);
+                await question.save();
+            }
+        }
+
         // Save the updated question bank
         const updatedQuestionBank = await questionBank.save();
 
@@ -50,6 +57,7 @@ exports.addQuestions = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 // controller to get list of all questions in a question bank
 exports.getQuestionsInQuestionBank = async (req, res) => {
