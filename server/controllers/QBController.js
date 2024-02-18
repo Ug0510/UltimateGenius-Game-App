@@ -1,4 +1,5 @@
 const QuestionBank = require('../models/QuestionBank');
+const Question = require('../models/Question');
 
 // Create a question bank
 exports.createQuestionBank = async (req, res) => {
@@ -22,3 +23,31 @@ exports.createQuestionBank = async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+// Controller to add questions to an existing question bank
+exports.addQuestions = async (req, res) => {
+    try {
+        const { questionBankId } = req.params;
+        const { questionIds } = req.body;
+        console.log(questionBankId);
+        console.log(questionIds);
+
+        // Find the question bank by ID
+        const questionBank = await QuestionBank.findById(questionBankId);
+        if (!questionBank) {
+            return res.status(404).json({ error: 'Question bank not found' });
+        }
+
+        // Add the question IDs to the question bank
+        questionBank.questions.push(...questionIds);
+
+        // Save the updated question bank
+        const updatedQuestionBank = await questionBank.save();
+
+        res.json(updatedQuestionBank);
+    } catch (error) {
+        console.error('Error adding questions to question bank:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+

@@ -17,7 +17,6 @@ exports.createQuestion = async (req, res) => {
             difficultyLevel,
             createdBy
         });
-9
         // Save the question to the database
         const savedQuestion = await question.save();
 
@@ -27,3 +26,5 @@ exports.createQuestion = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
