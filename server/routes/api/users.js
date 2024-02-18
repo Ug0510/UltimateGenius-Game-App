@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const authenticate = require('../../config/jwt_strategy');
+const authenticate = require('../../middleware/jwt_strategy');
 const UserController = require('../../controllers/UserController');
 
 // Define routes for different CRUD operations
