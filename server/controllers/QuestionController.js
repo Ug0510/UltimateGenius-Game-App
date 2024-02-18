@@ -41,6 +41,8 @@ exports.createQuestions = async (req, res) => {
     }
 };
 
+
+// Controller to delete Questions 
 exports.deleteQuestions = async (req, res) => {
     try {
         const { questionIds } = req.body;
@@ -70,6 +72,42 @@ exports.deleteQuestions = async (req, res) => {
         res.json({ message: `${deletedCount} ${deletedCount > 1?'questions':'question'} deleted successfully` });
     } catch (error) {
         console.error('Error deleting multiple questions:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+//Controller to update Question or it's options
+exports.updateQuestion = async (req, res) => {
+    try {
+        const { questionId } = req.params;
+        const updateData = req.body; // Data to update the question
+
+        // Find the question by ID and update it
+        const updatedQuestion = await Question.findByIdAndUpdate(questionId, updateData, { new: true });
+
+        if (!updatedQuestion) {
+            return res.status(404).json({ error: 'Question not found' });
+        }
+
+        res.json(updatedQuestion);
+    } catch (error) {
+        console.error('Error updating question:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+// Controller to get all questions
+exports.getAllQuestions = async (req, res) => {
+    try {
+        const userId = req.user._id; // Assuming user ID is available in the request object
+
+        // Fetch all questions created by the user from the database
+        const questions = await Question.find({ createdBy: userId });
+
+        res.json(questions);
+    } catch (error) {
+        console.error('Error fetching questions by user:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
