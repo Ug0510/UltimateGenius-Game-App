@@ -14,6 +14,7 @@ router.post('/create-questions',authenticate,checkTeacher,QuestionController.cre
 router.post('/delete-questions',authenticate,checkTeacher,QuestionController.deleteQuestions);
 router.put('/:questionId',authenticate,checkTeacher,QuestionController.updateQuestion);
 router.get('/get-questions',authenticate,checkTeacher,QuestionController.getAllQuestions);
+router.delete('/:questionBankId',authenticate,checkTeacher,QBController.deleteQuestionBank);
 
 
 module.exports = router;

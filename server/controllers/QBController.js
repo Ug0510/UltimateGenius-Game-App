@@ -126,3 +126,21 @@ exports.removeQuestionsFromQuestionBank = async (req, res) => {
     }
 };
 
+//Controller to delete the QuestionBank
+exports.deleteQuestionBank = async (req, res) => {
+    try {
+        const { questionBankId } = req.params;
+
+        // Find the question bank by ID and delete it
+        const deletedQuestionBank = await QuestionBank.findByIdAndDelete(questionBankId);
+
+        if (!deletedQuestionBank) {
+            return res.status(404).json({ error: 'Question bank not found' });
+        }
+
+        res.json({ message: 'Question bank deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting question bank:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
