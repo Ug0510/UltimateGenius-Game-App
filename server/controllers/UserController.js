@@ -94,10 +94,9 @@ exports.loginUser = async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
-        console.log(process.env.JWT_SECRET);
         // Generate JWT token
-        const token = jwt.sign({ userId: user._id }, "#@ppY_&_$@D", { expiresIn: '1h' });
-
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        console.log(process.env.JWT_SECRET);
         // Create a copy of the user object and delete sensitive fields
         const userToSend = { ...user.toObject() }; 
         delete userToSend.password;
@@ -111,6 +110,31 @@ exports.loginUser = async (req, res) => {
         });
     } catch (error) {
         console.error('Error logging in user:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+// controller to get user profile data
+exports.profileUser = async (req, res) => {
+    try {
+        // Access authenticated user from req.user
+        const userId = req.user._id;
+
+        // Check if user exists in the database
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Prepare user object to send (excluding password and __v)
+        const userProfile = { ...user.toObject() };
+        delete userProfile.password;
+        delete userProfile.__v;
+
+        // Return user profile
+        res.json(userProfile);
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
