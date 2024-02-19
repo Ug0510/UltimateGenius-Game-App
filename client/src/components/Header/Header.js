@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
+import ButtonG from '../Button/ButtonG';
+import Logo from '../../assets/images/logo/logo.png'
 
 const Header = () => {
     return (
@@ -45,18 +47,21 @@ const Header = () => {
                                 <div className="header-logo">
                                     <Link to="/">
                                         <span data-mask-src="assets/img/logo.svg" className="logo-mask"></span>
-                                        <img src="assets/img/logo.svg" alt="Ultimate Genius" />
+                                        <img src={Logo} style={{maxWidth:'200px'}} alt="Ultimate Genius" />
                                     </Link>
                                 </div>
                             </div>
                             <div className="col-auto d-none d-xl-block">
-                                <div className="header-button">
+                                {/* <div className="header-button">
                                     <div className="d-xxl-block d-none">
                                         <Link to="/User/Login" className="th-btn">
                                             <i className="fa-brands fa-twitch me-1"></i> Login/Register
                                         </Link>
                                     </div>
-                                </div>
+                                </div> */}
+                                <Link to='/User/Login'>
+                                    <ButtonG type='button'>Login/Register</ButtonG>
+                                </Link>
                             </div>
                         </div>
                     </div>
