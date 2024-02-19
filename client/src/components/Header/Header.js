@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Header.css';
 import ButtonG from '../Button/ButtonG';
 import Logo from '../../assets/images/logo/logo.png'
 
@@ -59,7 +58,7 @@ const Header = () => {
                                         </Link>
                                     </div>
                                 </div> */}
-                                <Link to='/User/Login'>
+                                <Link to='/user/login'>
                                     <ButtonG type='button'>Login/Register</ButtonG>
                                 </Link>
                             </div>
