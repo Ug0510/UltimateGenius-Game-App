@@ -12,4 +12,5 @@ router.post('/profile', authenticate, UserController.profileUser);
 
 
 router.post('/join-quiz/:quizId',authenticate, QuizController.joinQuiz);
+router.get('/check-quiz-if-started/:quizId',authenticate,QuizController.checkQuizStarted);
 module.exports = router;

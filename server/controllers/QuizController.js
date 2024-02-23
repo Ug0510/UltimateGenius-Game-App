@@ -51,8 +51,6 @@ exports.generateQuiz = async (req, res) => {
     }
   };
 
-  
-  
 
  // Controller to join Quiz
   exports.joinQuiz = async (req, res) => {
@@ -89,3 +87,25 @@ exports.generateQuiz = async (req, res) => {
     }
   };
   
+
+//   Controller to check if quiz is started 
+
+exports.checkQuizStarted = async (req, res) => {
+    try {
+      const { quizId } = req.params;
+  
+      // Check if the quiz exists
+      const quiz = await QuizGame.findById(quizId);
+      if (!quiz) {
+        return res.status(404).json({ message: 'Quiz not found' });
+      }
+  
+      // Check if the quiz is started
+      const isStarted = quiz.isStarted;
+  
+      res.status(200).json({ isStarted });
+    } catch (error) {
+      console.error('Error checking if quiz is started:', error);
+      res.status(500).json({ message: 'Error checking if quiz is started' });
+    }
+  };
