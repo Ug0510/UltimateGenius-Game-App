@@ -3,7 +3,6 @@ import LoginPage from './pages/User/Login';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from './pages/Homepage/Homepage';
 import RegisterPage from './pages/User/Register';
-import './assets/css/style.css'
 
 const App = () => {
     return (

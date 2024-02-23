@@ -1,14 +1,25 @@
-import React, {useEffect, useState} from 'react';
-import './bootstrap.css';
+import React, { useEffect, useState } from 'react';
+import '../../assets/css/bootstrap.css';
 import './Homepage.css';
+import fetchUseData from '../../utils/fetchUserData';
+import {Link } from 'react-router-dom';
 import VanillaTilt from 'vanilla-tilt';
 
 
 const Homepage = () => {
 
     const [isOpen, setIsOpen] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [userData, setUserData] = useState(null);
+
+
+    
 
     useEffect(() => {
+
+        fetchUseData({setLoggedIn, setUserData});
+        console.log(userData);
+
         // Initialize Tilt JS on an element with class "tilt-element"
         VanillaTilt.init(document.querySelector('.tilt'), {
             max: 25,
@@ -16,7 +27,9 @@ const Homepage = () => {
             glare: true,
             'max-glare': 0.5
         });
-    }, []);
+
+
+    }, [loggedIn, userData]);
 
 
     // Handler to toggle the user popup class
@@ -31,48 +44,45 @@ const Homepage = () => {
             {/* header section start */}
             <header className="header-section w-100">
                 <div className="py-sm-6 py-3 mx-xxl-20 mx-md-15 mx-3">
-                    <div className="d-flex align-items-center justify-content-between gap-xxl-10 gap-lg-8 w-100">
-                        {/* navigation */}
-                        <nav className="navbar-custom d-flex gap-lg-6 align-items-center flex-column flex-lg-row justify-content-start justify-content-lg-between w-100">
-                            {/* logo */}
-                            <div className="top-bar w-100 d-flex align-items-center gap-lg-0 gap-6">
-                                <button className="navbar-toggle-btn d-block d-lg-none" type="button">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </button>
-                                <a className="navbar-brand d-flex align-items-center gap-4" href="index.html">
-                                    <img className="w-100 logo2" src="assets/logo.png" alt="logo"/>
-                                </a>
-                            </div>
-                        </nav>
-                        {/* header buttons */}
+                    <div className='d-flex align-items-center justify-content-between'>
+
+                        <div>
+                            <a className="navbar-brand d-flex align-items-center gap-4" href="index.html">
+                                <img className="w-100 logo2" src="assets/logo.png" alt="logo" />
+                            </a>
+                        </div>
+
                         <div className="header-btn-area d-flex align-items-center gap-sm-6 gap-3">
                             <button className="ntf-btn box-style fs-2xl">
                                 <i className="ti ti-bell-filled"></i>
                             </button>
-                            <div className="header-profile pointer">
-                                <div className="profile-wrapper d-flex align-items-center gap-3">
+                            <div className="header-profile pointer" onClick={togglePopup}>
+                                {loggedIn ? (<div className="profile-wrapper d-flex align-items-center gap-3">
                                     <div className="img-area overflow-hidden">
                                         <img className="w-100" src="assets/img/profile.png" alt="profile" />
                                     </div>
                                     <span className="user-name d-none d-xxl-block text-nowrap">David Malan</span>
                                     <i className="ti ti-chevron-down d-none d-xxl-block"></i>
-                                </div>
+                                </div>) : (
+                                    <Link to="" className="btn-half-border position-relative d-inline-block py-2 px-6 bgp-1 rounded-pill popupvideo mfp-iframe">Play Now</Link>
+
+                                )}
                             </div>
                         </div>
+
+
                     </div>
+                    
                 </div>
             </header>
             {/* header section end */}
-            
+
             {/* notification area start */}
             <div className="notification-area p-4" data-lenis-prevent>
                 <div className="notification-card d-grid gap-4" data-tilt>
                     {/* notification cards */}
                     {/* Repeat this block for each notification card */}
-                    <a href="#">
+                    <div>
                         <div className="card-item d-flex align-items-center gap-4">
                             <div className="card-img-area">
                                 <img className="w-100 rounded-circle" src="assets/img/avatar1.png" alt="profile" />
@@ -82,12 +92,12 @@ const Homepage = () => {
                                 <span className="card-text d-block tcn-1 fs-sm">Winners The Last Game</span>
                             </div>
                         </div>
-                    </a>
+                    </div>
                     {/* End of notification card block */}
                 </div>
             </div>
             {/* notification area end */}
-            
+
             {/* user account details popup start */}
             <div className={`user-account-popup p-4 ${isOpen ? 'open' : ''}`}>
                 <div className="account-items d-grid gap-1" data-tilt>
@@ -104,7 +114,7 @@ const Homepage = () => {
                         <div className="user-level">
                             <span className="level-title tcn-6">Level</span>
                             <div className="level-bar my-1">
-                                <div className="level-progress" style={{width: '30%'}}></div>
+                                <div className="level-progress" style={{ width: '30%' }}></div>
                             </div>
                         </div>
                     </div>
@@ -115,7 +125,7 @@ const Homepage = () => {
                 </div>
             </div>
             {/* user account details popup end */}
-            
+
             {/* Hero Section start */}
             <section className="hero-section pt-20 pb-120 position-relative">
                 <div className="gradient-bg"></div>
@@ -146,7 +156,7 @@ const Homepage = () => {
                                     <img className="w-100" src="assets/img/bg-1.png" alt="banner" />
                                 </div>
                                 <div className="hero-banner-img">
-                                    <img className="w-100 hero" src="assets/img/hero.png" alt="banner" />
+                                    <img className="w-100 hero" src="assets/img/boy.png" alt="banner" />
                                 </div>
                             </div>
                         </div>
@@ -170,6 +180,7 @@ const Homepage = () => {
                                                 <p className="card-text tcs-1 fw-medium">+$220</p>
                                             </div>
                                         </div>
+                                        <div className="hr-line mb-1"></div>
                                         <div className="card-item d-flex align-items-center gap-4">
                                             <div className="card-img-area rounded-circle overflow-hidden">
                                                 <img className="w-100" src="assets/img/avatar2.png" alt="profile" />
@@ -181,6 +192,7 @@ const Homepage = () => {
                                                 <p className="card-text tcs-1 fw-medium">+$220</p>
                                             </div>
                                         </div>
+                                        <div className="hr-line mb-1"></div>
                                         <div className="card-item d-flex align-items-center gap-4">
                                             <div className="card-img-area rounded-circle overflow-hidden">
                                                 <img className="w-100" src="assets/img/avatar3.png" alt="profile" />
@@ -194,28 +206,6 @@ const Homepage = () => {
                                         </div>
                                         {/* End of card items */}
                                     </div>
-                                </div>
-                                <div className="active-player-list d-grid justify-content-end gap-2">
-                                    <ul className="player-lists d-flex align-items-center">
-                                        {/* Player lists */}
-                                        <li className="rounded-circle overflow-hidden me-n6">
-                                            <img src="assets/img/player1.png" alt="player" />
-                                        </li>
-                                        <li className="rounded-circle overflow-hidden me-n6">
-                                            <img src="assets/img/player2.png" alt="player" />
-                                        </li>
-                                        <li className="rounded-circle overflow-hidden me-n6">
-                                            <img src="assets/img/player3.png" alt="player" />
-                                        </li>
-                                        <li className="rounded-circle overflow-hidden me-n6">
-                                            <img src="assets/img/player4.png" alt="player" />
-                                        </li>
-                                        <li className="rounded-circle overflow-hidden me-n6 heading-font fs-xl">
-                                            99+
-                                        </li>
-                                        {/* End of player lists */}
-                                    </ul>
-                                    <span className="d-block tcn-1 dot-icon cursor-scale growDown2 fs-xl text-end">Active Players</span>
                                 </div>
                             </div>
                         </div>
@@ -261,8 +251,8 @@ const Homepage = () => {
             </section>
             {/* Hero Section end */}
 
-             
-            
+
+
             {/* js dependencies */}
             {/* Include script tags for all JavaScript dependencies */}
         </div>
