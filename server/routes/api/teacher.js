@@ -19,5 +19,7 @@ router.delete('/:questionBankId',authenticate,checkTeacher,QBController.deleteQu
 
 
 router.post('/generate-quiz',authenticate,checkTeacher,QuizController.generateQuiz);
+router.put('/start-quiz/:quizId', authenticate,checkTeacher, QuizController.startQuiz);
+
 
 module.exports = router;
