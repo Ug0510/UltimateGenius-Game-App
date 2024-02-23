@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const QuizGameSchema = new Schema({
+const QuizGameSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true
@@ -18,9 +17,13 @@ const QuizGameSchema = new Schema({
     default: 30
   },
   quizBank: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'QuestionBank',
     required: true
+  },
+  numberOfQuestions: {
+    type: Number,
+    default: 15
   },
   showCorrectAnswers: {
     type: Boolean,
@@ -40,27 +43,25 @@ const QuizGameSchema = new Schema({
   },
   randomizedQuestionPool: {
     type: Boolean,
-    default: true
+    default: false
   },
   randomizedAnswerChoices: {
     type: Boolean,
     default: false
   },
-  // Log of quiz games
-  logs: [{
-    student: {
-      type: Schema.Types.ObjectId,
-      ref: 'Student'
-    },
-    score: {
-      type: Number,
-      default: 0
-    },
-    timestamp: {
-      type: Date,
-      default: Date.now
-    }
-  }]
+  teacherId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', 
+    required: true
+  },
+  studentIds: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User' 
+  }], 
+  isStarted: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const QuizGame = mongoose.model('QuizGame', QuizGameSchema);

@@ -3,6 +3,7 @@ const authenticate = require('../../middleware/jwt_strategy');
 const checkTeacher = require('../../middleware/CheckTeacher');
 const QBController = require('../../controllers/QBController');
 const QuestionController = require('../../controllers/QuestionController');
+const QuizController = require('../../controllers/QuizController');
 const router = express.Router();
 
 router.post('/create-qb',authenticate,checkTeacher,QBController.createQuestionBank);
@@ -16,5 +17,7 @@ router.put('/:questionId',authenticate,checkTeacher,QuestionController.updateQue
 router.get('/get-questions',authenticate,checkTeacher,QuestionController.getAllQuestions);
 router.delete('/:questionBankId',authenticate,checkTeacher,QBController.deleteQuestionBank);
 
+
+router.post('/generate-quiz',authenticate,checkTeacher,QuizController.generateQuiz);
 
 module.exports = router;
