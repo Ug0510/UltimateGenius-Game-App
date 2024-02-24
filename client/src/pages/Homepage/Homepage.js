@@ -29,7 +29,7 @@ const Homepage = ({isLoggedIn, setIsLoggedIn}) => {
             speed: 400,
             glare: true,
             'max-glare': 0.5
-        });
+        }),[isLoggedIn,userData];
 
 
     }, [isLoggedIn, userData]);
