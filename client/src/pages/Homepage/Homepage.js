@@ -2,22 +2,25 @@ import React, { useEffect, useState } from 'react';
 import '../../assets/css/bootstrap.css';
 import './Homepage.css';
 import fetchUseData from '../../utils/fetchUserData';
-import {Link } from 'react-router-dom';
+import {Link, useNavigate } from 'react-router-dom';
 import VanillaTilt from 'vanilla-tilt';
 
 
-const Homepage = () => {
+const Homepage = ({isLoggedIn, setIsLoggedIn}) => {
+
+    const navigate = useNavigate();
 
     const [isOpen, setIsOpen] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false);
     const [userData, setUserData] = useState(null);
-
-
-    
 
     useEffect(() => {
 
-        fetchUseData({setLoggedIn, setUserData});
+        if(!isLoggedIn)
+        {
+            navigate('/login');
+        }
+
+        fetchUseData({setIsLoggedIn, setUserData});
         console.log(userData);
 
         // Initialize Tilt JS on an element with class "tilt-element"
@@ -29,7 +32,7 @@ const Homepage = () => {
         });
 
 
-    }, [loggedIn, userData]);
+    }, [isLoggedIn, userData]);
 
 
     // Handler to toggle the user popup class
@@ -57,14 +60,14 @@ const Homepage = () => {
                                 <i className="ti ti-bell-filled"></i>
                             </button>
                             <div className="header-profile pointer" onClick={togglePopup}>
-                                {loggedIn ? (<div className="profile-wrapper d-flex align-items-center gap-3">
+                                {isLoggedIn ? (<div className="profile-wrapper d-flex align-items-center gap-3">
                                     <div className="img-area overflow-hidden">
                                         <img className="w-100" src="assets/img/profile.png" alt="profile" />
                                     </div>
                                     <span className="user-name d-none d-xxl-block text-nowrap">David Malan</span>
                                     <i className="ti ti-chevron-down d-none d-xxl-block"></i>
                                 </div>) : (
-                                    <Link to="" className="btn-half-border position-relative d-inline-block py-2 px-6 bgp-1 rounded-pill popupvideo mfp-iframe">Play Now</Link>
+                                    <Link to="/login" className="btn-half-border position-relative d-inline-block py-2 px-6 bgp-1 rounded-pill popupvideo mfp-iframe">Login</Link>
 
                                 )}
                             </div>

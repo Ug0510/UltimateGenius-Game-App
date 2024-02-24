@@ -1,4 +1,4 @@
-const fetchUserData = async ({setIsLoggedIn, setUserData}) => {
+const checkIsLoggedIn = async ({setIsLoggedIn}) => {
     try {
       const token = localStorage.getItem('ultimate_genius0510_token'); 
 
@@ -7,7 +7,7 @@ const fetchUserData = async ({setIsLoggedIn, setUserData}) => {
         return;
       }
   
-      const response = await fetch('/api/user/profile', {
+      const response = await fetch('/api/user/check-login', {
         headers: {
           Authorization: `Bearer ${token}`, 
         },
@@ -17,7 +17,6 @@ const fetchUserData = async ({setIsLoggedIn, setUserData}) => {
   
       if (data.isLoggedIn) {
         setIsLoggedIn(true);
-        setUserData(data.user); 
       } else {
         setIsLoggedIn(false);
       }
@@ -27,4 +26,4 @@ const fetchUserData = async ({setIsLoggedIn, setUserData}) => {
     }
   };
 
-  export default fetchUserData;
+  export default checkIsLoggedIn;

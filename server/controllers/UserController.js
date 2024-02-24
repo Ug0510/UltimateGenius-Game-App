@@ -114,8 +114,9 @@ exports.loginUser = async (req, res) => {
     }
 };
 
-// controller to get user profile data
-exports.profileUser = async (req, res) => {
+
+// controller to check if user is login or not
+exports.checkLogin = async (req, res) => {
     try {
         // Access authenticated user from req.user
         const userId = req.user._id;
@@ -126,13 +127,7 @@ exports.profileUser = async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Prepare user object to send (excluding password and __v)
-        const userProfile = { ...user.toObject() };
-        delete userProfile.password;
-        delete userProfile.__v;
-
-        // Return user profile
-        res.json(userProfile);
+        res.status(200).json({isLoggedIn:true});
     } catch (error) {
         console.error('Error fetching user profile:', error);
         res.status(500).json({ error: 'Internal Server Error' });
