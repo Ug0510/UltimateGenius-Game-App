@@ -1,10 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
+// import '../../assets/css/style.css'
 
 const LoginPage = () => {
     return (
         <div className="header-fixed inner-page login-page form-body">
             <div id="wrapper" className=''>
+            <div className="gradient-bg"></div>
+                <div className="gradient-bg2"></div>
                 <section className="page-title">
                     <div className="overlay"></div>
                 </section>

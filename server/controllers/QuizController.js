@@ -66,7 +66,7 @@ exports.joinQuiz = async (req, res) => {
 
         // Check if quiz if started or not  
         if (quiz.isStarted) {
-            return res.status(403).json({ message: 'Quiz is already started , Wait for next Quiz' });
+            return res.status(403).json({ message: 'Time out!! , Wait for next Quiz' });
         }
 
         // Check if the user is a student

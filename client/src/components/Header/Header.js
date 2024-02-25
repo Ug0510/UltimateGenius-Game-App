@@ -1,74 +1,41 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import ButtonG from '../Button/ButtonG';
-import Logo from '../../assets/images/logo/logo.png'
+import React from 'react'; 
+import {Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({userData, isLoggedIn, toggleProfilePopup}) => {
     return (
-        <header className="th-header header-layout1">
-            <div className="header-top">
-                <div className="container">
-                    <div className="row justify-content-center justify-content-lg-between align-items-center gy-2">
-                        <div className="col-auto d-none d-lg-block">
-                            <p className="header-notice"></p>
-                            <div className="header-links">
-                                <ul>
-                                    <li>
-                                        <div className="header-notice">Welcome to our <Link to="/">Ultimate Genius</Link> Education team
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="dropdown-link">
-                                            <i className="fa fa-globe"></i> English
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+    <header className="header-section w-100">
+    <div className="py-sm-6 py-3 mx-xxl-20 mx-md-15 mx-3">
+        <div className='d-flex align-items-center justify-content-between'>
+
+            <div>
+                <a className="navbar-brand d-flex align-items-center gap-4" href="index.html">
+                    <img className="w-100 logo2" src="assets/logo.png" alt="logo" />
+                </a>
+            </div>
+
+            <div className="header-btn-area d-flex align-items-center gap-sm-6 gap-3">
+                <button className="ntf-btn box-style fs-2xl">
+                    <i className="ti ti-bell-filled"></i>
+                </button>
+                <div className="header-profile pointer" onClick={toggleProfilePopup}>
+                    {isLoggedIn ? (<div className="profile-wrapper d-flex align-items-center gap-3">
+                        <div className="img-area overflow-hidden">
+                            <Link to="/user/register"><img className="w-100" src="assets/img/profile.png" alt="profile" /></Link>
                         </div>
-                        <div className="col-auto">
-                            <div className="header-links">
-                                <ul>
-                                    <li><Link to="https://www.facebook.com/">Facebook</Link></li>
-                                    <li><Link to="https://www.twitter.com/">Twitter</Link></li>
-                                    <li><Link to="https://www.pinterest.com/">Pinterest</Link></li>
-                                    <li><Link to="https://www.instagram.com/">Instagram</Link></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                        <span className="user-name d-none d-xxl-block text-nowrap">David Malan</span>
+                        <i className="ti ti-chevron-down d-none d-xxl-block"></i>
+                    </div>) : (
+                        <Link to="/user/register" className="btn-half-border position-relative d-inline-block py-2 px-6 bgp-1 rounded-pill popupvideo mfp-iframe">Login</Link>
+
+                    )}
                 </div>
             </div>
-            <div className="sticky-wrapper">
-                <div className="menu-area">
-                    <div className="container">
-                        <div className="row align-items-center justify-content-between py-3">
-                            <div className="col-auto">
-                                <div className="header-logo">
-                                    <Link to="/">
-                                        <span data-mask-src="assets/img/logo.svg" className="logo-mask"></span>
-                                        <img src={Logo} style={{maxWidth:'200px'}} alt="Ultimate Genius" />
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className="col-auto d-none d-xl-block">
-                                {/* <div className="header-button">
-                                    <div className="d-xxl-block d-none">
-                                        <Link to="/User/Login" className="th-btn">
-                                            <i className="fa-brands fa-twitch me-1"></i> Login/Register
-                                        </Link>
-                                    </div>
-                                </div> */}
-                                <Link to='/user/login'>
-                                    <ButtonG type='button'>Login/Register</ButtonG>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="logo-bg"></div>
-                </div>
-            </div>
-        </header>
-    );
-};
+
+
+        </div>
+        
+    </div>
+</header>)
+}
 
 export default Header;

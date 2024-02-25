@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+/* Define your colors and other variables here if needed */
+:root {
+    --body-font: "Poppins", sans-serif;
+    --head-font: "Chakra Petch", sans-serif;
+
+    --color-orange: #f6581e;
+    --color-green: #2daa8d;
+    --color-light-green: #72d3bc;
+    --color-dark-blue: #1a2946;
+    --color-medium-gray: #4c5d72;
+    --color-lightest-gray: #9da6b1;
+    --color-light-gray: #646f7d;
+}
+
+.formContainer {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formBody {
+    background-color: #080808;
+    width: 500px;
+    padding: 40px;
+    margin-top: 10rem;
+    border: 2px solid var(--color-orange);
+
+}
+.formHead{
+    font-family: var(--head-font);
+    font-weight: 700;
+    color:var(--color-orange);
+}
+
+.input {
+    background-color: #171717;
+    padding: 10px 15px;
+    color: #676666;
+    font-size: 0.6rem;
+    display: block;
+    position: relative;
+    font-family: var(--head-font);
+    border: none;
+
+    &::after {
+        border-top: solid 10px rgb(200, 30, 50);
+        border-right: solid 10px rgb(200, 30, 50);
+        border-left: solid 10px transparent;
+        border-bottom: solid 10px transparent;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    &:focus {
+        outline: 1px solid var(--color-orange);
+    }
+}
+
+.label {
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    display: block;
+    font-family: var(--head-font);
+    font-weight: 700;
+}

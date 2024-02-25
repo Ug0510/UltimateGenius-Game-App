@@ -1,0 +1,121 @@
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+/* Define your colors and other variables here if needed */
+:root {
+    --body-font: "Poppins", sans-serif;
+    --head-font: "Chakra Petch", sans-serif;
+
+    --color-orange: #f6581e;
+    --color-green: #2daa8d;
+    --color-light-green: #72d3bc;
+    --color-dark-blue: #1a2946;
+    --color-medium-gray: #4c5d72;
+    --color-lightest-gray: #9da6b1;
+    --color-light-gray: #646f7d;
+}
+
+.formContainer {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-image: url(../../assets/space.jpeg);
+    background-position: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.formBody {
+    backdrop-filter: blur(10px);
+    width: 70vw;
+    padding: 40px;
+    margin-top: 7rem;
+    box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.451);
+    border-radius: 10px;
+
+}
+.formHead{
+    font-family: var(--head-font);
+    font-weight: 700;
+    /* color:var(--color-orange); */
+    color:white;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.input {
+    /* background-color: #171717; */
+    background-color: transparent;
+    border: none;
+    border-bottom:2px solid black;
+    border-bottom:2px solid white;
+    width: 80%;
+    margin-top:10px;
+    margin-bottom: 40px;
+    color: black;
+    color:white;
+    font-size: 1rem;
+    display: block;
+    position: relative;
+    font-weight: 700;
+    font-family: var(--head-font);
+    
+
+    &::after {
+        border-top: solid 10px rgb(200, 30, 50);
+        border-right: solid 10px rgb(200, 30, 50);
+        border-left: solid 10px transparent;
+        border-bottom: solid 10px transparent;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    &:focus {
+        /* outline: 1px solid var(--color-orange); */
+        outline:none;
+    }
+}
+
+.label {
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    display: block;
+    font-family: var(--head-font);
+    font-weight: 700;
+}
+
+/* .inputRadio{
+    margin:0;
+}
+.labelRadio{
+    margin:0;
+    display:inline
+} */
+.radioGroup{
+    display: inline-block;
+    width: 48%;    
+}
+.inputRadio {
+    /* background-color: #171717; */
+    width: 20px;
+    font-size: 2rem;
+    height: 20px;
+}
+.inputRadio input[type="radio"]:checked {
+    /* Styles for the checked state */
+    accent-color: var(--color-orange);
+  }
+  
+  .inputRadio input[type="radio"]:not(:checked) {
+    /* Styles for the unchecked state */
+    accent-color: blue; /* Change this to your default color */
+  }
+.labelRadio {
+    color: #ffffff;
+    text-transform: capitalize;
+    font-size: 1.1rem;
+    font-family: var(--head-font);
+    font-weight: 700;
+}

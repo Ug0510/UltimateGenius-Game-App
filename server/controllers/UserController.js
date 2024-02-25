@@ -64,18 +64,18 @@ exports.createUser = async (req, res) => {
 };
 
 
-exports.getUser = async (req, res) => {
-    try {
-        const user = await User.findById(req.params.userId).select('-password');
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-        res.json(user);
-    } catch (error) {
-        console.error('Error getting user:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-};
+// exports.getUser = async (req, res) => {
+//     try {
+//         const user = await User.findById(req.params.userId).select('-password');
+//         if (!user) {
+//             return res.status(404).json({ error: 'User not found' });
+//         }
+//         res.json(user);
+//     } catch (error) {
+//         console.error('Error getting user:', error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// };
 
 // Controller for user login
 exports.loginUser = async (req, res) => {
@@ -157,3 +157,26 @@ exports.checkLogin = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+// Controller to check if gameName or email is already present 
+exports.checkUserExistence = async (req, res) => {
+    try {
+        console.log(req.query);
+      const { gameName, email } = req.query;
+  
+      // Check if gameName or email already exists in the database
+      const existingUser = await User.findOne({ $or: [{ gameName }, { email }] });
+  
+      if (existingUser) {
+        console.log("1");
+        return res.json({ exists: true });
+      } else {
+        console.log("2");
+        return res.json({ exists: false });
+      }
+    } catch (error) {
+      console.error('Error checking user existence:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
