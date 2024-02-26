@@ -8,6 +8,7 @@ import RegisterForm from './pages/User/RegisterForm';
 import ChooseGame from './pages/Teacher/ChooseGame';
 import QuizCustomizationForm from './pages/Teacher/QuizCustomizationForm/QuizCustomizationForm';
 import WaitingRoomPage from './pages/Teacher/WaitingRoomPage/WaitingRoomPage';
+import JoinQuizPage from './pages/Student/JoinQuizPage/JoinQuizPage';
 
 
 const App = () => {
@@ -45,6 +46,7 @@ const App = () => {
                 <Route path="/teacher/game-choice" element={<ChooseGame/>}/>
                 <Route path="/teacher/quiz/create" element={<QuizCustomizationForm/>}/>
                 <Route path="/teacher/quiz/waiting-room" element={<WaitingRoomPage/>}/>
+                <Route path="student/quiz/join" element={<JoinQuizPage/>} />
             </Routes>
         </Router>
     );
