@@ -9,18 +9,35 @@ import RegisterForm from './pages/User/RegisterForm';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [userData, setUserData] = useState(null);
+
+    const addUserData = (data) => {
+        setUserData(data);
+    }
+
+    const login = (LoggedIn = true) => {
+        setIsLoggedIn(LoggedIn);
+        if(LoggedIn == false)
+        {
+            localStorage.setItem('ultimate_genius0510_token',null);
+        }
+      };
+      
 
     useEffect(() => {
 
-        checkIsLoggedIn(setIsLoggedIn);
+        checkIsLoggedIn(login);
+
         
-    }, [isLoggedIn]);
+
+        
+    }, []);
 
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Homepage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}/>
-                <Route path="/user/login" element={<LoginPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />}/>
+                <Route path="/" element={<Homepage isLoggedIn={isLoggedIn} login={login} userData={userData} addUserData={addUserData}/>}/>
+                <Route path="/user/login" element={<LoginPage isLoggedIn={isLoggedIn} login={login} addUserData={addUserData}/>}/>
                 <Route path="/user/register" element={<RegisterForm />} />
             </Routes>
         </Router>

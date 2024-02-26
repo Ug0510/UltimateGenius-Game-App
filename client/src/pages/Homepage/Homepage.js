@@ -7,26 +7,34 @@ import VanillaTilt from 'vanilla-tilt';
 import Header from '../../components/Header/Header';
 
 
-const Homepage = ({isLoggedIn, setIsLoggedIn}) => {
+const Homepage = ({isLoggedIn, login}) => {
+
+    const [userData, setUserData] = useState(null);
+
+
+    const addUserData = (data) => {
+        setUserData(data);
+    }
 
     const navigate = useNavigate();
 
     const [isOpen, setIsOpen] = useState(false);
-    const [userData, setUserData] = useState(null);
+    
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     if(!isLoggedIn)
-    //     {
-    //         navigate('/user/login');
-    //     }
+        if(!isLoggedIn)
+        {
+            navigate('/user/login');
+        }
 
-    //     fetchUseData({setIsLoggedIn, setUserData});
-    //     console.log(userData);
+        fetchUseData(login,addUserData);
+        console.log(userData);
+        console.log(localStorage.getItem('ultimate_genius0510_token'))
+        
 
 
-    // }, [isLoggedIn, userData]);
-    navigate('/user/register');
+    }, []);
 
     useEffect(() => {
         VanillaTilt.init(document.querySelector('.tilt'), {
@@ -94,7 +102,7 @@ const Homepage = ({isLoggedIn, setIsLoggedIn}) => {
                     {/* links */}
                     <a href="profile.html" className="account-item">View Profile</a>
                     <a href="chat.html" className="account-item">Message</a>
-                    <button className="bttn account-item">Logout</button>
+                    <button className="bttn account-item" onClick={()=> {login(false)}}>Logout</button>
                 </div>
             </div>
             {/* user account details popup end */}

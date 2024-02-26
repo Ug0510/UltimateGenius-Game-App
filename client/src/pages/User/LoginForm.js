@@ -4,7 +4,7 @@ import styles from './RegisterForm.module.css';
 import PopupMessage from '../../components/Popup/PopupMessage';
 import { useNavigate } from 'react-router-dom';
 
-const LoginForm = () => {
+const LoginForm = ({ isLoggedIn, login }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -31,13 +31,22 @@ const LoginForm = () => {
       const response = await axios.post('http://localhost:8000/api/user/login', formData);
       console.log('User logged in successfully:', response.data);
 
+      
+
+      localStorage.setItem('ultimate_genius0510_token', response.data.token);
+      
+
+      // localStorage.setItem('isLoggedIn','true');
+      login();
+
       // Redirect to dashboard or profile page after successful login
-      navigate('/dashboard');
+      navigate('/');
     } catch (error) {
       console.error('Error logging in user:', error);
       setPopupMessage('Invalid email or password');
       setShowPopup(true);
     }
+
   };
 
   return (

@@ -2,6 +2,8 @@ import React from 'react';
 import {Link } from 'react-router-dom';
 
 const Header = ({userData, isLoggedIn, toggleProfilePopup}) => {
+
+    
     return (
     <header className="header-section w-100">
     <div className="py-sm-6 py-3 mx-xxl-20 mx-md-15 mx-3">
@@ -20,12 +22,12 @@ const Header = ({userData, isLoggedIn, toggleProfilePopup}) => {
                 <div className="header-profile pointer" onClick={toggleProfilePopup}>
                     {isLoggedIn ? (<div className="profile-wrapper d-flex align-items-center gap-3">
                         <div className="img-area overflow-hidden">
-                            <Link to="/user/register"><img className="w-100" src="assets/img/profile.png" alt="profile" /></Link>
+                            <img className="w-100" src="assets/img/profile.png" alt="profile" />
                         </div>
-                        <span className="user-name d-none d-xxl-block text-nowrap">David Malan</span>
+                        <span className="user-name d-none d-xxl-block text-nowrap">{userData? userData.userName : 'User' }</span>
                         <i className="ti ti-chevron-down d-none d-xxl-block"></i>
                     </div>) : (
-                        <Link to="/user/register" className="btn-half-border position-relative d-inline-block py-2 px-6 bgp-1 rounded-pill popupvideo mfp-iframe">Login</Link>
+                        <Link to="/user/login" className="btn-half-border position-relative d-inline-block py-2 px-6 bgp-1 rounded-pill popupvideo mfp-iframe">Login</Link>
 
                     )}
                 </div>

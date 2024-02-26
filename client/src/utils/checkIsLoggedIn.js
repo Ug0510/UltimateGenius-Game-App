@@ -1,13 +1,13 @@
-const checkIsLoggedIn = async ({setIsLoggedIn}) => {
+const checkIsLoggedIn = async (login) => {
     try {
       const token = localStorage.getItem('ultimate_genius0510_token'); 
 
       if (!token) {
-        setIsLoggedIn(false);
+        login(false);
         return;
       }
   
-      const response = await fetch('/api/user/check-login', {
+      const response = await fetch('http://localhost:8000/api/user/check-login', {
         headers: {
           Authorization: `Bearer ${token}`, 
         },
@@ -16,9 +16,9 @@ const checkIsLoggedIn = async ({setIsLoggedIn}) => {
       const data = await response.json();
   
       if (data.isLoggedIn) {
-        setIsLoggedIn(true);
+        login(true);
       } else {
-        setIsLoggedIn(false);
+        login(false);
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
