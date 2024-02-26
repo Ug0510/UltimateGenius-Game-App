@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './JoinQuizPage.module.css'; // Import CSS module for styling
+import {useNavigate} from 'react-router-dom';
 
 const JoinQuizPage = () => {
   const [gameCode, setGameCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  
+  const navigate =  useNavigate();
 
   const handleInputChange = (e) => {
     setGameCode(e.target.value);
@@ -29,13 +32,14 @@ const JoinQuizPage = () => {
           },
         }
       );
+      
+      localStorage.setItem('ug_game_id',response.data.quizId);
 
-      // Handle successful join
-      console.log(response.data);
+      navigate('/student/quiz/waiting-room');
     } catch (error) {
       // Handle errors
       console.error('Error joining quiz:', error);
-      setError('Failed to join quiz. Please try again.');
+      setError(error.response.data.message);
     } finally {
       setIsLoading(false);
     }

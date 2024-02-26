@@ -82,37 +82,37 @@ exports.generateQuiz = async (req, res) => {
 // Controller to join Quiz
 exports.joinQuiz = async (req, res) => {
     try {
-        // Extract quiz ID from URL parameter
-        const { quizId } = req.params;
-
-        // Check if the quiz exists
-        const quiz = await QuizGame.findById(quizId);
-        if (!quiz) {
-            return res.status(404).json({ message: 'Quiz not found' });
-        }
-
-        // Check if quiz if started or not  
-        if (quiz.isStarted) {
-            return res.status(403).json({ message: 'Time out!! , Wait for next Quiz' });
-        }
-
-        // Check if the user is a student
-        const user = await User.findById(req.user._id);
-        if (!user || user.userType !== 'student') {
-            return res.status(403).json({ message: 'Only students are allowed to join quizzes' });
-        }
-
-        // Add the student to the list of participants (studentIds) in the quiz
-        quiz.studentIds.push(req.user._id);
-        await quiz.save();
-
-        res.status(200).json({ message: 'Student joined the quiz successfully' });
+      // Extract game code from request body
+      const { gameCode } = req.params;
+      console.log(gameCode);
+  
+      // Check if the quiz exists
+      const quiz = await QuizGame.findOne({ gameCode });
+      if (!quiz) {
+        return res.status(404).json({ message: 'Quiz not found' });
+      }
+  
+      // Check if the quiz is already started
+      if (quiz.isStarted) {
+        return res.status(403).json({ message: 'Quiz has already started' });
+      }
+  
+      // Check if the student is already joined
+      const isJoined = quiz.studentIds.includes(req.user._id);
+      if (isJoined) {
+        return res.status(400).json({ message: 'You have already joined this quiz' });
+      }
+  
+      // Add the student to the list of participants (studentIds) in the quiz
+      quiz.studentIds.push(req.user._id);
+      await quiz.save();
+  
+      res.status(200).json({ message: 'You have successfully joined the quiz',quizId:quiz._id });
     } catch (error) {
-        console.error('Error joining quiz:', error);
-        res.status(500).json({ message: 'Error joining quiz' });
+      console.error('Error joining quiz:', error);
+      res.status(500).json({ message: 'Error joining quiz' });
     }
-};
-
+  };
 
 //Controller to check if quiz is started 
 exports.checkQuizStarted = async (req, res) => {
@@ -150,7 +150,7 @@ exports.startQuiz = async (req, res) => {
 
         // Check if the teacher owns the quiz
         if (quiz.teacherId.toString() !== req.user._id.toString()) {
-         
+
             return res.status(403).json({ message: 'Unauthorized to start this quiz' });
         }
 
@@ -176,26 +176,26 @@ exports.startQuiz = async (req, res) => {
 // Controller to get students joining the quiz
 exports.getStudents = async (req, res) => {
     try {
-      const { quizId } = req.params;
-  
-      // Find the quiz game based on the provided quizId
-      const quizGame = await QuizGame.findById(quizId);
-  
-      if (!quizGame) {
-        return res.status(404).json({ message: 'Quiz not found' });
-      }
-  
-      // Fetch student details based on studentIds
-      const students = await User.find({ _id: { $in: quizGame.studentIds } }, 'gameName avatar');
-  
-      res.status(200).json({ students });
-    } catch (error) {
-      console.error('Error getting students:', error);
-      res.status(500).json({ message: 'Error getting students' });
-    }
-  };
+        const { quizId } = req.params;
 
-  // Controller function to remove a student from a quiz
+        // Find the quiz game based on the provided quizId
+        const quizGame = await QuizGame.findById(quizId);
+
+        if (!quizGame) {
+            return res.status(404).json({ message: 'Quiz not found' });
+        }
+
+        // Fetch student details based on studentIds
+        const students = await User.find({ _id: { $in: quizGame.studentIds } }, 'gameName avatar');
+
+        res.status(200).json({ students });
+    } catch (error) {
+        console.error('Error getting students:', error);
+        res.status(500).json({ message: 'Error getting students' });
+    }
+};
+
+// Controller function to remove a student from a quiz
 exports.removeStudent = async (req, res) => {
     try {
         const { gameCode, studentId } = req.params;

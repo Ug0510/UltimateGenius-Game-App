@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './WaitingRoomPage.module.css';
 
-const WaitingRoomPage = () => {
+const TeacherWaitingRoomPage = () => {
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -102,4 +102,4 @@ const WaitingRoomPage = () => {
   );
 };
 
-export default WaitingRoomPage;
+export default TeacherWaitingRoomPage;
