@@ -117,6 +117,9 @@ exports.loginUser = async (req, res) => {
 // controller to get user profile data
 exports.profileUser = async (req, res) => {
     try {
+        console.log('hi');
+        console.log(req);
+        console.log(req.user);
         // Access authenticated user from req.user
         const userId = req.user._id;
 
@@ -134,7 +137,7 @@ exports.profileUser = async (req, res) => {
         // Return user profile
         res.json(userProfile);
     } catch (error) {
-        console.error('Error fetching user profile:', error);
+        // console.error('Error fetching user profile:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
