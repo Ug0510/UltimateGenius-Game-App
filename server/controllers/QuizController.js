@@ -2,6 +2,29 @@ const QuizGame = require('../models/QuizGame');
 const User = require('../models/User');
 
 
+
+// Function to generate a unique 6-digit code
+const generateUniqueCode = async () => {
+    let code;
+    let isUnique = false;
+
+    // Loop until a unique code is generated
+    while (!isUnique) {
+        // Generate a random 6-digit number
+        code = Math.floor(100000 + Math.random() * 900000);
+
+        // Check if the code is already used in any QuizGame
+        const existingGame = await QuizGame.findOne({ gameCode: code });
+
+        // If no existing game found with the generated code, it's unique
+        if (!existingGame) {
+            isUnique = true;
+        }
+    }
+
+    return code;
+};
+
 // Controller function to generate a quiz
 exports.generateQuiz = async (req, res) => {
     try {
@@ -23,6 +46,9 @@ exports.generateQuiz = async (req, res) => {
             return res.status(400).json({ message: 'Title, category, quiz bank ID, are required' });
         }
 
+        // Generate a unique 6-digit code for the quiz game
+        const gameCode = await generateUniqueCode();
+
 
         // Create a new quiz game
         const quizGame = new QuizGame({
@@ -38,7 +64,8 @@ exports.generateQuiz = async (req, res) => {
             getQuizResultOnMail,
             randomizedQuestionPool,
             randomizedAnswerChoices,
-            teacherId: teacherId
+            teacherId: teacherId,
+            gameCode: gameCode
         });
 
         // Save the quiz game to the database
@@ -116,12 +143,14 @@ exports.startQuiz = async (req, res) => {
 
         // Check if the quiz exists
         const quiz = await QuizGame.findById(quizId);
+        console.log(quiz);
         if (!quiz) {
             return res.status(404).json({ message: 'Quiz not found' });
         }
 
         // Check if the teacher owns the quiz
         if (quiz.teacherId.toString() !== req.user._id.toString()) {
+         
             return res.status(403).json({ message: 'Unauthorized to start this quiz' });
         }
 
@@ -133,11 +162,66 @@ exports.startQuiz = async (req, res) => {
         // Update the quiz to be started
         quiz.isStarted = true;
         await quiz.save();
-
+        console.log()
 
         res.status(200).json({ message: 'Quiz started successfully' });
     } catch (error) {
         console.error('Error starting quiz:', error);
         res.status(500).json({ message: 'Error starting quiz' });
+    }
+};
+
+
+
+// Controller to get students joining the quiz
+exports.getStudents = async (req, res) => {
+    try {
+      const { quizId } = req.params;
+  
+      // Find the quiz game based on the provided quizId
+      const quizGame = await QuizGame.findById(quizId);
+  
+      if (!quizGame) {
+        return res.status(404).json({ message: 'Quiz not found' });
+      }
+  
+      // Fetch student details based on studentIds
+      const students = await User.find({ _id: { $in: quizGame.studentIds } }, 'gameName avatar');
+  
+      res.status(200).json({ students });
+    } catch (error) {
+      console.error('Error getting students:', error);
+      res.status(500).json({ message: 'Error getting students' });
+    }
+  };
+
+  // Controller function to remove a student from a quiz
+exports.removeStudent = async (req, res) => {
+    try {
+        const { gameCode, studentId } = req.params;
+
+        console.log(gameCode);
+
+        // Check if the quiz exists
+        const quiz = await QuizGame.findOne({ gameCode });
+        console.log(quiz);
+        if (!quiz) {
+            return res.status(404).json({ message: 'Quiz not found' });
+        }
+
+        // Check if the user is the teacher who owns the quiz
+        if (quiz.teacherId.toString() !== req.user._id.toString()) {
+            console.log(quiz.teacherId + ' ' + req.user._id);
+            return res.status(403).json({ message: 'Unauthorized to remove student from this quiz' });
+        }
+
+        // Remove the student from the list of participants (studentIds) in the quiz
+        quiz.studentIds.pull(studentId);
+        await quiz.save();
+
+        res.status(200).json({ message: 'Student removed from the quiz successfully' });
+    } catch (error) {
+        console.error('Error removing student:', error);
+        res.status(500).json({ message: 'Error removing student' });
     }
 };

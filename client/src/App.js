@@ -6,6 +6,8 @@ import RegisterPage from './pages/User/Register';
 import checkIsLoggedIn from './utils/checkIsLoggedIn';
 import RegisterForm from './pages/User/RegisterForm';
 import ChooseGame from './pages/Teacher/ChooseGame';
+import QuizCustomizationForm from './pages/Teacher/QuizCustomizationForm/QuizCustomizationForm';
+import WaitingRoomPage from './pages/Teacher/WaitingRoomPage/WaitingRoomPage';
 
 
 const App = () => {
@@ -39,8 +41,10 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Homepage isLoggedIn={isLoggedIn} login={login} userData={userData} addUserData={addUserData}/>}/>
                 <Route path="/user/login" element={<LoginPage isLoggedIn={isLoggedIn} login={login} addUserData={addUserData}/>}/>
-                <Route path="/user/register" element={<RegisterForm />} />
+                <Route path="/user/register" element={<RegisterForm />}/>
                 <Route path="/teacher/game-choice" element={<ChooseGame/>}/>
+                <Route path="/teacher/quiz/create" element={<QuizCustomizationForm/>}/>
+                <Route path="/teacher/quiz/waiting-room" element={<WaitingRoomPage/>}/>
             </Routes>
         </Router>
     );

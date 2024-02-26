@@ -61,6 +61,11 @@ const QuizGameSchema = new mongoose.Schema({
   isStarted: {
     type: Boolean,
     default: false
+  },
+  gameCode: {
+    type: Number,
+    required: true,
+    unique: true 
   }
 });
 

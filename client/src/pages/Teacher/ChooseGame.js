@@ -6,7 +6,7 @@ import styles from './ChooseGame.module.css';
 const ChooseGame = ({ isLoggedIn, userData }) => {
   // Check if user is logged in and is a teacher
   const isTeacher = isLoggedIn && userData && userData.userType === 'teacher';
-
+  console.log(isTeacher);
   const navigate = useNavigate();
 
   // Redirect if user is not a teacher or not logged in
