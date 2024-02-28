@@ -1,0 +1,61 @@
+/* styles.module.css */
+
+/* Container styles */
+.addQuestionContainer {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Heading styles */
+  .heading {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Form styles */
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Input styles */
+  .inputGroup {
+    margin-bottom: 20px;
+  }
+  
+  .inputGroup label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .inputGroup input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Button styles */
+  .addButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #F6561E;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .addButton:hover {
+    background-color: #D9480F;
+  }
+  

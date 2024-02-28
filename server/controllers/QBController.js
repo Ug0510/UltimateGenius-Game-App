@@ -144,3 +144,18 @@ exports.deleteQuestionBank = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+// Controller to get list of all question-banks created by current teacher
+exports.getQuestionBanks = async (req, res) => {
+    try {
+        const questionBanks = await QuestionBank.find({ teacherId: req.user._id},'_id name' );
+        console.log(questionBanks);
+        
+  
+      res.status(200).json({ questionBanks });
+    } catch (error) {
+      console.error('Error fetching question banks:', error);
+      res.status(500).json({ message: 'Error fetching question banks' });
+    }
+  };

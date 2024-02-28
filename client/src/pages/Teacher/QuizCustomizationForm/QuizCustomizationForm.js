@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './QuizCustomizationForm.module.css';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +17,7 @@ const QuizCustomizationForm = ({ onSubmit }) => {
     randomizedQuestionPool: false,
     randomizedAnswerChoices: false,
   });
+  const [questionBanks, setQuestionBanks] = useState([]);
 
   const navigate = useNavigate();
 
@@ -28,6 +29,25 @@ const QuizCustomizationForm = ({ onSubmit }) => {
       [name]: val,
     }));
   };
+
+  useEffect(() => {
+    const fetchQuestionBanks = async () => {
+      try {
+        const token = localStorage.getItem('ultimate_genius0510_token');
+        const response = await axios.get('http://localhost:8000/api/teacher/question-banks', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setQuestionBanks(response.data.questionBanks);
+      } catch (error) {
+        console.error('Error fetching question banks:', error);
+      }
+    };
+
+    fetchQuestionBanks();
+  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,9 +84,14 @@ const QuizCustomizationForm = ({ onSubmit }) => {
         <textarea name="description" value={formData.description} onChange={handleChange} />
       </div>
       <div>
-  <label>Quiz Bank ID<span>*</span>:</label>
-  <input type="text" name="quizBankId" value={formData.quizBankId} onChange={handleChange} required />
-</div>
+        <label>Question Bank ID<span>*</span>:</label>
+        <select name="quizBankId" value={formData.quizBankId} onChange={handleChange} required>
+          <option value="">Select Question Bank</option>
+          {questionBanks.map((questionBank) => (
+            <option key={questionBank._id} value={questionBank._id}>{questionBank._id}</option>
+          ))}
+        </select>
+      </div>
 
       <div>
         <label>Time Limit (in minutes):</label>

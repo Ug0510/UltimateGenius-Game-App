@@ -10,6 +10,7 @@ import Header from '../../components/Header/Header';
 const Homepage = ({isLoggedIn, login}) => {
 
     const [userData, setUserData] = useState(null);
+    
 
 
     const addUserData = (data) => {
@@ -120,7 +121,7 @@ const Homepage = ({isLoggedIn, login}) => {
                             <div className="hero-content">
                                 <ul className="d-flex gap-3 fs-2xl fw-semibold heading-font mb-5 list-icon title-anim">
                                     <li>Play</li>
-                                    <li>Earn</li>
+                                    <li>Learn</li>
                                     <li>Enjoy</li>
                                 </ul>
                                 <h1 className="hero-title display-one tcn-1 cursor-scale growUp mb-10">
@@ -128,7 +129,7 @@ const Homepage = ({isLoggedIn, login}) => {
                                     <span className="d-block tcp-1">GAMER’S</span>
                                     HAVEN
                                 </h1>
-                                <a href="https://www.youtube.com/watch?v=G5kzUpWAusI" className="btn-half-border position-relative d-inline-block py-2 px-6 bgp-1 rounded-pill popupvideo mfp-iframe">Play Now</a>
+                                <Link to="/teacher/game-choice" className="btn-half-border position-relative d-inline-block py-2 px-6 bgp-1 rounded-pill popupvideo mfp-iframe">Play Now</Link>
                             </div>
                         </div>
                         <div className="col-xl-3 col-md-2 col-4 order-md-last order-lg-1">

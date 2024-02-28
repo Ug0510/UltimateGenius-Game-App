@@ -10,6 +10,8 @@ import QuizCustomizationForm from './pages/Teacher/QuizCustomizationForm/QuizCus
 import TeacherWaitingRoomPage from './pages/Teacher/WaitingRoomPage/WaitingRoomPage';
 import JoinQuizPage from './pages/Student/JoinQuizPage/JoinQuizPage';
 import StudentWaitingRoomPage from './pages/Student/WaitingRoomPage/WaitingRoomPage';
+import QuestionManagementPage from './pages/Teacher/QuestionManagementPage/QuestionManagementPage';
+import AddQuestionForm from './pages/Teacher/AddQuestionForm/AddQuestionForm';
 
 
 const App = () => {
@@ -49,7 +51,8 @@ const App = () => {
                 <Route path="/teacher/quiz/waiting-room" element={<TeacherWaitingRoomPage/>}/>
                 <Route path="student/quiz/join" element={<JoinQuizPage/>} />
                 <Route path="/student/quiz/waiting-room" element={<StudentWaitingRoomPage/>}/>
-                
+                <Route path="/teacher/question/manage" element={<QuestionManagementPage/>}/>
+                <Route path="/teacher/question/add" element={<AddQuestionForm/>}/>
             </Routes>
         </Router>
     );
