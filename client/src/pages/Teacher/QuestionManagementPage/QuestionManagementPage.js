@@ -11,12 +11,12 @@ const QuestionManagementPage = () => {
   const fetchQuestions = async () => {
     try {
       const token = localStorage.getItem('ultimate_genius0510_token');
-      const response = await axios.get('http://localhost:8000/api/get-questions', {
+      const response = await axios.get('http://localhost:8000/api/teacher/get-questions', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setQuestions(response.data); // Assuming the response data is an array of questions
+      setQuestions(response.data); //response data is an array of questions
     } catch (error) {
       console.error('Error fetching questions:', error);
     }
@@ -38,11 +38,11 @@ const QuestionManagementPage = () => {
       <button onClick={handleAddQuestion} className={styles.addButton}>Add Question</button>
       {/* List of existing questions */}
       <ul className={styles.questionList}>
-        {questions.map((question, index) => (
+        {questions && questions.length > 0? (questions.map((question, index) => (
           <li key={index} className={styles.questionItem}>
             {question.text}
           </li>
-        ))}
+        ))): <p style={{color:'black'}}>No Questions are available to show. <br/> Click above button to add new questions...</p>}
       </ul>
     </div>
   );

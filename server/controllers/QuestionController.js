@@ -121,14 +121,13 @@ exports.getAllQuestions = async (req, res) => {
         if (user && user.userType === 'teacher') {
             // Fetch all questions from the question banks created by the teacher
             const questions = await Question.find({ _id: { $in: user.questionBank } });
-
-            res.json(questions);
+            return res.json(questions);
         } else {
             // If the user is not a teacher, return an error
-            res.status(403).json({ error: 'Access Forbidden' });
+            return res.status(403).json({ error: 'Access Forbidden' });
         }
     } catch (error) {
         console.error('Error fetching questions by teacher:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
