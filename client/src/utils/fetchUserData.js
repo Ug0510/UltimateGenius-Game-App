@@ -23,9 +23,8 @@ const fetchUserData = async (login, addUserData) => {
     login(true);
     addUserData(data);
   } catch (error) {
-    // Handle errors
     console.error('Error fetching user data:', error);
-    login(false); // Set login status to false
+    login(false); 
   }
 };
 

@@ -5,7 +5,7 @@ import LoginPage from './pages/User/LoginForm';
 import RegisterPage from './pages/User/Register';
 import checkIsLoggedIn from './utils/checkIsLoggedIn';
 import RegisterForm from './pages/User/RegisterForm';
-import ChooseGame from './pages/Teacher/ChooseGame';
+import ChooseGame from './pages/Teacher/ChooseGame/ChooseGame';
 import QuizCustomizationForm from './pages/Teacher/QuizCustomizationForm/QuizCustomizationForm';
 import TeacherWaitingRoomPage from './pages/Teacher/WaitingRoomPage/WaitingRoomPage';
 import JoinQuizPage from './pages/Student/JoinQuizPage/JoinQuizPage';
@@ -49,7 +49,7 @@ const App = () => {
                 <Route path="/teacher/game-choice" element={<ChooseGame/>}/>
                 <Route path="/teacher/quiz/create" element={<QuizCustomizationForm/>}/>
                 <Route path="/teacher/quiz/waiting-room" element={<TeacherWaitingRoomPage/>}/>
-                <Route path="student/quiz/join" element={<JoinQuizPage/>} />
+                <Route path="/student/quiz/join" element={<JoinQuizPage/>} />
                 <Route path="/student/quiz/waiting-room" element={<StudentWaitingRoomPage/>}/>
                 <Route path="/teacher/question/manage" element={<QuestionManagementPage/>}/>
                 <Route path="/teacher/question/add" element={<AddQuestionForm/>}/>

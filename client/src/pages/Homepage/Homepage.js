@@ -30,7 +30,7 @@ const Homepage = ({isLoggedIn, login}) => {
         }
 
         fetchUseData(login,addUserData);
-        console.log(userData);
+        
         console.log(localStorage.getItem('ultimate_genius0510_token'))
         
 
@@ -129,7 +129,7 @@ const Homepage = ({isLoggedIn, login}) => {
                                     <span className="d-block tcp-1">GAMER’S</span>
                                     HAVEN
                                 </h1>
-                                <Link to="/teacher/game-choice" className="btn-half-border position-relative d-inline-block py-2 px-6 bgp-1 rounded-pill popupvideo mfp-iframe">Play Now</Link>
+                                <Link to={userData && userData.userType === 'student'? "/student/quiz/join":"/teacher/game-choice"} className="btn-half-border position-relative d-inline-block py-2 px-6 bgp-1 rounded-pill popupvideo mfp-iframe">Play Now</Link>
                             </div>
                         </div>
                         <div className="col-xl-3 col-md-2 col-4 order-md-last order-lg-1">

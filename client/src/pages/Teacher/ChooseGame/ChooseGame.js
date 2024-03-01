@@ -24,10 +24,11 @@ const ChooseGame = ({ isLoggedIn, userData }) => {
     <div className={styles.container}>
       <h1>Choose Game</h1>
       <div className={styles.card}>
-        <h2>Quiz Game</h2>
-        <p>Click to create a quiz game.</p>
         <button className={styles.button} onClick={handleQuizGameClick}>
-          Create Quiz Game
+          Quiz Game
+        </button>
+        <button className={styles.button } onClick={handleQuizGameClick} disabled>
+          Game 2
         </button>
       </div>
     </div>

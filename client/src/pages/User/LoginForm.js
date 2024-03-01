@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './RegisterForm.module.css';
 import PopupMessage from '../../components/Popup/PopupMessage';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const LoginForm = ({ isLoggedIn, login }) => {
   const [formData, setFormData] = useState({
@@ -79,6 +79,8 @@ const LoginForm = ({ isLoggedIn, login }) => {
             />
           </div>
           <button type="submit" className={styles.button}>Login</button>
+          <br/>
+          <Link to="/user/register">New User? Create a account.</Link>
           {showPopup && <PopupMessage message={popupMessage} onClose={closePopup} />}
         </form>
       </div>
