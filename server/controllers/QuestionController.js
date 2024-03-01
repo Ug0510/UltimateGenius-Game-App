@@ -1,5 +1,6 @@
 const Question = require('../models/Question');
 const { deleteQuestion } = require('../utils/questionUtils');
+const User = require('../models/User');
 
 // Create questions
 exports.createQuestions = async (req, res) => {
@@ -32,6 +33,12 @@ exports.createQuestions = async (req, res) => {
 
             // Add saved question to the array
             savedQuestions.push(savedQuestion);
+
+            // Add the ID of the saved question to the questions array in the user document
+            await User.updateOne(
+                { _id: createdBy },
+                { $push: { questions: savedQuestion._id } }
+            );
         }
 
         res.status(201).json(savedQuestions);
@@ -42,7 +49,7 @@ exports.createQuestions = async (req, res) => {
 };
 
 
-// Controller to delete Questions 
+// Controller to delete questions
 exports.deleteQuestions = async (req, res) => {
     try {
         const { questionIds } = req.body;
@@ -69,7 +76,11 @@ exports.deleteQuestions = async (req, res) => {
             return res.status(500).json({ error: 'Some questions could not be deleted', failedDeletions });
         }
 
-        res.json({ message: `${deletedCount} ${deletedCount > 1?'questions':'question'} deleted successfully` });
+        // Update the user's questions array by removing the deleted question IDs
+        const userId = req.user._id;
+        await User.findByIdAndUpdate(userId, { $pull: { questions: { $in: questionIds } } });
+
+        res.json({ message: `${deletedCount} ${deletedCount > 1 ? 'questions' : 'question'} deleted successfully` });
     } catch (error) {
         console.error('Error deleting multiple questions:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -77,11 +88,12 @@ exports.deleteQuestions = async (req, res) => {
 };
 
 
-//Controller to update Question or it's options
+
+// Controller to update a question or its options
 exports.updateQuestion = async (req, res) => {
     try {
         const { questionId } = req.params;
-        const updateData = req.body; // Data to update the question
+        const updateData = req.body; 
 
         // Find the question by ID and update it
         const updatedQuestion = await Question.findByIdAndUpdate(questionId, updateData, { new: true });
@@ -100,14 +112,23 @@ exports.updateQuestion = async (req, res) => {
 // Controller to get all questions
 exports.getAllQuestions = async (req, res) => {
     try {
-        const userId = req.user._id; // Assuming user ID is available in the request object
+        const userId = req.user._id;
 
-        // Fetch all questions created by the user from the database
-        const questions = await Question.find({ createdBy: userId });
+        // Fetch the user document
+        const user = await User.findById(userId);
 
-        res.json(questions);
+        // Check if the user is a teacher
+        if (user && user.userType === 'teacher') {
+            // Fetch all questions from the question banks created by the teacher
+            const questions = await Question.find({ _id: { $in: user.questionBank } });
+
+            res.json(questions);
+        } else {
+            // If the user is not a teacher, return an error
+            res.status(403).json({ error: 'Access Forbidden' });
+        }
     } catch (error) {
-        console.error('Error fetching questions by user:', error);
+        console.error('Error fetching questions by teacher:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
