@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './QuestionManagementPage.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const QuestionManagementPage = () => {
   const [questions, setQuestions] = useState([]);
   const [newQuestion, setNewQuestion] = useState('');
+  const navigate = useNavigate();
 
-  // Function to fetch questions from the backend
   const fetchQuestions = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/teacher/questions');
-      setQuestions(response.data.questions);
+      const token = localStorage.getItem('ultimate_genius0510_token');
+      const response = await axios.get('http://localhost:8000/api/get-questions', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setQuestions(response.data); // Assuming the response data is an array of questions
     } catch (error) {
       console.error('Error fetching questions:', error);
     }
@@ -18,16 +24,7 @@ const QuestionManagementPage = () => {
 
   // Function to handle adding a new question
   const handleAddQuestion = async () => {
-    try {
-      // Send a request to the backend to add the new question
-      await axios.post('http://localhost:8000/api/teacher/add-question', { question: newQuestion });
-      // After adding the question, fetch the updated list of questions
-      fetchQuestions();
-      // Clear the input field
-      setNewQuestion('');
-    } catch (error) {
-      console.error('Error adding question:', error);
-    }
+      navigate('/teacher/question/add');
   };
 
   useEffect(() => {

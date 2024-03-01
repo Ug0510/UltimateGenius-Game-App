@@ -12,6 +12,7 @@ import JoinQuizPage from './pages/Student/JoinQuizPage/JoinQuizPage';
 import StudentWaitingRoomPage from './pages/Student/WaitingRoomPage/WaitingRoomPage';
 import QuestionManagementPage from './pages/Teacher/QuestionManagementPage/QuestionManagementPage';
 import AddQuestionForm from './pages/Teacher/AddQuestionForm/AddQuestionForm';
+import QuizGame from './pages/Teacher/QuizGame/QuizGame';
 
 
 const App = () => {
@@ -47,6 +48,7 @@ const App = () => {
                 <Route path="/user/login" element={<LoginPage isLoggedIn={isLoggedIn} login={login} addUserData={addUserData}/>}/>
                 <Route path="/user/register" element={<RegisterForm />}/>
                 <Route path="/teacher/game-choice" element={<ChooseGame/>}/>
+                <Route path="/teacher/quizgame" element={<QuizGame/>}/>
                 <Route path="/teacher/quiz/create" element={<QuizCustomizationForm/>}/>
                 <Route path="/teacher/quiz/waiting-room" element={<TeacherWaitingRoomPage/>}/>
                 <Route path="/student/quiz/join" element={<JoinQuizPage/>} />

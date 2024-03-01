@@ -17,7 +17,7 @@ const ChooseGame = ({ isLoggedIn, userData }) => {
   // Handle click on Quiz Game card
   const handleQuizGameClick = () => {
     // Redirect to quiz game creation page for teachers
-    navigate('/teacher/quiz/create');
+    navigate('/teacher/quizgame');
   };
 
   return (

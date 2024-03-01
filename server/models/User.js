@@ -28,7 +28,17 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true  
     },
-    avatar: String
+    avatar: String,
+    questionBank: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'QuestionBank' }],
+        default: [],
+        required: function() { return this.userType === 'teacher'; }
+    },
+    questions: {
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }],
+        default: [],
+        required: function() { return this.userType === 'teacher'; }
+    }
 });
 
 const User = mongoose.model('User', userSchema);
