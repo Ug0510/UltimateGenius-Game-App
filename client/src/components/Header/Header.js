@@ -10,8 +10,8 @@ const Header = ({userData, isLoggedIn, toggleProfilePopup}) => {
         <div className='d-flex align-items-center justify-content-between'>
 
             <div>
-                <a className="navbar-brand d-flex align-items-center gap-4" href="index.html">
-                    <img className="w-100 logo2" src="assets/logo.png" alt="logo" />
+                <a className="navbar-brand d-flex align-items-center " href="index.html">
+                    <img className="logo2" src="./logo.png" alt="logo" style={{maxWidth:"220px"}}/>
                 </a>
             </div>
 

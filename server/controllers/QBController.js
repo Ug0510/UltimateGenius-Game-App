@@ -1,5 +1,6 @@
 const QuestionBank = require('../models/QuestionBank');
 const Question = require('../models/Question');
+const User = require('../models/User');
 
 // Create a question bank
 exports.createQuestionBank = async (req, res) => {
@@ -175,7 +176,7 @@ exports.getQuestionBanks = async (req, res) => {
         const userId = req.user._id;
 
         // Retrieve the user document
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).populate('questionBank');
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });

@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import styles from './AddQuestionForm.module.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const AddQuestionForm = () => {
     const [questionText, setQuestionText] = useState('');
     const [questionType, setQuestionType] = useState('');
+    const [category, setCategory] = useState('');
+    const [difficultyLevel, setDifficultyLevel] = useState('easy');
     const [choices, setChoices] = useState(['']);
     const [correctAnswers, setCorrectAnswers] = useState([]);
     const [error, setError] = useState('');
+
+    const navigate = useNavigate();
 
     const handleQuestionTypeChange = (e) => {
         setQuestionType(e.target.value);
@@ -24,25 +31,52 @@ const AddQuestionForm = () => {
         setChoices([...choices, '']);
     };
 
-
     const handleRemoveChoice = (index) => {
         const updatedChoices = [...choices];
         updatedChoices.splice(index, 1);
         setChoices(updatedChoices);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Add validation checks here
+        try {
+            // Construct question data object
+            let questionData;
+            if (questionType === 'multiple_choice') {
+                questionData = {
+                    content: questionText,
+                    category,
+                    difficultyLevel,
+                    options: choices,
+                    correctAnswers,
+                };
+            } else if (questionType === 'true_false') {
+                questionData = {
+                    content: questionText,
+                    category,
+                    difficultyLevel,
+                    options: ['true', 'false'],
+                    correctAnswers,
+                };
+            }
 
-        // Submit the question data to the server
-        const questionData = {
-            questionText,
-            questionType,
-            choices,
-            correctAnswers,
-        };
-        console.log(questionData);
+            // Make POST request to add question
+            const token = localStorage.getItem('ultimate_genius0510_token');
+            const response = await axios.post('http://localhost:8000/api/teacher/create-questions', questionData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            // Handle success response
+            console.log('Question added successfully:', response.data);
+            window.alert('Question Added');
+            navigate('/teacher/question/manage');
+        } catch (error) {
+            // Handle error
+            console.error('Error adding question:', error);
+            setError('Error adding question. Please try again.');
+        }
     };
 
     return (
@@ -58,6 +92,29 @@ const AddQuestionForm = () => {
                         required
                     />
                 </div>
+                {/* Category (optional) */}
+                
+                    <div>
+                        <label>Category:</label>
+                        <input
+                            type="text"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                        />
+                    </div>
+                
+                {/* Difficulty Level */}
+                
+                    <div>
+                        <label>Difficulty Level:</label>
+                        <select value={difficultyLevel} onChange={(e) => setDifficultyLevel(e.target.value)}>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+
+
                 <div>
                     <label>Question Type:</label>
                     <select value={questionType} onChange={handleQuestionTypeChange} required>
@@ -66,6 +123,8 @@ const AddQuestionForm = () => {
                         <option value="true_false">True/False</option>
                     </select>
                 </div>
+                
+                {/* Choices */}
                 {questionType === 'multiple_choice' && (
                     <div>
                         <label>Choices:</label>
@@ -87,6 +146,7 @@ const AddQuestionForm = () => {
                         <button type="button" onClick={handleAddChoice}>Add Choice</button>
                     </div>
                 )}
+                {/* Correct Answers */}
                 {questionType === 'multiple_choice' && (
                     <div>
                         <label>Correct Answers:</label>
@@ -111,6 +171,7 @@ const AddQuestionForm = () => {
                         ))}
                     </div>
                 )}
+                {/* True/False Options */}
                 {questionType === 'true_false' && (
                     <div>
                         <label>

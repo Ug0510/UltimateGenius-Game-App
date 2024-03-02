@@ -17,6 +17,7 @@ const QuestionManagementPage = () => {
         },
       });
       setQuestions(response.data); //response data is an array of questions
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching questions:', error);
     }
@@ -39,8 +40,8 @@ const QuestionManagementPage = () => {
       {/* List of existing questions */}
       <ul className={styles.questionList}>
         {questions && questions.length > 0? (questions.map((question, index) => (
-          <li key={index} className={styles.questionItem}>
-            {question.text}
+          <li key={question._id} className={styles.questionItem} style={{color:'black'}}>
+            {question.content}
           </li>
         ))): <p style={{color:'black'}}>No Questions are available to show. <br/> Click above button to add new questions...</p>}
       </ul>

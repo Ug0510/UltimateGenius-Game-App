@@ -5,8 +5,12 @@ const User = require('../models/User');
 // Create questions
 exports.createQuestions = async (req, res) => {
     try {
-        // Extract questions array from request body
-        const questionsData = req.body;
+        let questionsData = req.body;
+
+        // If questionsData is not an array, wrap it in an array
+        if (!Array.isArray(questionsData)) {
+            questionsData = [questionsData];
+        }
 
         // Get the ID of the authenticated user
         const createdBy = req.user._id;
@@ -18,13 +22,16 @@ exports.createQuestions = async (req, res) => {
         for (const questionData of questionsData) {
             const { content, options, correctAnswers, category, difficultyLevel } = questionData;
 
+            // Convert difficultyLevel to capital case (first letter capital, rest lowercase)
+            const capitalizedDifficultyLevel = difficultyLevel.charAt(0).toUpperCase() + difficultyLevel.slice(1).toLowerCase();
+
             // Create a new question object
             const question = new Question({
                 content,
                 options,
                 correctAnswers,
                 category,
-                difficultyLevel,
+                difficultyLevel:capitalizedDifficultyLevel,
                 createdBy
             });
 
@@ -47,7 +54,6 @@ exports.createQuestions = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
 
 // Controller to delete questions
 exports.deleteQuestions = async (req, res) => {
@@ -115,12 +121,11 @@ exports.getAllQuestions = async (req, res) => {
         const userId = req.user._id;
 
         // Fetch the user document
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).populate('questions');
 
         // Check if the user is a teacher
         if (user && user.userType === 'teacher') {
-            // Fetch all questions from the question banks created by the teacher
-            const questions = await Question.find({ _id: { $in: user.questionBank } });
+            const questions = user.questions;
             return res.json(questions);
         } else {
             // If the user is not a teacher, return an error

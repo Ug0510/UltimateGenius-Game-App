@@ -13,6 +13,7 @@ import StudentWaitingRoomPage from './pages/Student/WaitingRoomPage/WaitingRoomP
 import QuestionManagementPage from './pages/Teacher/QuestionManagementPage/QuestionManagementPage';
 import AddQuestionForm from './pages/Teacher/AddQuestionForm/AddQuestionForm';
 import QuizGame from './pages/Teacher/QuizGame/QuizGame';
+import AddQuestionBankForm from './pages/Teacher/AddQuestionBankForm/AddQuestionBankForm';
 
 
 const App = () => {
@@ -55,6 +56,7 @@ const App = () => {
                 <Route path="/student/quiz/waiting-room" element={<StudentWaitingRoomPage/>}/>
                 <Route path="/teacher/question/manage" element={<QuestionManagementPage/>}/>
                 <Route path="/teacher/question/add" element={<AddQuestionForm/>}/>
+                <Route path="/teacher/question-banks" element={<AddQuestionBankForm/>}/>
             </Routes>
         </Router>
     );
