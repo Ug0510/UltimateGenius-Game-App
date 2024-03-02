@@ -1,27 +1,38 @@
 /* AddQuestionBankForm.module.css */
-.container {
-    margin: 20px;
-}
 
-.button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
+.addQuestionBankForm {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
     border-radius: 5px;
+    background-color:#001055;
 }
 
-.button:hover {
-    background-color: #45a049;
+.formGroup {
+    margin-bottom: 15px;
 }
 
-.error {
+.label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.textarea,
+.inputText {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.questionList {
+    margin-top: 20px;
+}
+
+.errorMessage {
     color: red;
-    font-weight: bold;
+    margin-top: 10px;
 }

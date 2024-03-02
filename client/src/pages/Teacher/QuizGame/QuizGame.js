@@ -21,7 +21,7 @@ const QuizGame = ({ isLoggedIn, userData }) => {
   // Handle click on Manage Question Banks card
   const handleManageQuestionBanksClick = () => {
     // Redirect to manage question banks page
-    navigate('/teacher/question-banks');
+    navigate('/teacher/question-banks/manage');
   };
 
   // Handle click on Create Quiz card

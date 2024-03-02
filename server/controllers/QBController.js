@@ -24,7 +24,7 @@ exports.createQuestionBank = async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-        user.questionBanks.push(savedQuestionBank._id);
+        user.questionBank.push(savedQuestionBank._id);
         await user.save();
 
         return res.status(201).json(savedQuestionBank);
@@ -188,9 +188,9 @@ exports.getQuestionBanks = async (req, res) => {
         }
 
         // Get the question banks from the user's document
-        const questionBanks = user.questionBanks;
-
-        res.status(200).json({ questionBanks });
+        const questionBanks = user.questionBank;
+s
+        res.status(200).send(questionBanks);
     } catch (error) {
         console.error('Error fetching question banks:', error);
         res.status(500).json({ message: 'Error fetching question banks' });

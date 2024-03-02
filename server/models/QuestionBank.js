@@ -25,6 +25,11 @@ const questionBankSchema = new mongoose.Schema({
     }
 });
 
+// Define a virtual property for questionCount
+questionBankSchema.virtual('questionCount').get(function() {
+    return this.questions.length;
+});
+
 const QuestionBank = mongoose.model('QuestionBank', questionBankSchema);
 
 module.exports = QuestionBank;

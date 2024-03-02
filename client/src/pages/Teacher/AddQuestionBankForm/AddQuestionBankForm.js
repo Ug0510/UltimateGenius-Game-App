@@ -1,49 +1,111 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import styles from './AddQuestionBankForm.module.css';
+import styles from './AddQuestionBankForm.module.css'; // Import CSS file for styling
 
 const AddQuestionBankForm = () => {
-    const [questionBanks, setQuestionBanks] = useState([]);
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [questions, setQuestions] = useState([]);
+    const [selectedQuestions, setSelectedQuestions] = useState([]);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        fetchQuestionBanks();
+        fetchQuestions();
     }, []);
 
-    const fetchQuestionBanks = async () => {
+    const fetchQuestions = async () => {
         try {
             const token = localStorage.getItem('ultimate_genius0510_token');
-            const response = await axios.get('http://localhost:8000/api/teacher/question-banks', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-            setQuestionBanks(response.data);
-            console.log(response.data);
+            const response = await axios.get('http://localhost:8000/api/teacher/get-questions', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setQuestions(response.data);
         } catch (error) {
-            console.error('Error fetching question banks:', error);
-            setError('Error fetching question banks');
+            console.error('Error fetching questions:', error);
+            setError('Error fetching questions');
         }
     };
 
-    const handleCreateQuestionBank = async () => {
-        // Logic to navigate to the form to add a new question bank
+    const handleCheckboxChange = (e) => {
+        const { value, checked } = e.target;
+        if (checked) {
+            setSelectedQuestions([...selectedQuestions, value]);
+        } else {
+            setSelectedQuestions(selectedQuestions.filter(id => id !== value));
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const token = localStorage.getItem('ultimate_genius0510_token');
+            const questionBankData = {
+                name,
+                description,
+                questions: selectedQuestions
+            };
+            const response = await axios.post('http://localhost:8000/api/teacher/create-qb', questionBankData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            console.log('Question bank created successfully:', response.data);
+            // Reset form fields
+            setName('');
+            setDescription('');
+            setSelectedQuestions([]);
+        } catch (error) {
+            console.error('Error creating question bank:', error);
+            setError('Error creating question bank');
+        }
     };
 
     return (
-        <div className={styles.container}>
-            <h1>Add Question Bank</h1>
-            <button onClick={handleCreateQuestionBank} className={styles.button}>Create a Question Bank</button>
-            <ul>
-                {questionBanks && questionBanks.length > 0? (questionBanks.map(questionBank => (
-                    <li key={questionBank._id}>
-                        <Link to={`/question-banks/${questionBank._id}`} className={styles.link}>{questionBank.name}</Link>
-                    </li>
-                ))): <p>No QuestionBank Exists..</p>}
-            </ul>
-            {error && <p className={styles.error}>Error: {error}</p>}
-        </div>
+        <div className={styles.addQuestionBankForm}>
+        <h2>Add Question Bank</h2>
+        <form onSubmit={handleSubmit}>
+            <div className={styles.formGroup}>
+                <label className={styles.label} htmlFor="name">Name:</label>
+                <input
+                    id="name"
+                    className={styles.inputText}
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                />
+            </div>
+            <div className={styles.formGroup}>
+                <label className={styles.label} htmlFor="description">Description:</label>
+                <textarea
+                    id="description"
+                    className={styles.textarea}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+            </div>
+            <div className={styles.questionList}>
+                <h3>Available Questions</h3>
+                {questions.map(question => (
+                    <div key={question._id}>
+                        <input
+                            type="checkbox"
+                            id={question._id}
+                            value={question._id}
+                            onChange={handleCheckboxChange}
+                            checked={selectedQuestions.includes(question._id)}
+                        />
+                        <label htmlFor={question._id}>{question.content}</label>
+                    </div>
+                ))}
+            </div>
+            <button type="submit">Create Question Bank</button>
+        </form>
+        {error && <p className={styles.errorMessage}>Error: {error}</p>}
+    </div>
+    
     );
 };
 
