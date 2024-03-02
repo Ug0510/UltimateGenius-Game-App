@@ -189,7 +189,7 @@ exports.getQuestionBanks = async (req, res) => {
 
         // Get the question banks from the user's document
         const questionBanks = user.questionBank;
-s
+
         res.status(200).send(questionBanks);
     } catch (error) {
         console.error('Error fetching question banks:', error);

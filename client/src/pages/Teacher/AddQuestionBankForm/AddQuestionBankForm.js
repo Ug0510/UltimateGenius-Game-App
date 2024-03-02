@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from './AddQuestionBankForm.module.css'; // Import CSS file for styling
+import styles from './AddQuestionBankForm.module.css'; 
+import {useNavigate} from 'react-router-dom';
 
 const AddQuestionBankForm = () => {
     const [name, setName] = useState('');
@@ -8,6 +9,8 @@ const AddQuestionBankForm = () => {
     const [questions, setQuestions] = useState([]);
     const [selectedQuestions, setSelectedQuestions] = useState([]);
     const [error, setError] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchQuestions();
@@ -56,6 +59,9 @@ const AddQuestionBankForm = () => {
             setName('');
             setDescription('');
             setSelectedQuestions([]);
+
+            window.alert('Question bank created Successfully!');
+            navigate('/teacher/question-banks/manage');
         } catch (error) {
             console.error('Error creating question bank:', error);
             setError('Error creating question bank');

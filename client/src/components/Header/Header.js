@@ -6,7 +6,7 @@ const Header = ({userData, isLoggedIn, toggleProfilePopup}) => {
     
     return (
     <header className="header-section w-100">
-    <div className="py-sm-6 py-3 mx-xxl-20 mx-md-15 mx-3">
+    <div className=" py-3 mx-xxl-20 mx-md-15 mx-3">
         <div className='d-flex align-items-center justify-content-between'>
 
             <div>
