@@ -39,7 +39,7 @@ const QuizCustomizationForm = ({ onSubmit }) => {
             Authorization: `Bearer ${token}`
           }
         });
-        setQuestionBanks(response.data.questionBanks);
+        setQuestionBanks(response.data);
       } catch (error) {
         console.error('Error fetching question banks:', error);
       }
@@ -87,8 +87,8 @@ const QuizCustomizationForm = ({ onSubmit }) => {
         <label>Question Bank ID<span>*</span>:</label>
         <select name="quizBankId" value={formData.quizBankId} onChange={handleChange} required>
           <option value="">Select Question Bank</option>
-          {questionBanks.map((questionBank) => (
-            <option key={questionBank._id} value={questionBank._id}>{questionBank._id}</option>
+          {questionBanks && questionBanks.map((questionBank) => (
+            <option key={questionBank._id} value={questionBank._id}>{questionBank.name}</option>
           ))}
         </select>
       </div>
