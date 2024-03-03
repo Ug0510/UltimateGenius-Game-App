@@ -16,7 +16,7 @@ const QuizGameSchema = new mongoose.Schema({
     type: Number,
     default: 30
   },
-  quizBank: {
+  questionBank: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'QuestionBank',
     required: true

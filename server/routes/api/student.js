@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.post('/join-quiz/:gameCode', authenticate, QuizController.joinQuiz);
 router.get('/check-quiz-if-started/:quizId', authenticate, QuizController.checkQuizStarted);
+router.get('/quiz/play/:quizId',authenticate,QuizController.getQuizDetails);
 
 module.exports = router;

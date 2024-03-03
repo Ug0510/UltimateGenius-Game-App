@@ -1,7 +1,6 @@
 const QuizGame = require('../models/QuizGame');
 const User = require('../models/User');
-
-
+const Question = require('../models/Question');
 
 // Function to generate a unique 6-digit code
 const generateUniqueCode = async () => {
@@ -56,7 +55,7 @@ exports.generateQuiz = async (req, res) => {
             category,
             description,
             timeLimit,
-            quizBank: quizBankId,
+            questionBank: quizBankId,
             numberOfQuestions,
             showCorrectAnswers,
             passingScorePercentage,
@@ -84,7 +83,6 @@ exports.joinQuiz = async (req, res) => {
     try {
       // Extract game code from request body
       const { gameCode } = req.params;
-      console.log(gameCode);
   
       // Check if the quiz exists
       const quiz = await QuizGame.findOne({ gameCode });
@@ -171,8 +169,6 @@ exports.startQuiz = async (req, res) => {
     }
 };
 
-
-
 // Controller to get students joining the quiz
 exports.getStudents = async (req, res) => {
     try {
@@ -223,5 +219,40 @@ exports.removeStudent = async (req, res) => {
     } catch (error) {
         console.error('Error removing student:', error);
         res.status(500).json({ message: 'Error removing student' });
+    }
+};
+
+// Controller function to fetch quiz details and questions
+exports.getQuizDetails = async (req, res) => {
+    try {
+        const { quizId } = req.params;
+
+        // Find the quiz game based on the provided game code
+        const quizGame = await QuizGame.findOne({ '_id':quizId }).populate('questionBank');
+
+        if (!quizGame) {
+            return res.status(404).json({ message: 'Quiz not found' });
+        }
+
+        // Fetch quiz details
+        const { title, category, description, timeLimit, numberOfQuestions, questionBank } = quizGame;
+
+        // Fetch questions for the quiz from the associated question bank
+        const questions = await Question.find({ _id: { $in: questionBank.questions } }).limit(numberOfQuestions);
+
+        // Prepare the quiz details response
+        const quizDetails = {
+            title,
+            category,
+            description,
+            timeLimit,
+            numberOfQuestions,
+            questions
+        };
+
+        res.status(200).json(quizDetails);
+    } catch (error) {
+        console.error('Error fetching quiz details:', error);
+        res.status(500).json({ message: 'Error fetching quiz details' });
     }
 };
