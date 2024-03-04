@@ -47,7 +47,7 @@ const StudentWaitingRoomPage = () => {
           {
             isQuizStarted ? (
               <>
-                <Navigate to="/student/quiz/play" replace />
+                <Navigate to={`/student/quiz/play/${localStorage.getItem('ug_game_id')}`} replace />
               </>
             ) : (
               <p>Waiting for the quiz to start...</p>
