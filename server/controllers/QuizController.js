@@ -1,6 +1,8 @@
 const QuizGame = require('../models/QuizGame');
 const User = require('../models/User');
 const Question = require('../models/Question');
+const StudentQuizResultLog = require('../models/StudentQuizResultLog');
+
 
 // Function to generate a unique 6-digit code
 const generateUniqueCode = async () => {
@@ -255,4 +257,50 @@ exports.getQuizDetails = async (req, res) => {
         console.error('Error fetching quiz details:', error);
         res.status(500).json({ message: 'Error fetching quiz details' });
     }
+};
+
+
+// Controller function to save quiz result
+exports.saveQuizResult = async (req, res) => {
+  try {
+    const { quizId, answers, scoreObtained, totalScore } = req.body;
+
+    const quiz = await QuizGame.findById(quizId).populate('teacherId');
+
+    // Check if the quiz result already exists for the same student and quiz
+    const existingResult = await StudentQuizResultLog.findOne({ studentId: req.user._id, 'quiz.title': quiz.title });
+    if (existingResult) {
+      return res.status(400).json({ message: 'Quiz result already submitted for this student and quiz' });
+    }   
+
+   const student = await User.findById(req.user._id);
+
+
+    // Construct the quiz object
+    const quizObj = {
+      title: quiz.title,
+      category: quiz.category,
+      teacherName: quiz.teacherId.userName,
+      duration: quiz.timeLimit,
+      totalQuestions: quiz.numberOfQuestions
+    };
+
+    // Construct the studentQuizResultLog object
+    const studentQuizResultLog = new StudentQuizResultLog({
+      studentId: student._id, 
+      studentName: student.userName, 
+      quiz:quizObj,
+      answers,
+      scoreObtained,
+      totalScore,
+      submittedAt: new Date()
+    });
+
+    // Save the quiz result log to the database
+    await studentQuizResultLog.save();
+    res.status(201).json({ message: 'Quiz result saved successfully' });
+  } catch (error) {
+    console.error('Error saving quiz result:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 };

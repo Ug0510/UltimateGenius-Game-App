@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styles from './QuizPlay.module.css';
+import ErrorPopup from '../../../components/ErrorPopup/ErrorPopup'
 
 const QuizPlay = () => {
   const [quiz, setQuiz] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [timeRemaining, setTimeRemaining] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showError, setShowError] = useState(false);
   const { quizId } = useParams();
 
-   // Initialize selectedAnswers array with empty arrays for each question
-   useEffect(() => {
+  useEffect(() => {
     if (quiz) {
       setSelectedAnswers(Array.from({ length: quiz.questions.length }, () => []));
     }
@@ -29,6 +31,8 @@ const QuizPlay = () => {
         setQuiz(response.data);
         setTimeRemaining(response.data.timeLimit);
       } catch (error) {
+        setErrorMessage('Error fetching quiz. Please try again later.');
+        setShowError(true);
         console.error('Error fetching quiz:', error);
       }
     };
@@ -36,37 +40,26 @@ const QuizPlay = () => {
     fetchQuiz();
   }, [quizId]);
 
-  // Handler for radio buttons
-const handleRadioSelect = (questionIndex, optionText) => {
-  setSelectedAnswers({
-    ...selectedAnswers,
-    [questionIndex]: optionText,
-  });
-};
+  const handleRadioSelect = (questionIndex, optionText) => {
+    setSelectedAnswers({
+      ...selectedAnswers,
+      [questionIndex]: optionText,
+    });
+  };
 
-// Handler for checkboxes
-const handleCheckboxSelect = (questionIndex, optionText) => {
-  // Initialize selected answers array if not already defined
-  const newSelectedAnswers = selectedAnswers[questionIndex] ? [...selectedAnswers[questionIndex]] : [];
-
-  // Toggle the selection status of the option
-  const optionSelected = newSelectedAnswers.includes(optionText);
-  if (optionSelected) {
-    // If the option is already selected, remove it
-    newSelectedAnswers.splice(newSelectedAnswers.indexOf(optionText), 1);
-  } else {
-    // If the option is not selected, add it to the selected options
-    newSelectedAnswers.push(optionText);
-  }
-
-  // Update the selectedAnswers state
-  setSelectedAnswers({
-    ...selectedAnswers,
-    [questionIndex]: newSelectedAnswers,
-  });
-};
-
-
+  const handleCheckboxSelect = (questionIndex, optionText) => {
+    const newSelectedAnswers = selectedAnswers[questionIndex] ? [...selectedAnswers[questionIndex]] : [];
+    const optionSelected = newSelectedAnswers.includes(optionText);
+    if (optionSelected) {
+      newSelectedAnswers.splice(newSelectedAnswers.indexOf(optionText), 1);
+    } else {
+      newSelectedAnswers.push(optionText);
+    }
+    setSelectedAnswers({
+      ...selectedAnswers,
+      [questionIndex]: newSelectedAnswers,
+    });
+  };
 
   const handleNextQuestion = () => {
     setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -79,51 +72,46 @@ const handleCheckboxSelect = (questionIndex, optionText) => {
   const handleSubmitQuiz = async () => {
     try {
       const token = localStorage.getItem('ultimate_genius0510_token');
-      let totalScore = 0;
-const submitData = {
-  quizId: localStorage.getItem('ug_game_id'),
-  answers: questions.map((question, index) => {
-    const selectedOptions = selectedAnswers[index] || [];
-    const correctOptions = question.correctAnswers;
-    let isCorrect;
+      const submitData = {
+        quizId: localStorage.getItem('ug_game_id'),
+        answers: quiz.questions.map((question, index) => {
+          const selectedOptions = selectedAnswers[index] || [];
+          const correctOptions = question.correctAnswers;
+          const isCorrect = JSON.stringify(selectedOptions.sort()) === JSON.stringify(correctOptions.sort());
+          const score = isCorrect ? 1 : 0;
+          return {
+            questionContent: question.content,
+            selectedOptions: selectedOptions,
+            correctOptions: correctOptions,
+            score: score
+          };
+        }),
+        scoreObtained: 0, // Placeholder value, update as needed
+        totalScore: quiz.questions.length
+      };
 
-    if (typeof(selectedOptions) === 'string') {
-      // If both arrays have only one element, compare directly
-      isCorrect = selectedOptions == correctOptions[0];
-    } else {
-      // If arrays have multiple elements, compare sorted arrays
-      isCorrect = JSON.stringify(selectedOptions.sort()) === JSON.stringify(correctOptions.sort());
-    }
+      await axios.post('http://localhost:8000/api/student/quiz/submit', submitData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const score = isCorrect ? 1 : 0;
-    totalScore += score;
-
-    return {
-      questionContent: question.content,
-      selectedOptions: selectedOptions,
-      correctOptions: correctOptions,
-      score: score
-    };
-  }),
-  scoreObtained: totalScore,
-  totalScore:questions.length
-};
-
-
-  
-      // Make API call to submit quiz answers
-      // await axios.post('http://localhost:8000/api/submit-quiz', submitData, {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // });
-  
       console.log('Quiz submitted successfully:', submitData);
     } catch (error) {
-      console.error('Error submitting quiz:', error);
+      if (error.response && error.response.status === 400) {
+        setErrorMessage(error.response.data.message);
+        setShowError(true);
+      } else {
+        setErrorMessage('Error submitting quiz. Please try again later.');
+        setShowError(true);
+        console.error('Error submitting quiz:', error);
+      }
     }
   };
-  
+
+  const handleCloseError = () => {
+    setShowError(false);
+  };
 
   if (!quiz) {
     return <div className={styles.loading}>Loading...</div>;
@@ -141,7 +129,7 @@ const submitData = {
           <div className={styles.options}>
             {currentQuestion.options.map((option, index) => (
               <div key={index} className={styles.option}>
-                {currentQuestion.type === 'true_false' || currentQuestion.correctAnswers.length == 1 ? (
+                {currentQuestion.type === 'true_false' || currentQuestion.correctAnswers.length === 1 ? (
                   <input
                     type="radio"
                     id={`option-${index}`}
@@ -159,7 +147,6 @@ const submitData = {
                 <label htmlFor={`option-${index}`}>{option}</label>
               </div>
             ))}
-
           </div>
         </div>
         <div className={styles.navigation}>
@@ -206,6 +193,7 @@ const submitData = {
           ))}
         </div>
       </div>
+      {showError && <ErrorPopup message={errorMessage} onClose={handleCloseError} />}
     </div>
   );
 };
