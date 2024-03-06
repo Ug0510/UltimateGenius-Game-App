@@ -23,6 +23,10 @@ const studentQuizResultLogSchema = new Schema({
       type: String,
       required: true,
     },
+    quizId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'QuizGame'
+    },
     category: String,
     teacherName: {
       type: String,

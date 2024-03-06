@@ -268,7 +268,7 @@ exports.saveQuizResult = async (req, res) => {
     const quiz = await QuizGame.findById(quizId).populate('teacherId');
 
     // Check if the quiz result already exists for the same student and quiz
-    const existingResult = await StudentQuizResultLog.findOne({ studentId: req.user._id, 'quiz.title': quiz.title });
+    const existingResult = await StudentQuizResultLog.findOne({ studentId: req.user._id, 'quiz.quizId': quiz._id });
     if (existingResult) {
       return res.status(400).json({ message: 'Quiz result already submitted for this student and quiz' });
     }   
@@ -279,6 +279,7 @@ exports.saveQuizResult = async (req, res) => {
     // Construct the quiz object
     const quizObj = {
       title: quiz.title,
+      quizId: quiz._id,
       category: quiz.category,
       teacherName: quiz.teacherId.userName,
       duration: quiz.timeLimit,

@@ -77,7 +77,14 @@ const QuizPlay = () => {
         answers: quiz.questions.map((question, index) => {
           const selectedOptions = selectedAnswers[index] || [];
           const correctOptions = question.correctAnswers;
-          const isCorrect = JSON.stringify(selectedOptions.sort()) === JSON.stringify(correctOptions.sort());
+          let isCorrect;
+          if(typeof(selectedOptions) == 'string')
+          {
+            isCorrect = selectedOptions === correctOptions[0];
+          }
+          else{
+            isCorrect = JSON.stringify(selectedOptions.sort()) === JSON.stringify(correctOptions.sort());
+          }
           const score = isCorrect ? 1 : 0;
           return {
             questionContent: question.content,
