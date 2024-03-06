@@ -16,7 +16,7 @@ import QuizGame from './pages/Teacher/QuizGame/QuizGame';
 import AddQuestionBankForm from './pages/Teacher/AddQuestionBankForm/AddQuestionBankForm';
 import QuestionBankManagementPage from './pages/Teacher/QuestionBankManagementPage/QuestionBankManagementPage';
 import QuizPlay from './pages/Student/QuizPlay/QuizPlay';
-import ScoreboardPage from './pages/Student/Scoreboard/Scoreboard';
+import ScoreboardPage from './pages/Student/ScoreboardPage/ScoreboardPage';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
