@@ -61,7 +61,7 @@ const togglePasswordVisibility = () => {
 
   return (
     <div className={styles.formContainer}>
-      <div className={styles.backboard}>
+      <div>
         <img src={logo} alt='logo' className={styles.logo} />
       </div>
       <div className={styles.formBody}>

@@ -14,7 +14,7 @@
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items:start;
 }
 
 .formBody {
@@ -110,3 +110,50 @@
     border: 2px solid var(--color-orange);
 
 }
+.logo.upper{
+    top:30px;
+}
+
+/* .inputRadio{
+    border: 1px solid #f6581e;
+    background-color: transparent;
+} */
+
+/* styles.module.css */
+
+/* Radio button container */
+.radioGroup {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Hide default radio button */
+  .inputRadio {
+    display: none;
+  }
+  
+  /* Radio button label */
+  .labelRadio {
+    font-size: 16px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+  
+  /* Radio button style */
+  .inputRadio + .labelRadio:before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #333; /* Border color */
+    margin-right: 5px;
+  }
+  
+  /* Checked radio button style */
+  .inputRadio:checked + .labelRadio:before {
+    border:4px ridge #60d600;
+    background-color: #60d600;
+}
+  
