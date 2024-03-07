@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Homepage from './pages/Homepage/Homepage';
-import LoginPage from './pages/User/LoginForm';
+import LoginPage from './pages/User/Login/LoginForm';
 import RegisterPage from './pages/User/Register';
 import checkIsLoggedIn from './utils/checkIsLoggedIn';
-import RegisterForm from './pages/User/RegisterForm';
+import RegisterForm from './pages/User/Login/RegisterForm';
 import ChooseGame from './pages/Teacher/ChooseGame/ChooseGame';
 import QuizCustomizationForm from './pages/Teacher/QuizCustomizationForm/QuizCustomizationForm';
 import TeacherWaitingRoomPage from './pages/Teacher/WaitingRoomPage/WaitingRoomPage';
