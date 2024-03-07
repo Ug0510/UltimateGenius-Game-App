@@ -9,4 +9,6 @@ router.get('/check-quiz-if-started/:quizId', authenticate, QuizController.checkQ
 router.get('/quiz/play/:quizId',authenticate,QuizController.getQuizDetails);
 router.post('/quiz/submit',authenticate,QuizController.saveQuizResult);
 
+
+
 module.exports = router;

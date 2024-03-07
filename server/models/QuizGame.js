@@ -66,7 +66,11 @@ const QuizGameSchema = new mongoose.Schema({
     type: Number,
     required: true,
     unique: true 
-  }
+  },
+  resultLog: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'StudentQuizResultLog'
+  }]
 });
 
 const QuizGame = mongoose.model('QuizGame', QuizGameSchema);

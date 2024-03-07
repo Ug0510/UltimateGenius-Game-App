@@ -1,0 +1,44 @@
+/* ScoreboardPage.module.css */
+
+.scoreboardContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.scoreboardHeading {
+  color: #FFA500; /* Orange */
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.commentOutData {
+  background-color: #FFD700; /* Gold */
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.commentOutData p {
+  margin: 5px 0;
+}
+
+.scoreboardTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.scoreboardTable th,
+.scoreboardTable td {
+  padding: 10px;
+  border-bottom: 1px solid #008000; /* Green */
+  text-align: left;
+}
+
+.scoreboardTable th {
+  background-color: #32CD32; /* Lime Green */
+  font-weight: bold;
+}
+
+.scoreboardTable tr:hover {
+  background-color: #FFD700; /* Gold */
+}

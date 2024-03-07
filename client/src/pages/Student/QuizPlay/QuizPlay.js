@@ -71,6 +71,7 @@ const QuizPlay = () => {
 
   const handleSubmitQuiz = async () => {
     try {
+      let total = 0;
       const token = localStorage.getItem('ultimate_genius0510_token');
       const submitData = {
         quizId: localStorage.getItem('ug_game_id'),
@@ -86,6 +87,7 @@ const QuizPlay = () => {
             isCorrect = JSON.stringify(selectedOptions.sort()) === JSON.stringify(correctOptions.sort());
           }
           const score = isCorrect ? 1 : 0;
+          total = total + score;
           return {
             questionContent: question.content,
             selectedOptions: selectedOptions,
@@ -93,7 +95,7 @@ const QuizPlay = () => {
             score: score
           };
         }),
-        scoreObtained: 0, // Placeholder value, update as needed
+        scoreObtained: total,
         totalScore: quiz.questions.length
       };
 

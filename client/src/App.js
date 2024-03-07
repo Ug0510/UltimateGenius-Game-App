@@ -16,7 +16,7 @@ import QuizGame from './pages/Teacher/QuizGame/QuizGame';
 import AddQuestionBankForm from './pages/Teacher/AddQuestionBankForm/AddQuestionBankForm';
 import QuestionBankManagementPage from './pages/Teacher/QuestionBankManagementPage/QuestionBankManagementPage';
 import QuizPlay from './pages/Student/QuizPlay/QuizPlay';
-import ScoreboardPage from './pages/Student/ScoreboardPage/ScoreboardPage';
+import ScoreboardPage from './pages/User/ScoreboardPage/ScoreboardPage';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -61,7 +61,7 @@ const App = () => {
                 <Route path="/teacher/question-banks/manage" element={<QuestionBankManagementPage/>}/>
                 <Route path="/teacher/question-banks/add" element={<AddQuestionBankForm/>}/>
                 <Route path="/student/quiz/play/:quizId" element={<QuizPlay/>}/>
-                <Route path="/student/quiz/scoreboard" element={<ScoreboardPage/>}/>
+                <Route path="/user/quiz/scoreboard" element={<ScoreboardPage/>}/>
             </Routes>
         </Router>
     );

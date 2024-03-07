@@ -10,7 +10,8 @@ router.post('/register', UserController.createUser);
 router.post('/login', UserController.loginUser);
 router.get('/check', UserController.checkUserExistence);
 router.get('/profile', authenticate, UserController.profileUser);
-router.get('/check-login',authenticate,UserController.checkLogin)
+router.get('/check-login',authenticate,UserController.checkLogin);
+router.get('/quiz/results/:quizId',authenticate,QuizController.getQuizResults);
 // router.post('/info', authenticate, UserController.getInfo);
 
 

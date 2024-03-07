@@ -3,7 +3,6 @@ const User = require('../models/User');
 const Question = require('../models/Question');
 const StudentQuizResultLog = require('../models/StudentQuizResultLog');
 
-
 // Function to generate a unique 6-digit code
 const generateUniqueCode = async () => {
     let code;
@@ -297,6 +296,11 @@ exports.saveQuizResult = async (req, res) => {
       submittedAt: new Date()
     });
 
+    quiz.resultLog.push(studentQuizResultLog);
+
+    // To save updated quiz in database
+    await quiz.save();
+
     // Save the quiz result log to the database
     await studentQuizResultLog.save();
     res.status(201).json({ message: 'Quiz result saved successfully' });
@@ -305,3 +309,19 @@ exports.saveQuizResult = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+
+// Controller function to fetch quiz results
+exports.getQuizResults = async (req, res) => {
+    try {
+      // Fetch quiz results from the database
+      const {quizId} = req.params;
+      const quiz = await QuizGame.findById(quizId).populate('resultLog');
+  
+      // Return quiz results as JSON response
+      res.status(200).json(quiz);
+    } catch (error) {
+      console.error('Error fetching quiz results:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  };
