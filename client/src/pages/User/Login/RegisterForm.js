@@ -5,6 +5,7 @@ import PopupMessage from '../../../components/Popup/PopupMessage';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../../assets/images/logo/logo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { Link} from 'react-router-dom';
 
 
 const RegisterForm = () => {
@@ -255,6 +256,10 @@ const RegisterForm = () => {
 
 
           <button type="submit" className={styles.button}>Register</button>
+          <br/>
+          <div style={{textAlign:'center'}}>
+          Already have a account? <Link to="/user/login" style={{color:'#60d600'}}>Click here</Link>
+          </div>
           {showPopup && <PopupMessage message={popupMessage} onClose={closePopup} />}
         </form>
 
