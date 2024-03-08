@@ -1,5 +1,6 @@
 import React from 'react'; 
 import {Link } from 'react-router-dom';
+import logo from '../../assets/images/logo/logo.png';
 
 const Header = ({userData, isLoggedIn, toggleProfilePopup}) => {
 
@@ -11,7 +12,7 @@ const Header = ({userData, isLoggedIn, toggleProfilePopup}) => {
 
             <div>
                 <a className="navbar-brand d-flex align-items-center " href="index.html">
-                    <img className="logo2" src="./logo.png" alt="logo" style={{maxWidth:"220px"}}/>
+                    <img className="logo2" src={logo} alt="logo" style={{maxWidth:"220px"}}/>
                 </a>
             </div>
 
