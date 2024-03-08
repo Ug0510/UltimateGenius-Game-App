@@ -17,6 +17,7 @@ import AddQuestionBankForm from './pages/Teacher/AddQuestionBankForm/AddQuestion
 import QuestionBankManagementPage from './pages/Teacher/QuestionBankManagementPage/QuestionBankManagementPage';
 import QuizPlay from './pages/Student/QuizPlay/QuizPlay';
 import ScoreboardPage from './pages/User/ScoreboardPage/ScoreboardPage';
+import fetchUserData from './utils/fetchUserData';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -38,8 +39,7 @@ const App = () => {
     useEffect(() => {
 
         checkIsLoggedIn(login);
-
-        
+        fetchUserData(login,addUserData);      
 
         
     }, []);

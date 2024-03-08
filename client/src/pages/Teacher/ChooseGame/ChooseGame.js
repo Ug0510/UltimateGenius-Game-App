@@ -11,7 +11,7 @@ import { GoArrowRight } from "react-icons/go";
 const ChooseGame = ({ isLoggedIn, userData }) => {
   // Check if user is logged in and is a teacher
   const isTeacher = isLoggedIn && userData && userData.userType === 'teacher';
-  console.log(isTeacher);
+  console.log(userData);
   const navigate = useNavigate();
 
   
