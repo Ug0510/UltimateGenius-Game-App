@@ -43,8 +43,10 @@ const ChooseGame = ({ isLoggedIn, userData }) => {
 
           {/* Card for Quiz Game  */}
           <div className={styles.card}>
-            <div className={styles.imgContainer}>
-              <img src={quizGameImg} alt='Quiz Game image' />
+            <div className={styles.imgStatusContainer}>
+              <div className={styles.imgContainer}>
+                <img src={quizGameImg} alt='Quiz Game image' />
+              </div>
               <div className={styles.gameStatus + " " + styles.dotIcon}>
                 Active
               </div>
@@ -59,15 +61,17 @@ const ChooseGame = ({ isLoggedIn, userData }) => {
 
           {/* Card for Words Maker */}
           <div className={styles.card}>
-            <div className={styles.imgContainer}>
-              <img src={quizGameImg} alt='Quiz Game image' />
+          <div className={styles.imgStatusContainer}>
+              <div className={styles.imgContainer}>
+                <img src={quizGameImg} alt='Quiz Game image' />
+              </div>
               <div className={styles.gameStatus + " " + styles.dotIcon}>
                 Upcoming
               </div>
             </div>
             <div className={styles.flexBar}>
               <h3 >Words Maker</h3>
-              <button className={styles.goButton} onClick={handleQuizGameClick}>
+              <button className={styles.goButton} >
                 <GoArrowRight />
               </button>
             </div>

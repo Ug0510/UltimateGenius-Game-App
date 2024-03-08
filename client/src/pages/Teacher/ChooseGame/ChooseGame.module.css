@@ -16,10 +16,14 @@
 
 .card img {
   width: 100%;
+  transition: transform 0.5s ease;
 }
-
-.imgContainer {
+.imgStatusContainer{
   position: relative;
+}
+.imgContainer {
+  overflow: hidden;
+  border-radius: 15px;
 }
 
 .gameStatus {
@@ -89,6 +93,11 @@
   &:hover {
     border: 1px solid #f6581e;
   }
+
+  &:hover img{
+    transform: scale(1.15);
+  }
+
 
   &:hover .gameStatus {
     border: 1px solid #f6581e;
