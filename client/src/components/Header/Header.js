@@ -79,7 +79,7 @@ const Header = ({userData, isLoggedIn, login}) => {
                     <Link href="profile.html" className="account-item">View Profile</Link>
                     <button className="bttn account-item" onClick={handlelogout}>Logout</button>
                 </div>
-            </div>
+            </div> 
             {/* user account details popup end */}
 </header>)
 }

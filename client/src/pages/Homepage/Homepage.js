@@ -7,28 +7,10 @@ import VanillaTilt from 'vanilla-tilt';
 import Header from '../../components/Header/Header';
 
 
-const Homepage = ({isLoggedIn, login}) => {
+const Homepage = ({isLoggedIn, login, userData, addUserData}) => {
 
-    const [userData, setUserData] = useState(null);
-    
-
-
-    const addUserData = (data) => {
-        setUserData(data);
-    }
 
     const navigate = useNavigate();
-
-    
-    
-
-    useEffect(() => {
-
-        if(isLoggedIn)
-        {
-            fetchUseData(login,addUserData);
-        }
-    }, []);
 
     useEffect(() => {
         VanillaTilt.init(document.querySelector('.tilt'), {
