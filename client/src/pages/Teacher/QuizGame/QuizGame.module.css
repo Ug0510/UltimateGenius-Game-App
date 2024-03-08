@@ -26,3 +26,39 @@
     background-color: #60d600;
   }
   
+
+.navbar
+{
+  padding: 0.7rem 3rem;
+  background-color: #0D0F14;
+  /* display: flex  */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoContainer{
+  width: fit-content;
+  
+}
+.logo {
+  width:220px;
+}
+
+.headList ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.headList ul li {
+  display: inline-block;
+  margin-right: 20px;
+  cursor: pointer;
+  color: #fff; /* Initial link color */
+}
+
+.headList ul li.active {
+  color: #60d600 /* Active link color (green) */
+}
