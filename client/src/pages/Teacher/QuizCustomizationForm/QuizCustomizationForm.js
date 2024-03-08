@@ -24,10 +24,12 @@ const QuizCustomizationForm = ({ onSubmit }) => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const val = type === 'checkbox' ? checked : value;
+    console.log(name,'-',val);
     setFormData((prevData) => ({
       ...prevData,
       [name]: val,
     }));
+    console.log(formData);
   };
 
   useEffect(() => {
@@ -70,22 +72,24 @@ const QuizCustomizationForm = ({ onSubmit }) => {
   
 
   return (
-    <form className={styles['form-container']} onSubmit={handleSubmit}>
+    <div className={styles.formContainer}>
+      <form className={styles.formBody + ' ' + styles.form2} style={{marginTop:'1rem'}} onSubmit={handleSubmit}>
+        <h1 style={{marginBottom:'2rem'}}>Quiz Customization Form</h1>
       <div>
-        <label>Title<span>*</span>:</label>
-        <input type="text" name="title" value={formData.title} onChange={handleChange} required />
+        <label className={styles.label}>Title<span>*</span>:</label>
+        <input type="text" name="title" value={formData.title} onChange={handleChange} className={styles.input} required />
       </div>
       <div>
-        <label>Category<span>*</span>:</label>
-        <input type="text" name="category" value={formData.category} onChange={handleChange} required />
+        <label className={styles.label}>Category<span>*</span>: <span className={styles.instruction}>(Course/Subject)</span></label>
+        <input type="text" name="category" value={formData.category} onChange={handleChange} className={styles.input} placeholder='example: Data Structures' required />
       </div>
       <div>
-        <label>Description:</label>
-        <textarea name="description" value={formData.description} onChange={handleChange} />
+        <label className={styles.label}>Description: <span className={styles.instruction}>(Optional)</span></label>
+        <textarea name="description" value={formData.description} onChange={handleChange} className={styles.input} placeholder='Some Description about this Quiz to guide Students...' />
       </div>
       <div>
-        <label>Question Bank ID<span>*</span>:</label>
-        <select name="quizBankId" value={formData.quizBankId} onChange={handleChange} required>
+        <label className={styles.label}>Question Bank ID<span>*</span>:</label>
+        <select name="quizBankId" value={formData.quizBankId} onChange={handleChange} className={styles.input} required>
           <option value="">Select Question Bank</option>
           {questionBanks && questionBanks.map((questionBank) => (
             <option key={questionBank._id} value={questionBank._id}>{questionBank.name}</option>
@@ -94,74 +98,65 @@ const QuizCustomizationForm = ({ onSubmit }) => {
       </div>
 
       <div>
-        <label>Time Limit (in minutes):</label>
-        <input type="number" name="timeLimit" value={formData.timeLimit} onChange={handleChange} />
+        <label className={styles.label}>Time Limit (in minutes):</label>
+        <input type="number" name="timeLimit" value={formData.timeLimit} onChange={handleChange} className={styles.input} />
       </div>
       <div>
-        <label>Number of Questions:</label>
+        <label className={styles.label}>Number of Questions:</label>
         <input
           type="number"
           name="numberOfQuestions"
           value={formData.numberOfQuestions}
           onChange={handleChange}
+          className={styles.input}
         />
       </div>
       <div>
-        <label>Show Correct Answers:</label>
-        <input
-          type="checkbox"
-          name="showCorrectAnswers"
-          checked={formData.showCorrectAnswers}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Passing Score Percentage:</label>
+        <label className={styles.label}>Passing Percentage</label>
         <input
           type="number"
           name="passingScorePercentage"
           value={formData.passingScorePercentage}
           onChange={handleChange}
+          className={styles.input}
         />
       </div>
       <div>
-        <label>Send Quiz Output to Students:</label>
+        <input
+          type="checkbox"
+          name="showCorrectAnswers"
+          checked={formData.showCorrectAnswers}
+          onChange={handleChange}
+          className={styles.inputCheckbox}
+        />
+        <label className={styles.labelCheckbox}>Show Correct Answers to student at the end of Quiz</label>
+      </div>
+
+      <div>
         <input
           type="checkbox"
           name="sendQuizOutputToStudents"
           checked={formData.sendQuizOutputToStudents}
-          onChange={handleChange}
+          onClick={handleChange}
+          className={styles.inputCheckbox}
         />
+        <label className={styles.labelCheckbox}>Send Quiz Output to Students on mail</label>
       </div>
+
       <div>
-        <label>Get Quiz Result on Mail:</label>
         <input
           type="checkbox"
           name="getQuizResultOnMail"
           checked={formData.getQuizResultOnMail}
-          onChange={handleChange}
+          onClick={handleChange}
+          className={styles.inputCheckbox}
         />
+        <label className={styles.labelCheckbox}>Get Quiz Result on your mail</label>
       </div>
-      <div>
-        <label>Randomized Question Pool:</label>
-        <input
-          type="checkbox"
-          name="randomizedQuestionPool"
-          checked={formData.randomizedQuestionPool}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Randomized Answer Choices:</label>
-        <input
-          type="checkbox"
-          name="randomizedAnswerChoices"
-          checked={formData.randomizedAnswerChoices}
-          onChange={handleChange}
-        />
-      </div>
-      <button type="submit">Generate Quiz</button>
+
+      <button type="submit" className={styles.button}>Generate Quiz</button>
     </form>
+    </div>
   );
   
   
