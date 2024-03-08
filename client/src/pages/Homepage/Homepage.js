@@ -19,7 +19,7 @@ const Homepage = ({isLoggedIn, login}) => {
 
     const navigate = useNavigate();
 
-    const [isOpen, setIsOpen] = useState(false);
+    
     
 
     useEffect(() => {
@@ -46,17 +46,13 @@ const Homepage = ({isLoggedIn, login}) => {
         });
     }, []);
 
-    // Handler to toggle the user popup class
-    const toggleProfilePopup = () => {
-        setIsOpen(!isOpen);
-    };
-
+    
 
 
     return (
         <div>
             {/* header section start */}
-            <Header userData={userData} isLoggedIn={isLoggedIn} toggleProfilePopup={toggleProfilePopup}/>
+            <Header userData={userData} isLoggedIn={isLoggedIn} login={login}/>
             {/* header section end */}
 
             {/* notification area start */}
@@ -80,33 +76,7 @@ const Homepage = ({isLoggedIn, login}) => {
             </div>
             {/* notification area end */}
 
-            {/* user account details popup start */}
-            <div className={`user-account-popup p-4 ${isOpen ? 'open' : ''}`}>
-                <div className="account-items d-grid gap-1" data-tilt>
-                    {/* user account details */}
-                    <div className="user-level-area p-3">
-                        <div className="user-info d-between">
-                            <span className="user-name fs-five">David Malan</span>
-                            <div className="badge d-flex align-items-center">
-                                <i className="ti ti-medal fs-three fs-normal tcp-2"></i>
-                                <i className="ti ti-medal fs-three fs-normal tcp-2"></i>
-                                <i className="ti ti-medal fs-three fs-normal tcp-2"></i>
-                            </div>
-                        </div>
-                        <div className="user-level">
-                            <span className="level-title tcn-6">Level</span>
-                            <div className="level-bar my-1">
-                                <div className="level-progress" style={{ width: '30%' }}></div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* links */}
-                    <a href="profile.html" className="account-item">View Profile</a>
-                    <a href="chat.html" className="account-item">Message</a>
-                    <button className="bttn account-item" onClick={()=> {login(false)}}>Logout</button>
-                </div>
-            </div>
-            {/* user account details popup end */}
+           
 
             {/* Hero Section start */}
             <section className="hero-section pt-20 pb-120 position-relative">

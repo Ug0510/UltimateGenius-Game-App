@@ -1,8 +1,31 @@
-import React from 'react'; 
+import React, {useEffect, useState} from 'react'; 
 import {Link } from 'react-router-dom';
 import logo from '../../assets/images/logo/logo.png';
+import VanillaTilt from 'vanilla-tilt';
 
-const Header = ({userData, isLoggedIn, toggleProfilePopup}) => {
+const Header = ({userData, isLoggedIn, login}) => {
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    // Handler to toggle the user popup class
+    const toggleProfilePopup = () => {
+        setIsOpen(!isOpen);
+    };
+
+    const handlelogout = () => {
+        setIsOpen(false);
+        login(false);
+    }
+
+
+    useEffect(() => {
+        VanillaTilt.init(document.querySelector('.tilt2'), {
+            max: 15,
+            speed: 200,
+            glare: true,
+            'max-glare': 0.1
+        });
+    }, []);
 
     
     return (
@@ -17,9 +40,6 @@ const Header = ({userData, isLoggedIn, toggleProfilePopup}) => {
             </div>
 
             <div className="header-btn-area d-flex align-items-center gap-sm-6 gap-3">
-                <button className="ntf-btn box-style fs-2xl">
-                    <i className="ti ti-bell-filled"></i>
-                </button>
                 <div className="header-profile pointer" onClick={toggleProfilePopup}>
                     {isLoggedIn ? (<div className="profile-wrapper d-flex align-items-center gap-3">
                         <div className="img-area overflow-hidden">
@@ -38,6 +58,29 @@ const Header = ({userData, isLoggedIn, toggleProfilePopup}) => {
         </div>
         
     </div>
+
+     {/* user account details popup start */}
+     <div className={`user-account-popup p-4  ${isOpen ? 'open' : ''}`}>
+                <div className="account-items d-grid gap-1 tilt2" >
+                    {/* user account details */}
+                    <div className="user-level-area p-3">
+                        <div className="user-info d-between">
+                            <span className="user-name fs-five">{userData? userData.gameName : 'User'}</span>
+                            
+                        </div>
+                        <div className="user-level">
+                            <span className="level-title tcn-6">Level</span>
+                            <div className="level-bar my-1">
+                                <div className="level-progress" style={{ width: '30%' }}></div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* links */}
+                    <Link href="profile.html" className="account-item">View Profile</Link>
+                    <button className="bttn account-item" onClick={handlelogout}>Logout</button>
+                </div>
+            </div>
+            {/* user account details popup end */}
 </header>)
 }
 
