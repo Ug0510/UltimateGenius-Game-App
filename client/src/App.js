@@ -50,7 +50,7 @@ const App = () => {
                 <Route path="/" element={<Homepage isLoggedIn={isLoggedIn} login={login} userData={userData} addUserData={addUserData}/>}/>
                 <Route path="/user/login" element={<LoginPage isLoggedIn={isLoggedIn} login={login} addUserData={addUserData}/>}/>
                 <Route path="/user/register" element={<RegisterForm />}/>
-                <Route path="/teacher/game-choice" element={<ChooseGame/>}/>
+                <Route path="/teacher/game-choice" element={<ChooseGame isLoggedIn={isLoggedIn} userData={userData}/>}/>
                 <Route path="/teacher/quizgame" element={<QuizGame/>}/>
                 <Route path="/teacher/quiz/create" element={<QuizCustomizationForm/>}/>
                 <Route path="/teacher/quiz/waiting-room" element={<TeacherWaitingRoomPage/>}/>

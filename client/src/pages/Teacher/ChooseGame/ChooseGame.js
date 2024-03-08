@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './ChooseGame.module.css';
 import { GoHomeFill } from "react-icons/go";
@@ -14,10 +14,14 @@ const ChooseGame = ({ isLoggedIn, userData }) => {
   console.log(isTeacher);
   const navigate = useNavigate();
 
-  // Redirect if user is not a teacher or not logged in
-  if (!isTeacher) {
-    navigate('/');
-  }
+  
+    useEffect(() => {
+     if (!isTeacher) {
+       navigate('/');
+     }
+   
+    },[isLoggedIn]);
+
 
   // Handle click on Quiz Game card
   const handleQuizGameClick = () => {

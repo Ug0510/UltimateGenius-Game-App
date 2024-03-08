@@ -24,17 +24,10 @@ const Homepage = ({isLoggedIn, login}) => {
 
     useEffect(() => {
 
-        if(!isLoggedIn)
+        if(isLoggedIn)
         {
-            navigate('/user/login');
+            fetchUseData(login,addUserData);
         }
-
-        fetchUseData(login,addUserData);
-        
-        console.log(localStorage.getItem('ultimate_genius0510_token'))
-        
-
-
     }, []);
 
     useEffect(() => {
@@ -57,7 +50,7 @@ const Homepage = ({isLoggedIn, login}) => {
 
             {/* notification area start */}
             <div className="notification-area p-4" data-lenis-prevent>
-                <div className="notification-card d-grid gap-4" data-tilt>
+                <div className="notification-card d-grid gap-4 " data-tilt>
                     {/* notification cards */}
                     {/* Repeat this block for each notification card */}
                     <div>
