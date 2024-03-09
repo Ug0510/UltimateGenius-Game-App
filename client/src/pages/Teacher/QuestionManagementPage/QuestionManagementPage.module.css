@@ -16,7 +16,7 @@
     border-radius: 4px;
   }
   
-  .addButton {
+  .mButton {
     background-color: #f6561e;
     color: #fff;
     border: none;
@@ -54,3 +54,10 @@
     background-color: #000;
   }
   
+
+  .optionsBox{
+    width: 70vw;
+    background-color: #333;
+    padding:1rem;
+    margin:auto;
+  }
