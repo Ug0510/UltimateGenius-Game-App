@@ -5,8 +5,11 @@ import { useNavigate } from 'react-router-dom';
 
 const QuestionManagementPage = () => {
   const [questions, setQuestions] = useState([]);
+  const [fetchedQuestions, setFetchedQuestions] = useState([]);
   const [selectedQuestions, setSelectedQuestions] = useState([]);
   const [isSelectMultipleClicked, setIsSelectMultipleClicked] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const [isSelectAllClicked, setIsSelectAllClicked] = useState(false);
   const navigate = useNavigate();
 
   const fetchQuestions = async () => {
@@ -17,7 +20,8 @@ const QuestionManagementPage = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setQuestions(response.data); //response data is an array of questions
+      setFetchedQuestions(response.data);
+      setQuestions(response.data);
       console.log(response.data);
     } catch (error) {
       console.error('Error fetching questions:', error);
@@ -56,13 +60,41 @@ const QuestionManagementPage = () => {
     setIsSelectMultipleClicked(false); // Reset select multiple state
   };
 
-  const handleSelectMultiple = () => {
-    setIsSelectMultipleClicked(!isSelectMultipleClicked);
-    if(isSelectMultipleClicked === true)
-    {
-      handleCancelSelection();
+  //Function to Select all the checkbox
+  const handleSelectAll = () => {
+
+    if (!isSelectAllClicked) {
+      const allQuestionIds = questions.map((question) => question._id);
+      setSelectedQuestions(allQuestionIds);
     }
+    else {
+      setSelectedQuestions([]);
+    }
+
+    setIsSelectAllClicked(!isSelectAllClicked);
   }
+  // Function to handle search
+  const handleSearch = (event) => {
+    const searchText = event.target.value.toLowerCase();
+    setSearchText(searchText);
+
+    // Filter fetchedQuestions based on the search text
+    const filteredQuestions = fetchedQuestions.filter((question) =>
+      question.content.toLowerCase().includes(searchText)
+    );
+
+    // Update the questions state with the filtered results
+    setQuestions(filteredQuestions);
+
+    // Update selectedQuestions if isSelectAllClicked is true
+    if (isSelectAllClicked) {
+      const filteredQuestionIds = filteredQuestions.map((question) => question._id);
+      setSelectedQuestions(filteredQuestionIds);
+    }
+
+
+  };
+
 
   useEffect(() => {
     // Fetch questions when the component mounts
@@ -71,37 +103,61 @@ const QuestionManagementPage = () => {
 
   return (
     <>
-      <h1 style={{textAlign:'center', margin:'1.5rem'}}>Question Management Page</h1>
+      <h1 style={{ textAlign: 'center', margin: '1.5rem' }}>Question Management Page</h1>
       <div className={styles.optionsBox}>
         <button onClick={handleAddQuestion} className={styles.mButton}>Add Question</button>
-        <button onClick={handleSelectMultiple} className={styles.mButton}>
+        <button onClick={() => {
+          setIsSelectMultipleClicked(!isSelectMultipleClicked);
+          if (isSelectMultipleClicked) {
+            handleCancelSelection();
+          }
+        }} className={styles.mButton}>
           {isSelectMultipleClicked ? 'Cancel Selection' : 'Select Multiple'}
         </button>
-        {selectedQuestions.length > 0 && (
+        {isSelectMultipleClicked && (
           <>
             <button onClick={handleDeleteMultiple} className={styles.mButton}>Delete Multiple</button>
             <button onClick={handleCreateQuestionBank} className={styles.mButton}>Create Question Bank using Selected</button>
+            <button onClick={handleSelectAll} className={styles.mButton}>{
+              isSelectAllClicked ? 'UnSelect All' : 'Select All'
+            }</button>
           </>
         )}
       </div>
+      <div className={styles.searchBox}>
+        <input
+          type="text"
+          placeholder="Search Questions"
+          value={searchText}
+          onChange={handleSearch}
+          className={styles.searchInput}
+        />
+        {searchText && ( 
+          <button className={styles.clearButton} onClick={() => {setSearchText(''); setQuestions(fetchQuestions);}}>
+            &#x2715; 
+          </button>
+        )}
+      </div>
+
       <div className={styles.container}>
         {/* List of existing questions */}
         <ul className={styles.questionList}>
           {questions && questions.length > 0 ? (
-            questions.map((question, index) => (
-              <li key={question._id} className={styles.questionItem} style={{color:'black'}}>
-                {isSelectMultipleClicked && (
-                  <input
-                    type="checkbox"
-                    checked={selectedQuestions.includes(question._id)}
-                    onChange={() => toggleQuestionSelection(question._id)}
-                  />
-                )}
-                {question.content}
-              </li>
-            ))
+            questions
+              .map((question) => (
+                <li key={question._id} className={styles.questionItem} style={{ color: 'black' }}>
+                  {isSelectMultipleClicked && (
+                    <input
+                      type="checkbox"
+                      checked={selectedQuestions.includes(question._id)}
+                      onChange={() => toggleQuestionSelection(question._id)}
+                    />
+                  )}
+                  {question.content}
+                </li>
+              ))
           ) : (
-            <p style={{color:'black'}}>No Questions are available to show. <br/> Click above button to add new questions...</p>
+            <p style={{ color: 'black' }}>No Questions are available to show. <br /> Click above button to add new questions...</p>
           )}
         </ul>
       </div>
