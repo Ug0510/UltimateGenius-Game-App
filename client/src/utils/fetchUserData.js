@@ -19,6 +19,11 @@ const fetchUserData = async (login, addUserData) => {
     // Parse response data
     const data = await response.json();
 
+    if(data && data.error)
+    {
+      return;
+    }
+
     // Update login status and user data
     login(true);
     addUserData(data);

@@ -17,6 +17,7 @@ const Header = ({userData, isLoggedIn, login}) => {
         login(false);
     }
 
+    
 
     useEffect(() => {
         VanillaTilt.init(document.querySelector('.tilt2'), {
@@ -41,7 +42,7 @@ const Header = ({userData, isLoggedIn, login}) => {
 
             <div className="header-btn-area d-flex align-items-center gap-sm-6 gap-3">
                 <div className="header-profile pointer" onClick={toggleProfilePopup}>
-                    {isLoggedIn ? (<div className="profile-wrapper d-flex align-items-center gap-3">
+                    {isLoggedIn && userData ? (<div className="profile-wrapper d-flex align-items-center gap-3">
                         <div className="img-area overflow-hidden">
                             <img className="w-100" src="assets/img/profile.png" alt="profile" />
                         </div>

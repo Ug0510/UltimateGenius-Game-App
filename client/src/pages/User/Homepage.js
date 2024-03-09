@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import PeakPk from '../../assets/images/peakpx.jpg';
 
-const Homepage = () => {
+const Homepage = ({userData, isLoggedIn, login}) => {
     return (
         <div className='wrapper' style={{ height: '100vh', overflow: 'hidden', backgroundColor: '#09121D' }}>
-            <Header />
+            <Header userData={userData} isLoggedIn={isLoggedIn} login={login}/>
             <div className="th-hero-wrapper hero-1" id="hero" style={{backgroundImage:`url(${PeakPk})`, backgroundSize:'cover'}}>
                 <div className="container">
                     <div className="hero-style1 text-center">

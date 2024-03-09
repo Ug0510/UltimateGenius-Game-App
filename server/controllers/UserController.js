@@ -81,7 +81,6 @@ exports.createUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log(req.body);
 
         // Check if user with the provided email exists
         const user = await User.findOne({ email });
@@ -118,9 +117,6 @@ exports.loginUser = async (req, res) => {
 // controller to get user profile data
 exports.profileUser = async (req, res) => {
     try {
-        console.log('hi');
-        console.log(req);
-        console.log(req.user);
         // Access authenticated user from req.user
         const userId = req.user._id;
 
@@ -166,7 +162,6 @@ exports.checkLogin = async (req, res) => {
 // Controller to check if gameName or email is already present 
 exports.checkUserExistence = async (req, res) => {
     try {
-        console.log(req.query);
       const { gameName, email } = req.query;
   
       // Check if gameName or email already exists in the database
