@@ -3,16 +3,14 @@ import axios from 'axios';
 import styles from './AddQuestionForm.module.css';
 import { useNavigate } from 'react-router-dom';
 
-
 const AddQuestionForm = () => {
     const [questionText, setQuestionText] = useState('');
     const [questionType, setQuestionType] = useState('');
     const [category, setCategory] = useState('');
     const [difficultyLevel, setDifficultyLevel] = useState('easy');
-    const [choices, setChoices] = useState(['']);
+    const [choices, setChoices] = useState([]);
     const [correctAnswers, setCorrectAnswers] = useState([]);
     const [error, setError] = useState('');
-
     const navigate = useNavigate();
 
     const handleQuestionTypeChange = (e) => {
@@ -40,7 +38,6 @@ const AddQuestionForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Construct question data object
             let questionData;
             if (questionType === 'multiple_choice') {
                 questionData = {
@@ -60,7 +57,6 @@ const AddQuestionForm = () => {
                 };
             }
 
-            // Make POST request to add question
             const token = localStorage.getItem('ultimate_genius0510_token');
             const response = await axios.post('http://localhost:8000/api/teacher/create-questions', questionData, {
                 headers: {
@@ -68,22 +64,20 @@ const AddQuestionForm = () => {
                 },
             });
 
-            // Handle success response
             console.log('Question added successfully:', response.data);
             window.alert('Question Added');
             navigate('/teacher/question/manage');
         } catch (error) {
-            // Handle error
             console.error('Error adding question:', error);
             setError('Error adding question. Please try again.');
         }
     };
 
     return (
-        <div className={styles.container}>
+        <div className={styles.AddQuestionFormContainer}>
             <h2 className={styles.heading}>Add Question</h2>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className={styles.formGroup}>
                     <label>Question Text:</label>
                     <input
                         type="text"
@@ -92,30 +86,26 @@ const AddQuestionForm = () => {
                         required
                     />
                 </div>
-                {/* Category (optional) */}
                 
-                    <div>
-                        <label>Category:</label>
-                        <input
-                            type="text"
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                        />
-                    </div>
+                <div className={styles.formGroup}>
+                    <label>Category:</label>
+                    <input
+                        type="text"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                    />
+                </div>
                 
-                {/* Difficulty Level */}
-                
-                    <div>
-                        <label>Difficulty Level:</label>
-                        <select value={difficultyLevel} onChange={(e) => setDifficultyLevel(e.target.value)}>
-                            <option value="easy">Easy</option>
-                            <option value="medium">Medium</option>
-                            <option value="hard">Hard</option>
-                        </select>
-                    </div>
+                <div className={styles.formGroup}>
+                    <label>Difficulty Level:</label>
+                    <select value={difficultyLevel} onChange={(e) => setDifficultyLevel(e.target.value)}>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
 
-
-                <div>
+                <div className={styles.formGroup}>
                     <label>Question Type:</label>
                     <select value={questionType} onChange={handleQuestionTypeChange} required>
                         <option value="">Select Question Type</option>
@@ -124,9 +114,8 @@ const AddQuestionForm = () => {
                     </select>
                 </div>
                 
-                {/* Choices */}
                 {questionType === 'multiple_choice' && (
-                    <div>
+                    <div className={styles.choicesContainer}>
                         <label>Choices:</label>
                         {choices.map((choice, index) => (
                             <div key={index}>
@@ -146,11 +135,11 @@ const AddQuestionForm = () => {
                         <button type="button" onClick={handleAddChoice}>Add Choice</button>
                     </div>
                 )}
-                {/* Correct Answers */}
+                
                 {questionType === 'multiple_choice' && (
-                    <div>
+                    <div className={styles.correctAnswersContainer}>
                         <label>Correct Answers:</label>
-                        {choices.map((choice, index) => (
+                        {choices.length > 0 && choices.map((choice, index) => (
                             <div key={index}>
                                 <input
                                     type="checkbox"
@@ -171,9 +160,9 @@ const AddQuestionForm = () => {
                         ))}
                     </div>
                 )}
-                {/* True/False Options */}
+                
                 {questionType === 'true_false' && (
-                    <div>
+                    <div className={styles.choicesContainer}>
                         <label>
                             <input
                                 type="radio"
@@ -197,7 +186,7 @@ const AddQuestionForm = () => {
                     </div>
                 )}
 
-                <button type="submit">Submit</button>
+                <button type="submit" className={styles.submitButton}>Submit</button>
             </form>
             {error && <p className={styles.error}>{error}</p>}
         </div>

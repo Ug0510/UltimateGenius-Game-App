@@ -1,61 +1,98 @@
-/* styles.module.css */
 
-/* Container styles */
-.addQuestionContainer {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.AddQuestionFormContainer {
+  position:fixed;
+  top:10rem;
+  left:50%;
+  transform: translateX(-50%);
+  width: 60vw;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  & p, & span, & input, & label, & h2, & h1{
+    color:#f6581e;
   }
-  
-  /* Heading styles */
-  .heading {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  /* Form styles */
-  .form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Input styles */
-  .inputGroup {
-    margin-bottom: 20px;
-  }
-  
-  .inputGroup label {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 8px;
-  }
-  
-  .inputGroup input {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  /* Button styles */
-  .addButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #F6561E;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .addButton:hover {
-    background-color: #D9480F;
-  }
-  
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.formGroup input[type="text"],
+.formGroup select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.choicesContainer {
+  margin-bottom: 20px;
+}
+
+.choicesContainer input[type="text"] {
+  width: calc(100% - 40px);
+  padding: 8px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.choicesContainer button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.choicesContainer button:hover {
+  background-color: #e0e0e0;
+}
+
+.correctAnswersContainer {
+  margin-bottom: 20px;
+}
+
+.correctAnswersContainer div {
+  margin-bottom: 5px;
+}
+
+.correctAnswersContainer input[type="checkbox"] {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.submitButton {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
