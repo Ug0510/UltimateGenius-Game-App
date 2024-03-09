@@ -35,7 +35,7 @@ const ChooseGame = ({ isLoggedIn, userData }) => {
         <img src={logo} className={styles.logo} />
       </div>
       <div className={styles.backBtn}>
-        <Link to="/"><GoHomeFill className={styles.navIcon} style={{ marginTop: '10px;' }} /></Link>
+        <Link to="/"><GoHomeFill className={styles.navIcon} style={{ marginTop: '10px' }} /></Link>
         <GoChevronRight className={styles.navIcon + ' ' + styles.noHover} />
         <div className={styles.navIcon}>Choose Game</div>
         <div className={styles.blackOverlay}></div>
