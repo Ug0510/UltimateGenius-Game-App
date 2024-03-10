@@ -121,24 +121,24 @@ const QuizCustomizationForm = ({ onSubmit }) => {
           className={styles.input}
         />
       </div>
-      <div>
+      <div >
         <input
           type="checkbox"
           name="showCorrectAnswers"
           checked={formData.showCorrectAnswers}
           onChange={handleChange}
-          className={styles.inputCheckbox}
+          className={styles.listCheckbox}
         />
         <label className={styles.labelCheckbox}>Show Correct Answers to student at the end of Quiz</label>
       </div>
 
-      <div>
+      <div style={{margin:'20px 0'}}>
         <input
           type="checkbox"
           name="sendQuizOutputToStudents"
           checked={formData.sendQuizOutputToStudents}
           onClick={handleChange}
-          className={styles.inputCheckbox}
+          className={styles.listCheckbox}
         />
         <label className={styles.labelCheckbox}>Send Quiz Output to Students on mail</label>
       </div>
@@ -149,7 +149,7 @@ const QuizCustomizationForm = ({ onSubmit }) => {
           name="getQuizResultOnMail"
           checked={formData.getQuizResultOnMail}
           onClick={handleChange}
-          className={styles.inputCheckbox}
+          className={styles.listCheckbox}
         />
         <label className={styles.labelCheckbox}>Get Quiz Result on your mail</label>
       </div>

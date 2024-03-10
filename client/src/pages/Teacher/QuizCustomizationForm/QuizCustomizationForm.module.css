@@ -163,3 +163,33 @@
   font-size:14px;
 }
 
+.listCheckbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    background-color: #fff;
+    cursor: pointer;
+    outline: none;
+    margin-right:10px;
+    vertical-align:middle;
+    position: relative;
+  }
+  .listCheckbox:checked{
+    background-color: yellow;
+  }
+  .listCheckbox:checked:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 8px;
+    width: 6px;
+    height: 14px;
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
