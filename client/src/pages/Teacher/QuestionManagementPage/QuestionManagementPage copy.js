@@ -108,14 +108,13 @@ const QuestionManagementPage = () => {
 
   // Function to handle filtering by category
   const handleFilterByCategory = (category) => {
-    selectedCategory(category);
+    setSelectedCategory(category);
 
     if(category === '')
     {
       setQuestions(fetchQuestions);
     }
     else{
-      setSelectedCategory(category);
     const filteredQuestions = fetchedQuestions.filter((question) =>
       question.category === category
     );
@@ -153,20 +152,7 @@ const QuestionManagementPage = () => {
               </button>
             )}
           </div>
-          {/* Filter by Category */}
-          <div className={styles.filterBox}>
-            <span>Filter by Category:</span>
-            <select
-              value={selectedCategory}
-              onChange={(e) => handleFilterByCategory(e.target.value)}
-              className={styles.categoryFilter}
-            >
-              <option value="">All Categories</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>{category}</option>
-              ))}
-            </select>
-          </div>
+          
         </div>
         <div>
           <button onClick={handleAddQuestion} className={styles.mButton}>Add Question</button>
@@ -180,7 +166,26 @@ const QuestionManagementPage = () => {
           </button>
         </div>
       </div>
-      <div className={styles.optionsBox + " " + styles.justifyCenter} >
+      <div className='container py-5'>
+      <div className='row'>
+        <div className='col-4'>
+          {/* Filter by Category */}
+          <div className={styles.filterBox}>
+            <span>Filter by Category:</span>
+            <select
+              value={selectedCategory}
+              onChange={(e) => handleFilterByCategory(e.target.value)}
+              className={styles.categoryFilter}
+            >
+              <option value="">All Categories</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
+        </div>
+        </div>
+        <div className='col-8'>
+        <div className={styles.optionsBox + " " + styles.justifyCenter} >
         {isSelectMultipleClicked && (
           <>
             <button onClick={handleDeleteMultiple} className={styles.mButton}>Delete Multiple</button>
@@ -191,6 +196,10 @@ const QuestionManagementPage = () => {
           </>
         )}
       </div>
+        </div>
+      </div>
+      </div>
+      
 
       <div className={styles.questionsContainer}>
         {/* List of existing questions */}

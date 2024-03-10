@@ -50,7 +50,7 @@
   
 
   .optionsBox{
-    width: 90vw;
+    max-width: 90vw;
     /* background-color: #333; */
     /* border:1px solid cyan; */
     padding:1rem;
