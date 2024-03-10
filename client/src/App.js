@@ -42,7 +42,7 @@ const App = () => {
         fetchUserData(login,addUserData);      
 
         
-    }, []);
+    }, [isLoggedIn]);
 
     return (
         <Router>

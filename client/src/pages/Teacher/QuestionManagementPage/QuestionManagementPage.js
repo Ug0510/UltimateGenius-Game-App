@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './QuestionManagementPage.module.css';
 import { useNavigate } from 'react-router-dom';
+import { FaSearch, FaEdit } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
 
 const QuestionManagementPage = () => {
   const [questions, setQuestions] = useState([]);
@@ -105,15 +107,34 @@ const QuestionManagementPage = () => {
     <>
       <h1 style={{ textAlign: 'center', margin: '1.5rem' }}>Question Management Page</h1>
       <div className={styles.optionsBox}>
-        <button onClick={handleAddQuestion} className={styles.mButton}>Add Question</button>
-        <button onClick={() => {
-          setIsSelectMultipleClicked(!isSelectMultipleClicked);
-          if (isSelectMultipleClicked) {
-            handleCancelSelection();
-          }
-        }} className={styles.mButton}>
-          {isSelectMultipleClicked ? 'Cancel Selection' : 'Select Multiple'}
-        </button>
+        <div className={styles.searchBox}>
+          <input
+            type="text"
+            placeholder="Search Questions"
+            value={searchText}
+            onChange={handleSearch}
+            className={styles.searchInput}
+          />
+          <span className={styles.searchIcon}><FaSearch /></span>
+          {searchText && (
+            <button className={styles.clearButton} onClick={() => { setSearchText(''); setQuestions(fetchQuestions); }}>
+              &#x2715;
+            </button>
+          )}
+        </div>
+        <div>
+          <button onClick={handleAddQuestion} className={styles.mButton}>Add Question</button>
+          <button onClick={() => {
+            setIsSelectMultipleClicked(!isSelectMultipleClicked);
+            if (isSelectMultipleClicked) {
+              handleCancelSelection();
+            }
+          }} className={styles.mButton}>
+            {isSelectMultipleClicked ? 'Cancel Selection' : 'Select Multiple'}
+          </button>
+        </div>
+      </div>
+      <div className={styles.optionsBox + " " + styles.justifyCenter} >
         {isSelectMultipleClicked && (
           <>
             <button onClick={handleDeleteMultiple} className={styles.mButton}>Delete Multiple</button>
@@ -124,36 +145,28 @@ const QuestionManagementPage = () => {
           </>
         )}
       </div>
-      <div className={styles.searchBox}>
-        <input
-          type="text"
-          placeholder="Search Questions"
-          value={searchText}
-          onChange={handleSearch}
-          className={styles.searchInput}
-        />
-        {searchText && ( 
-          <button className={styles.clearButton} onClick={() => {setSearchText(''); setQuestions(fetchQuestions);}}>
-            &#x2715; 
-          </button>
-        )}
-      </div>
 
-      <div className={styles.container}>
+
+      <div className={styles.questionsContainer}>
         {/* List of existing questions */}
         <ul className={styles.questionList}>
           {questions && questions.length > 0 ? (
             questions
               .map((question) => (
                 <li key={question._id} className={styles.questionItem} style={{ color: 'black' }}>
-                  {isSelectMultipleClicked && (
+                  <div>{isSelectMultipleClicked && (
                     <input
                       type="checkbox"
                       checked={selectedQuestions.includes(question._id)}
                       onChange={() => toggleQuestionSelection(question._id)}
+                      className={styles.listCheckbox}
                     />
                   )}
-                  {question.content}
+                    <span className={styles.questionContent}>{question.content}</span></div>
+                  <span>
+                    <FaEdit className={styles.iconButton} style={{ fontSize: '1.2rem', marginRight: '10px' }} />
+                    <MdDeleteForever className={styles.iconButton} />
+                  </span>
                 </li>
               ))
           ) : (
