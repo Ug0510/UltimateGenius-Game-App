@@ -108,7 +108,7 @@ const QuestionManagementPage = () => {
 
   // Function to handle filtering by category
   const handleFilterByCategory = (category) => {
-    selectedCategory(category);
+    setSelectedCategory(category);
 
     if(category === '')
     {
