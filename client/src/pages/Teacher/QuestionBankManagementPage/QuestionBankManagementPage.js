@@ -6,7 +6,6 @@ import styles from './QuestionBankManagementPage.module.css';
 const QuestionBankManagementPage = () => {
     const [questionBanks, setQuestionBanks] = useState([]);
     const [error, setError] = useState('');
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,10 +16,10 @@ const QuestionBankManagementPage = () => {
         try {
             const token = localStorage.getItem('ultimate_genius0510_token');
             const response = await axios.get('http://localhost:8000/api/teacher/question-banks', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setQuestionBanks(response.data);
             console.log(response.data);
         } catch (error) {
@@ -33,18 +32,49 @@ const QuestionBankManagementPage = () => {
         navigate('/teacher/question-banks/add');
     };
 
+    const handleDeleteQuestionBank = async (questionBankId) => {
+        try {
+            const token = localStorage.getItem('ultimate_genius0510_token');
+            const response = await axios.delete(`http://localhost:8000/api/teacher/question-banks/${questionBankId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.status === 200) {
+                console.log('Question bank deleted successfully');
+                fetchQuestionBanks(); // Refresh question banks after deletion
+            } else {
+                console.error('Error deleting question bank:', response.data.error);
+            }
+        } catch (error) {
+            console.error('Error deleting question bank:', error);
+        }
+    };
+
     return (
-        <div className={styles.container}>
-            <h1>Add Question Bank</h1>
-            <button onClick={handleCreateQuestionBank} className={styles.button}>Create a Question Bank</button>
-            <ul>
-                {questionBanks && questionBanks.length > 0? (questionBanks.map(questionBank => (
-                    <li key={questionBank._id}>
-                        <Link to={`/question-banks/${questionBank._id}`} className={styles.link}>{questionBank.name}</Link>
-                    </li>
-                ))): <p>No QuestionBank Exists..</p>}
-            </ul>
-            {error && <p className={styles.error}>Error: {error}</p>}
+        <div>
+
+            <h1 style={{ textAlign: 'center', margin: '1.5rem' }}>Question Bank Management</h1>
+
+            <div className={styles.questionBankContainer}>
+                <button onClick={handleCreateQuestionBank} className={styles.button}>Create a Question Bank</button>
+                <ul>
+                    {questionBanks && questionBanks.length > 0 ? (
+                        questionBanks.map(questionBank => (
+                            <li key={questionBank._id} className={styles.questionBankItem}>
+                                <Link to={`/question-banks/${questionBank._id}`} className={styles.link}>{questionBank.name}</Link>
+                                <span>
+                                    <button className={styles.modifyButton}> Modify</button>
+                                    <button onClick={() => handleDeleteQuestionBank(questionBank._id)} className={styles.deleteButton}>Delete</button>
+                                </span>
+                            </li>
+                        ))
+                    ) : (
+                        <p>No Question Banks Exist.</p>
+                    )}
+                </ul>
+                {error && <p className={styles.error}>Error: {error}</p>}
+            </div>
         </div>
     );
 };

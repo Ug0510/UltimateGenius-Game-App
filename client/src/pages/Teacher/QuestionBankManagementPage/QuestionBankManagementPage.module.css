@@ -1,27 +1,89 @@
-/* AddQuestionBankForm.module.css */
 .container {
-    margin: 20px;
+    max-width: 90vw;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #0D0F15;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
-.button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
+.questionBankContainer{
+    max-width: 90vw;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #0D0F15;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.questionBankItem {
+    margin-bottom: 10px;
     padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+    border-radius: 4px;
+    background-color: #333;
+    color:white !important;
+    display: flex;
+    justify-content: space-between;
+  }
+  .link{
+
+    font-family: "Inria Sans", sans-serif !important;
+  }
+.button {
+    outline: none;
+    border: none;
+    background-color: #333;
+    color: white;
+    border-radius: 30px;
+    margin-bottom: 1rem;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 700;
+    font-size: 0.87rem;
     cursor: pointer;
-    border-radius: 5px;
+    padding: 14px 20px;
 }
 
 .button:hover {
-    background-color: #45a049;
+    background-color: #60d600;
+}
+
+.link {
+    color: #f6561e;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.questionBankItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.deleteButton, .modifyButton {
+    outline: none;
+    border: none;
+    background-color: #f6561e;
+    color: white;
+    border-radius: 4px;
+    padding: 8px 20px;
+    cursor: pointer;
+}
+.modifyButton{
+    background-color: #60d600;
+    margin-right: 20px;
+}
+.modifyButton:hover{
+    background-color: #52b302;
+}
+.deleteButton:hover {
+    background-color: #d54b1a;
 }
 
 .error {
-    color: red;
-    font-weight: bold;
+    color: #f6561e;
+    font-size: 0.87rem;
+    margin-top: 1rem;
 }

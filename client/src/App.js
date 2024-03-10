@@ -10,7 +10,7 @@ import QuizCustomizationForm from './pages/Teacher/QuizCustomizationForm/QuizCus
 import TeacherWaitingRoomPage from './pages/Teacher/WaitingRoomPage/WaitingRoomPage';
 import JoinQuizPage from './pages/Student/JoinQuizPage/JoinQuizPage';
 import StudentWaitingRoomPage from './pages/Student/WaitingRoomPage/WaitingRoomPage';
-import QuestionManagementPage from './pages/Teacher/QuestionManagementPage/QuestionManagementPage';
+import QuestionManagementPage from './pages/Teacher/QuestionManagementPage/QuestionManagementPage'
 import AddQuestionForm from './pages/Teacher/AddQuestionForm/AddQuestionForm';
 import QuizGame from './pages/Teacher/QuizGame/QuizGame';
 import AddQuestionBankForm from './pages/Teacher/AddQuestionBankForm/AddQuestionBankForm';
