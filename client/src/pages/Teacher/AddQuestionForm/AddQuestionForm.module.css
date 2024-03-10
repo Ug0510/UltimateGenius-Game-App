@@ -1,9 +1,8 @@
 
 .AddQuestionFormContainer {
-  position:fixed;
+  /* position:fixed;
   top:10rem;
-  left:50%;
-  transform: translateX(-50%);
+  left:50%; */
   width: 60vw;
   margin: 0 auto;
   padding: 20px;

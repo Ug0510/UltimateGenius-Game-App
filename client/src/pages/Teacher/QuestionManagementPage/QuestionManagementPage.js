@@ -14,7 +14,8 @@ const QuestionManagementPage = () => {
   const [isSelectAllClicked, setIsSelectAllClicked] = useState(false);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
+  const [sortBy, setSortBy] = useState('');
   const navigate = useNavigate();
 
   const fetchQuestions = async () => {
@@ -56,14 +57,34 @@ const QuestionManagementPage = () => {
     }
   };
 
-  // Function to handle deleting multiple questions
-  const handleDeleteMultiple = () => {
-    // Implement logic to delete multiple questions based on selectedQuestions array
-    console.log('Deleting multiple questions:', selectedQuestions);
-    setShowPopup(false);
-    setSelectedQuestions([]);
+  const handleDeleteMultiple = async () => {
+    try {
+      // Make a POST request to delete questions
+      const token = localStorage.getItem('ultimate_genius0510_token');
+      const response = await axios.post(
+        'http://localhost:8000/api/teacher/delete-questions',
+        { questionIds: selectedQuestions },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      // Check if the deletion was successful
+      if (response.status === 200) {
+        console.log(response.data.message);
+        setShowPopup(false);
+        setSelectedQuestions([]);
+        fetchQuestions();
+      } else {
+        console.error('Error deleting multiple questions:', response.data.error);
+      }
+    } catch (error) {
+      console.error('Error deleting multiple questions:', error);
+    }
   };
-
+  
   // Function to handle creating a question bank using selected questions
   const handleCreateQuestionBank = () => {
     // Implement logic to create question bank using selectedQuestions array
@@ -78,17 +99,16 @@ const QuestionManagementPage = () => {
 
   //Function to Select all the checkbox
   const handleSelectAll = () => {
-
     if (!isSelectAllClicked) {
       const allQuestionIds = questions.map((question) => question._id);
       setSelectedQuestions(allQuestionIds);
-    }
-    else {
+    } else {
       setSelectedQuestions([]);
     }
 
     setIsSelectAllClicked(!isSelectAllClicked);
-  }
+  };
+
   // Function to handle search
   const handleSearch = (event) => {
     const searchText = event.target.value.toLowerCase();
@@ -113,22 +133,32 @@ const QuestionManagementPage = () => {
   const handleFilterByCategory = (category) => {
     setSelectedCategory(category);
 
-    if(category === '')
-    {
+    if (category === '') {
       setQuestions(fetchQuestions);
-    }
-    else{
+    } else {
       setSelectedCategory(category);
-    const filteredQuestions = fetchedQuestions.filter((question) =>
-      question.category === category
-    );
-    setQuestions(filteredQuestions);
-    // Update selectedQuestions if isSelectAllClicked is true
-    if (isSelectAllClicked) {
-      const filteredQuestionIds = filteredQuestions.map((question) => question._id);
-      setSelectedQuestions(filteredQuestionIds);
+      const filteredQuestions = fetchedQuestions.filter((question) =>
+        question.category === category
+      );
+      setQuestions(filteredQuestions);
+      // Update selectedQuestions if isSelectAllClicked is true
+      if (isSelectAllClicked) {
+        const filteredQuestionIds = filteredQuestions.map((question) => question._id);
+        setSelectedQuestions(filteredQuestionIds);
+      }
     }
+  };
+
+  // Function to handle sorting
+  const handleSortBy = (sortBy) => {
+    setSortBy(sortBy);
+    let sortedQuestions = [...questions];
+    if (sortBy === 'newestFirst') {
+      sortedQuestions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    } else if (sortBy === 'oldestFirst') {
+      sortedQuestions.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
     }
+    setQuestions(sortedQuestions);
   };
 
   useEffect(() => {
@@ -168,6 +198,18 @@ const QuestionManagementPage = () => {
               {categories.map((category) => (
                 <option key={category} value={category}>{category}</option>
               ))}
+            </select>
+          </div>
+          {/* Sort By */}
+          <div className={styles.filterBox}>
+            <span>Sort By:</span>
+            <select
+              value={sortBy}
+              onChange={(e) => handleSortBy(e.target.value)}
+              className={styles.categoryFilter}
+            >
+              <option value="oldestFirst">Default(Oldest First)</option>
+              <option value="newestFirst">Newest First</option>
             </select>
           </div>
         </div>
@@ -213,7 +255,7 @@ const QuestionManagementPage = () => {
                     <span className={styles.questionContent}>{question.content}</span></div>
                   <span>
                     <FaEdit className={styles.iconButton} style={{ fontSize: '1.2rem', marginRight: '10px' }} />
-                    <MdDeleteForever className={styles.iconButton} onClick={() => {setSelectedQuestions([`${question._id}`]); setShowPopup(true)}}/>
+                    <MdDeleteForever className={styles.iconButton} onClick={() => { setSelectedQuestions([`${question._id}`]); setShowPopup(true); }} />
                   </span>
                 </li>
               ))
@@ -225,13 +267,12 @@ const QuestionManagementPage = () => {
 
       {/* Confirmation Window */}
       <div className={`${styles.confirmationWindow} ${showPopup ? styles.active : ''}`}>
-  <p>Are you sure you want to delete?</p>
-  <div className={styles.flexBox}>
-  <button onClick={handleDeleteMultiple}>Yes</button>
-  <button onClick={() => setShowPopup(false)}>No</button>
-  </div>
-</div>
-
+        <p>Are you sure you want to delete?</p>
+        <div className={styles.flexBox}>
+          <button onClick={handleDeleteMultiple}>Yes</button>
+          <button onClick={() => setShowPopup(false)}>No</button>
+        </div>
+      </div>
     </>
   );
 };

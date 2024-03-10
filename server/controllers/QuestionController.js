@@ -59,27 +59,15 @@ exports.createQuestions = async (req, res) => {
 exports.deleteQuestions = async (req, res) => {
     try {
         const { questionIds } = req.body;
-
         // Initialize a variable to keep track of the number of deleted questions
         let deletedCount = 0;
 
         // Iterate through each question ID and delete them
-        const deleteOperations = questionIds.map(async (questionId) => {
+        for (const questionId of questionIds) {
             const result = await deleteQuestion(questionId);
             if (result.success) {
                 deletedCount++;
             }
-            return result;
-        });
-
-        // Wait for all delete operations to complete
-        const results = await Promise.all(deleteOperations);
-
-        // Check if any deletion operation failed
-        const failedDeletions = results.filter(result => !result.success);
-
-        if (failedDeletions.length > 0) {
-            return res.status(500).json({ error: 'Some questions could not be deleted', failedDeletions });
         }
 
         // Update the user's questions array by removing the deleted question IDs
@@ -92,6 +80,7 @@ exports.deleteQuestions = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 
 
