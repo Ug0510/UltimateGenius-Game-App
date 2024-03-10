@@ -181,6 +181,7 @@
 }
 .flexBox{
   display: flex;
+  justify-content: space-evenly;
 }
 .filterBox{
   margin-left: 30px;
@@ -201,4 +202,41 @@
     padding: 9px 12px;
     font-size: 0.9rem;
   }
+}
+
+
+
+.confirmationWindow {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display:none;
+}
+.active{
+  display:block;
+}
+.confirmationWindow p {
+  margin-bottom: 15px;
+  color:black;
+  padding: 1rem;
+}
+
+.confirmationWindow button {
+  margin-right: 10px;
+  padding: 8px 40px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f6561e;
+  color: #fff;
+  cursor: pointer;
+}
+
+.confirmationWindow button:hover {
+  background-color: #d54b1a;
 }

@@ -14,6 +14,7 @@ const QuestionManagementPage = () => {
   const [isSelectAllClicked, setIsSelectAllClicked] = useState(false);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [showPopup, setShowPopup] = useState(true);
   const navigate = useNavigate();
 
   const fetchQuestions = async () => {
@@ -59,6 +60,8 @@ const QuestionManagementPage = () => {
   const handleDeleteMultiple = () => {
     // Implement logic to delete multiple questions based on selectedQuestions array
     console.log('Deleting multiple questions:', selectedQuestions);
+    setShowPopup(false);
+    setSelectedQuestions([]);
   };
 
   // Function to handle creating a question bank using selected questions
@@ -183,7 +186,7 @@ const QuestionManagementPage = () => {
       <div className={styles.optionsBox + " " + styles.justifyCenter} >
         {isSelectMultipleClicked && (
           <>
-            <button onClick={handleDeleteMultiple} className={styles.mButton}>Delete Multiple</button>
+            <button onClick={() => setShowPopup(true)} className={styles.mButton}>Delete Multiple</button>
             <button onClick={handleCreateQuestionBank} className={styles.mButton}>Create Question Bank using Selected</button>
             <button onClick={handleSelectAll} className={styles.mButton}>{
               isSelectAllClicked ? 'UnSelect All' : 'Select All'
@@ -210,15 +213,25 @@ const QuestionManagementPage = () => {
                     <span className={styles.questionContent}>{question.content}</span></div>
                   <span>
                     <FaEdit className={styles.iconButton} style={{ fontSize: '1.2rem', marginRight: '10px' }} />
-                    <MdDeleteForever className={styles.iconButton} />
+                    <MdDeleteForever className={styles.iconButton} onClick={() => {setSelectedQuestions([`${question._id}`]); setShowPopup(true)}}/>
                   </span>
                 </li>
               ))
           ) : (
-            <p style={{ color: 'black' }}>No Questions are available to show. <br /> Click above button to add new questions...</p>
+            <p style={{ color: 'white' }}>No Questions are available to show. <br /> Click above button to add new questions...</p>
           )}
         </ul>
       </div>
+
+      {/* Confirmation Window */}
+      <div className={`${styles.confirmationWindow} ${showPopup ? styles.active : ''}`}>
+  <p>Are you sure you want to delete?</p>
+  <div className={styles.flexBox}>
+  <button onClick={handleDeleteMultiple}>Yes</button>
+  <button onClick={() => setShowPopup(false)}>No</button>
+  </div>
+</div>
+
     </>
   );
 };
