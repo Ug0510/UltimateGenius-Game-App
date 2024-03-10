@@ -54,7 +54,7 @@ html {
   min-height: 100%;
   width: 100%;
   /* For Firefox */
-  scrollbar-color: rgb(var(--p1)) rgb(var(--p2));
+  scrollbar-color: rgb(var(--p1)) rgb(var(--n3));
   scrollbar-width: auto;
 }
 

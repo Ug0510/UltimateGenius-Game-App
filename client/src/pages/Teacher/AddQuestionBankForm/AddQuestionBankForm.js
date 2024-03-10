@@ -70,10 +70,10 @@ const AddQuestionBankForm = () => {
 
     return (
         <div className={styles.addQuestionBankForm}>
-        <h2>Add Question Bank</h2>
+        <h1>Create Question Bank</h1>
         <form onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
-                <label className={styles.label} htmlFor="name">Name:</label>
+                <label className={styles.label} htmlFor="name">Name:*</label>
                 <input
                     id="name"
                     className={styles.inputText}
@@ -94,20 +94,26 @@ const AddQuestionBankForm = () => {
             </div>
             <div className={styles.questionList}>
                 <h3>Available Questions</h3>
+                <ul className={styles.questionListContainer}>
                 {questions.map(question => (
-                    <div key={question._id}>
+                    <li key={question._id} className={styles.questionItem}>
+                        <span>
                         <input
                             type="checkbox"
                             id={question._id}
                             value={question._id}
                             onChange={handleCheckboxChange}
                             checked={selectedQuestions.includes(question._id)}
+                            className={styles.listCheckbox}
                         />
                         <label htmlFor={question._id}>{question.content}</label>
-                    </div>
+                        </span>
+
+                    </li>
                 ))}
+                </ul>
             </div>
-            <button type="submit">Create Question Bank</button>
+            <button type="submit" className={styles.mButton}>Create Question Bank</button>
         </form>
         {error && <p className={styles.errorMessage}>Error: {error}</p>}
     </div>

@@ -5,6 +5,7 @@ import logo from '../../../assets/images/logo/logo.png'
 import QuestionManagementPage from '../QuestionManagementPage/QuestionManagementPage';
 import QuestionBankManagementPage from '../QuestionBankManagementPage/QuestionBankManagementPage';
 import QuizCustomizationPage from '../QuizCustomizationForm/QuizCustomizationForm';
+import AddQuestionBankForm from '../AddQuestionBankForm/AddQuestionBankForm';
 
 
 const QuizGame = ({ isLoggedIn, userData }) => {
@@ -28,7 +29,8 @@ const QuizGame = ({ isLoggedIn, userData }) => {
         setCurrentPage(<QuestionManagementPage />);
         break;
       case 1:
-        setCurrentPage(<QuestionBankManagementPage />);
+        // setCurrentPage(<QuestionBankManagementPage />);
+        setCurrentPage(<AddQuestionBankForm/>);
         break;
       case 2:
         setCurrentPage(<QuizCustomizationPage />);
