@@ -29,8 +29,8 @@ const QuizGame = ({ isLoggedIn, userData }) => {
         setCurrentPage(<QuestionManagementPage />);
         break;
       case 1:
-        // setCurrentPage(<QuestionBankManagementPage />);
-        setCurrentPage(<AddQuestionBankForm/>);
+        setCurrentPage(<QuestionBankManagementPage />);
+        // setCurrentPage(<AddQuestionBankForm/>);
         break;
       case 2:
         setCurrentPage(<QuizCustomizationPage />);

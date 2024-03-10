@@ -1,97 +1,180 @@
+/* AddQuestionForm.module.css */
 
 .AddQuestionFormContainer {
-  /* position:fixed;
-  top:10rem;
-  left:50%; */
-  width: 60vw;
+  max-width: 90vw;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
-  & p, & span, & input, & label, & h2, & h1{
-    color:#f6581e;
-  }
+  padding: 1rem 4rem;
+  border-radius: 5px;
 }
 
 .heading {
+  margin: 1rem auto;
   text-align: center;
-  margin-bottom: 20px;
+  color: #f6561e;
 }
 
 .formGroup {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .formGroup label {
-  display: block;
-  margin-bottom: 5px;
+  font-size: 1.4rem;
+  color: white;
+  font-weight: 700;
+  font-family: "Chakra Petch", sans-serif;
 }
 
 .formGroup input[type="text"],
 .formGroup select {
+  background-color: #333;
+  color: white;
+  outline: none;
+  border: none;
+  padding: 10px; 
+  display: block;
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+}
+
+.formGroup input[type="text"]::placeholder {
+  color: red;
+}
+
+.formGroup input[type="text"]:focus,
+.formGroup select:focus {
+  outline: 1px solid #f6561e;
 }
 
 .choicesContainer {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .choicesContainer input[type="text"] {
-  width: calc(100% - 40px);
-  padding: 8px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  margin-bottom: 0.5rem;
 }
 
 .choicesContainer button {
-  margin-left: 10px;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #f0f0f0;
-  cursor: pointer;
-}
-
-.choicesContainer button:hover {
-  background-color: #e0e0e0;
-}
-
-.correctAnswersContainer {
-  margin-bottom: 20px;
-}
-
-.correctAnswersContainer div {
-  margin-bottom: 5px;
+  margin-right: 0.5rem;
 }
 
 .correctAnswersContainer input[type="checkbox"] {
-  margin-right: 10px;
-  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.correctAnswersContainer span {
+  color: white;
+}
+.flexBox{
+  width: 100%;
+  display: flex;
+  justify-content:left;
+  align-items: center;
 }
 
 .submitButton {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
+  outline: none;
   border: none;
-  border-radius: 4px;
+  color: white;
+  border-radius: 30px;
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 700;
   cursor: pointer;
+  padding: 14px 40px;
+  background-color: #60d600;
+  border-bottom: 3px solid #3e8901;
+  border-right: 2px solid #3e8901;
+  display: block;
+  margin: 3rem auto 1rem;
 }
 
 .submitButton:hover {
-  background-color: #0056b3;
+  background-color: #3e8901;
 }
 
 .error {
   color: red;
   margin-top: 10px;
-  text-align: center;
 }
+
+.inputText{
+  background-color: #333;
+  color: white;
+  outline: none;
+  border: none;
+  padding: 10px; 
+  display: block;
+  width: 50%;
+}
+
+.mButton{
+    outline: none;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 700;
+    font-size: 0.87rem;
+    cursor: pointer;
+    padding: 7px 20px;
+    background-color: #D22B2B;
+    width: fit-content;
+  }
+  .mButton.second{
+    background-color: #f6561e;
+  }
+  
+  .mButton:hover {
+    opacity: 0.8;
+  }
+
+  .mButton.second:hover{
+    background-color: #60d600;
+    opacity: 1;
+  }
+
+  .label{
+    font-family: 'Chakra Petch','sans-serif';
+    font-weight: 700;
+    font-size: 1.2rem;
+    vertical-align:bottom;
+  }
+
+  .listCheckbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    background-color: #fff;
+    cursor: pointer;
+    outline: none;
+    margin-right:10px;
+    vertical-align:top;
+    position: relative;
+  }
+  .listCheckbox:checked{
+    background-color: yellow;
+  }
+  .listCheckbox:checked:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 8px;
+    width: 6px;
+    height: 14px;
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .answerSelection{
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: #333;
+    color:white;
+    width: 50%;
+    overflow:hidden;
+  }
