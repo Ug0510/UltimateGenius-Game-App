@@ -10,7 +10,7 @@ import QuizCustomizationForm from './pages/Teacher/QuizCustomizationForm/QuizCus
 import TeacherWaitingRoomPage from './pages/Teacher/WaitingRoomPage/WaitingRoomPage';
 import JoinQuizPage from './pages/Student/JoinQuizPage/JoinQuizPage';
 import StudentWaitingRoomPage from './pages/Student/WaitingRoomPage/WaitingRoomPage';
-import QuestionManagementPage from './pages/Teacher/QuestionManagementPage/QuestionManagementPage'
+import QuestionManagementPage from './pages/Teacher/QuestionManagementPage/QuestionManagementPage';
 import AddQuestionForm from './pages/Teacher/AddQuestionForm/AddQuestionForm';
 import QuizGame from './pages/Teacher/QuizGame/QuizGame';
 import AddQuestionBankForm from './pages/Teacher/AddQuestionBankForm/AddQuestionBankForm';
@@ -18,6 +18,7 @@ import QuestionBankManagementPage from './pages/Teacher/QuestionBankManagementPa
 import QuizPlay from './pages/Student/QuizPlay/QuizPlay';
 import ScoreboardPage from './pages/User/ScoreboardPage/ScoreboardPage';
 import fetchUserData from './utils/fetchUserData';
+import QuestionBankModifyPage from './pages/Teacher/QuestionBankModifyPage/QuestionBankModifyPage';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -42,7 +43,7 @@ const App = () => {
         fetchUserData(login,addUserData);      
 
         
-    }, [isLoggedIn]);
+    }, []);
 
     return (
         <Router>
@@ -62,6 +63,7 @@ const App = () => {
                 <Route path="/teacher/question-banks/add" element={<AddQuestionBankForm/>}/>
                 <Route path="/student/quiz/play/:quizId" element={<QuizPlay/>}/>
                 <Route path="/user/quiz/scoreboard" element={<ScoreboardPage/>}/>
+                <Route path="/teacher/question-banks/:id" element={<QuestionBankModifyPage/>}/>
             </Routes>
         </Router>
     );

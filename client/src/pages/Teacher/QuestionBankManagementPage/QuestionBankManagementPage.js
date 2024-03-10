@@ -92,7 +92,7 @@ const QuestionBankManagementPage = () => {
                     {filteredQuestionBanks.length > 0 ? (
                         filteredQuestionBanks.map(questionBank => (
                             <li key={questionBank._id} className={styles.questionBankItem}>
-                                <Link to={`/question-banks/${questionBank._id}`} className={styles.link}>{questionBank.name}</Link>
+                                <Link to={`/teacher/question-banks/${questionBank._id}`} className={styles.link}>{questionBank.name}</Link>
                                 <span>
                                     <button className={styles.modifyButton}> Modify</button>
                                     <button onClick={() => handleDeleteQuestionBank(questionBank._id)} className={styles.deleteButton}>Delete</button>

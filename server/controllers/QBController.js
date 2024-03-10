@@ -196,3 +196,24 @@ exports.getQuestionBanks = async (req, res) => {
         res.status(500).json({ message: 'Error fetching question banks' });
     }
 };
+
+// Module to fetch Question bank
+exports.fetchQuestionBank = async (req, res) => {
+    try {
+        const { questionBankId } = req.params;
+
+        console.log(questionBankId);
+
+        // Find the question bank by ID
+        const questionBank = await QuestionBank.findById(questionBankId).populate('questions');
+
+        if (!questionBank) {
+            return res.status(404).json({ error: 'Question bank not found' });
+        }
+
+        res.json(questionBank);
+    } catch (error) {
+        console.error('Error fetching question bank:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
