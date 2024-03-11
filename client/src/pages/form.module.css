@@ -35,7 +35,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  background: linear-gradient(#000,#f6581e,#000);
+  background: linear-gradient(#000,orange,#000);
   animation: animate 5s linear infinite;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .sectionContainer span:hover {
-  background: #f6581e;
+  background: orange;
   transition: 0s;
 }
 
@@ -90,7 +90,7 @@
 
 .signinContent h2 {
   font-size: 2em;
-  color: #f6581e;
+  color: orange;
   text-transform: uppercase;
 }
 
@@ -131,7 +131,7 @@
 
 .signinContent .form .inputBox input:focus ~ i,
 .signinContent .form .inputBox input:valid ~ i {
-  transform: translateY(-12px);
+  transform: translateY(-7.5px);
   font-size: 0.8em;
   color: #fff;
 }
@@ -149,25 +149,21 @@
 }
 
 .signinContent .form .links a:nth-child(2) {
-  color: #f6581e;
+  color: orange;
   font-weight: 600;
 }
 
-.signinContent .form .inputBox input[type="button"] {
+.signinContent .form .inputBox input[type="submit"] {
   padding: 10px;
-  background: #60d600;
-  color: #fff;
+  background: orange;
+  color: #000;
   font-weight: 600;
   font-size: 1.35em;
   letter-spacing: 0.05em;
   cursor: pointer;
-  border-bottom: 3px solid #3a8101;
-  border-right: 2px solid #3a8101;
 }
-.signinContent .form .inputBox input[type="button"]:active{
-  border-color: #60d600;;
-}
-input[type="button"]:active {
+
+input[type="submit"]:active {
   opacity: 0.6;
 }
 
@@ -184,17 +180,4 @@ input[type="button"]:active {
     width: calc(20vw - 2px);
     height: calc(20vw - 2px);
   }
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-  appearance: textfield;
 }

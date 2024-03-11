@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
+import styles from './JoinQuizPage.module.css';
 import axios from 'axios';
-import styles from './JoinQuizPage.module.css'; // Import CSS module for styling
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const JoinQuizPage = () => {
+  const spans = [];
+  const numberOfSpans = 200;
+
+  for (let i = 0; i < numberOfSpans; i++) {
+    spans.push(<span key={i}></span>);
+  }
+
   const [gameCode, setGameCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -15,6 +22,11 @@ const JoinQuizPage = () => {
   };
 
   const handleJoinQuiz = async () => {
+    if(gameCode === '' || gameCode.length < 6)
+    {
+      setError('Enter valid game code.');
+      return;
+    }
     setIsLoading(true);
     setError('');
 
@@ -47,20 +59,24 @@ const JoinQuizPage = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.heading}>Join Quiz</h2>
-      <div className={styles.inputContainer}>
-        <input
-          type="text"
-          value={gameCode}
-          onChange={handleInputChange}
-          placeholder="Enter Game Code"
-          className={styles.input}
-        />
-        <button onClick={handleJoinQuiz} className={styles.joinButton} disabled={isLoading}>
-          {isLoading ? 'Joining...' : 'Join Quiz'}
-        </button>
-      </div>
-      {error && <p className={styles.error}>{error}</p>}
+      <section className={styles.sectionContainer} >
+        {spans}
+        <div className={styles.signinContainer}>
+          <div className={styles.signinContent}>
+            <h2>Join Quiz Game</h2>
+            <div className={styles.form}>
+              <div className={styles.inputBox}>
+                <input type="number" required onChange={handleInputChange}/>
+                <i>Enter Game Code</i>
+              </div>
+              {error && <p className={styles.error}>{error}</p>}
+              <div className={styles.inputBox}>
+                <input type="button" value={isLoading ? 'Joining...' : 'Join Quiz'} onClick={handleJoinQuiz}/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
