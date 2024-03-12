@@ -1,26 +1,97 @@
-/* QuizPlay.module.css */
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Luckiest+Guy&family=Madimi+One&display=swap');
 
-.container {
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-size: cover;
+}
+/* 
+----------
+Header css
+---------- */
+.head{
+  height: 12vh;
   display: flex;
   justify-content: space-between;
+  padding: 0 2rem;
 }
-
-.quizBox {
-  flex: 0 0 70%;
+/* Logo css */
+.logoContainer{
+  width: fit-content;
+  display: flex;
+  align-items: end;
 }
-
+.logo {
+  width:220px;
+  margin-top: 5px;
+}
 .title {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 3rem;
+  display: flex;
+  align-items:end;
 }
+.title span{
+  text-transform: uppercase;
+  color:white;
+  background-color: #181818c6;
+  padding: 5px 2rem;
+  /* border-radius: 10px; */
+}
+
+
+
+.main{
+  display:flex;
+  height: 88vh;
+}
+
+.quizWrapper {
+  flex: 0 0 75%;
+  padding:2rem;
+}
+.quizBoxContainer{
+  height: 100%;
+  position: relative;
+}
+.quizOverlaybg{
+  position: absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index: 1;
+  background-color: #0D0F14;
+  opacity: 0.7;
+  border-radius: 20px;
+}
+.quizBox{
+  position: absolute;
+  top:0;
+  left:0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 5px 5px 15px 5px rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+}
+
+
+
 
 .questionContainer {
   margin-bottom: 20px;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .question {
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-size: 1.8rem;
+  margin: 3rem auto;
+  padding-left: 1rem;
 }
 
 .options {
@@ -28,7 +99,12 @@
 }
 
 .option {
-  margin-bottom: 5px;
+  margin-bottom: 20px;
+  background-color: #33333390;
+  padding:1rem;
+  border-radius: 30px;
+  padding-left: 2rem;
+  text-transform: capitalize;
 }
 
 .navigation {
@@ -40,61 +116,155 @@
 .navButton {
   padding: 8px 16px;
   font-size: 16px;
+  border:none;
+  outline:none;
+  background-color: #f6581e;;
+  opacity: 1;
+  margin:0 3rem;
+}
+.navButton:disabled{
+  opacity: 0.5;
 }
 
 .progress {
   font-size: 16px;
+  display: flex;
+  justify-content: end;
+  margin-top: 20px;
+}
+.progress span {
+  width: fit-content;
+  background-color: #f6581e;;
+  border-radius: 30px;
+  padding:7px 15px;
+
 }
 
-.submitContainer {
-  margin-bottom: 20px;
+.timerContainer{
+  padding:5px 10px 10px;
+  border: 2px solid #ffffff20;
+  border-radius: 10px;
+  backdrop-filter: blur(3px);
+  color:white;
+  width: 20rem;
+  display: flex;
+  align-items:start;
+  justify-content: start;
+  margin-top: 10px;
+}
+.timerTitle{
+  font-size: 14px;
+  font-family: "Inria Sans" ;
+  margin-right: 2.5rem;
+}
+.timerTime {
+  display: inline-block;
+}
+.timerTime>span:first-child{
+  font-size: 2.1rem;
+  font-family: 'Chakra Petch', sans-serif;
+}
+.timerTimeLabel{
+  font-size: 14px;
+  display: block;
+  margin-top: -7px;
+  font-family: "Inria Sans" ;
 }
 
-.submitButton {
-  padding: 10px 20px;
-  font-size: 18px;
-}
-
-.timer {
-  font-size: 16px;
-}
-
-.navigationBox {
+.navigationBoxWrapper {
   flex: 0 0 25%;
-  background-color: #f0f0f0;
-  padding: 20px;
+  /* background-color: #f0f0f0; */
+  padding: 1rem;
+}
+.navigationBox{
+  border: 2px solid #f6581e;;
+  background-color: #0d0f15b1;
+  height: 100%;
+  padding:1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0px 0px 10px 3px #ffffff17;
+
+  box-shadow: 0px 0px 7px 3px #fb5d2464;
 }
 
 .navigationTitle {
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 1.6rem;
+  margin: 1rem 0 2rem;
+  color:#f6581e;
+  text-align: center;
+  /* color:white; */
+  /* color:#60d600; */
 }
 
 .questionNavigation {
   display: flex;
   flex-wrap: wrap;
+  justify-content: left;
+  padding-left: 0.8rem;
+  max-height: 40vh;
+  overflow-y: auto;
 }
 
 .questionNumber {
   width: 30px;
   height: 30px;
-  border: 1px solid #ccc;
-  border-radius: 50%;
+  border: 1px solid #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  margin-right: 5px;
-  margin-bottom: 5px;
+  margin: 0px 0.5rem 20px;
+  font-weight: 700;
+  box-shadow: 1px 1px 10px 1px #ffffff75;
+  font-family: "Inria Sans", sans-serif;
 }
 
-.unattempted {
-  background-color: #ccc;
+.questionNumber.unattempted {
+  background-color: transparent;
 }
 
-.attempted {
-  background-color: #28a745;
+.questionNumber.attempted {
+  background-color: #f6581e;
+  background-color: #60d600;
   color: #fff;
+}
+.questionNumber.current {
+  background-color: white;
+  color:black;
+}
+
+.navGuideIcons{
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  height: 15vh;
+  justify-content: space-between;
+  padding:0 0.5rem;
+  margin-bottom: 1rem;
+  
+}
+.navGuideIcons li{
+  margin: 0.5rem;
+  /* font-family: "Inria Sans" !important; */
+  font-family: 'Chakra Petch';
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+.guideIcon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-color: transparent;
+  border: 1px solid white;
+}
+.guideIcon.c{
+  background-color: white;
+}
+.guideIcon.a{
+  background-color: #60d600;
+  border-color:#60d600;
 }
 
 .loading {
@@ -102,3 +272,64 @@
   text-align: center;
   margin-top: 50px;
 }
+
+.submitContainer {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.submitButton {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border:none;
+  outline:none;
+  border-radius: 30px;
+  background-color: #60d600;
+  border-bottom:4px solid #49a200;
+  border-right:3px solid #49a200;
+  font-weight: 900;
+  /* font-family: "Inria Sans" !important; */
+  font-family: 'Chakra Petch';
+}
+.submitButton:active{
+  background-color: #49a200;
+}
+
+
+/* Radio button & checkbox css */
+.listCheckbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  background-color: #fff;
+  cursor: pointer;
+  outline: none;
+  margin-right:10px;
+  vertical-align:middle;
+  position: relative;
+}
+.listCheckbox:checked{
+  background-color: yellow;
+}
+.listCheckbox:checked:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 8px;
+  width: 6px;
+  height: 14px;
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.listCheckbox.square{
+  border-radius: 0;
+}
+
+

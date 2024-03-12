@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styles from './QuizPlay.module.css';
-import ErrorPopup from '../../../components/ErrorPopup/ErrorPopup'
+import ErrorPopup from '../../../components/ErrorPopup/ErrorPopup';
+import bg from '../../../assets/images/orangeSpace.jpg';
+import logo from '../../../assets/images/logo/logo.png';
 
 const QuizPlay = () => {
   const [quiz, setQuiz] = useState(null);
@@ -15,9 +17,14 @@ const QuizPlay = () => {
 
   useEffect(() => {
     if (quiz) {
-      setSelectedAnswers(Array.from({ length: quiz.questions.length }, () => []));
+      setSelectedAnswers(
+        Object.fromEntries(
+          Array.from({ length: quiz.questions.length }, (_, index) => [index, []])
+        )
+      );
     }
   }, [quiz]);
+
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -45,6 +52,9 @@ const QuizPlay = () => {
       ...selectedAnswers,
       [questionIndex]: optionText,
     });
+    setTimeout(() => {
+      console.log(selectedAnswers);
+    }, 100);
   };
 
   const handleCheckboxSelect = (questionIndex, optionText) => {
@@ -59,6 +69,10 @@ const QuizPlay = () => {
       ...selectedAnswers,
       [questionIndex]: newSelectedAnswers,
     });
+
+    setTimeout(() => {
+      console.log(selectedAnswers);
+    }, 100);
   };
 
   const handleNextQuestion = () => {
@@ -79,11 +93,10 @@ const QuizPlay = () => {
           const selectedOptions = selectedAnswers[index] || [];
           const correctOptions = question.correctAnswers;
           let isCorrect;
-          if(typeof(selectedOptions) == 'string')
-          {
+          if (typeof (selectedOptions) == 'string') {
             isCorrect = selectedOptions === correctOptions[0];
           }
-          else{
+          else {
             isCorrect = JSON.stringify(selectedOptions.sort()) === JSON.stringify(correctOptions.sort());
           }
           const score = isCorrect ? 1 : 0;
@@ -130,78 +143,118 @@ const QuizPlay = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className={styles.container}>
-      <div className={styles.quizBox}>
-        <h1 className={styles.title}>{quiz.title}</h1>
-        <div className={styles.questionContainer}>
-          <h2 className={styles.question}>{currentQuestion.content}</h2>
-          <div className={styles.options}>
-            {currentQuestion.options.map((option, index) => (
-              <div key={index} className={styles.option}>
-                {currentQuestion.type === 'true_false' || currentQuestion.correctAnswers.length === 1 ? (
-                  <input
-                    type="radio"
-                    id={`option-${index}`}
-                    checked={selectedAnswers[currentQuestionIndex] === option}
-                    onChange={() => handleRadioSelect(currentQuestionIndex, option)}
-                  />
-                ) : (
-                  <input
-                    type="checkbox"
-                    id={`option-${index}`}
-                    checked={selectedAnswers[currentQuestionIndex]?.includes(option)}
-                    onChange={() => handleCheckboxSelect(currentQuestionIndex, option)}
-                  />
-                )}
-                <label htmlFor={`option-${index}`}>{option}</label>
-              </div>
-            ))}
-          </div>
+    <div className={styles.wrapper} style={{ backgroundImage: `url(${bg})` }}>
+      <div className={styles.head}>
+        <div className={styles.logoContainer}>
+          <img src={logo} alt='Logo' className={styles.logo} />
         </div>
-        <div className={styles.navigation}>
-          <button
-            className={styles.navButton}
-            onClick={handlePreviousQuestion}
-            disabled={currentQuestionIndex === 0}
-          >
-            Previous
-          </button>
-          <span className={styles.progress}>
-            Question {currentQuestionIndex + 1} of {questions.length}
-          </span>
-          <button
-            className={styles.navButton}
-            onClick={handleNextQuestion}
-            disabled={currentQuestionIndex === questions.length - 1}
-          >
-            Next
-          </button>
-        </div>
-        <div className={styles.submitContainer}>
-          <button className={styles.submitButton} onClick={handleSubmitQuiz}>
-            Submit Quiz
-          </button>
-        </div>
+        <h1 className={styles.title}><span>{quiz.title}</span></h1>
         {timeRemaining !== null && (
-          <div className={styles.timer}>
-            Time Remaining: {timeRemaining} seconds
+          <div className={styles.timerContainer}>
+            <div className={styles.timerTitle}>Time Remaining:</div> 
+            <span>
+            <span className={styles.timerTime}><span>30&nbsp; : &nbsp;</span> <span className={styles.timerTimeLabel}>Minutes</span> </span>
+            
+            <span className={styles.timerTime}><span>15</span> <span className={styles.timerTimeLabel}>Seconds</span></span>
+          
+            </span>
           </div>
         )}
       </div>
-      <div className={styles.navigationBox}>
-        <h3 className={styles.navigationTitle}>Question Navigation</h3>
-        <div className={styles.questionNavigation}>
-          {questions.map((_, index) => (
-            <div
-              key={index}
-              className={`${styles.questionNumber} ${selectedAnswers[index] !== undefined ? styles.attempted : styles.unattempted}`}
-              onClick={() => setCurrentQuestionIndex(index)}
-            >
-              {index + 1}
+      <div className={styles.main}>
+        <div className={styles.quizWrapper}>
+          <div className={styles.quizBoxContainer}>
+            <div className={styles.quizOverlaybg}></div>
+            <div className={styles.quizBox}>
+              <div className={styles.questionContainer} >
+                <div className={styles.progress}>
+                  <span>Question {currentQuestionIndex + 1} of {questions.length}</span>
+                </div>
+                <h2 className={styles.question}>Q. {currentQuestion.content}</h2>
+                <div className={styles.options}>
+                  {currentQuestion.options.map((option, index) => (
+                    <div key={index} className={styles.option}>
+                      {currentQuestion.type === 'true_false' || currentQuestion.correctAnswers.length === 1 ? (
+                        <input
+                          type="radio"
+                          id={`option-${index}`}
+                          checked={selectedAnswers[currentQuestionIndex] === option}
+                          onChange={() => handleRadioSelect(currentQuestionIndex, option)}
+                          className={styles.listCheckbox}
+                        />
+                      ) : (
+                        <input
+                          type="checkbox"
+                          id={`option-${index}`}
+                          checked={selectedAnswers[currentQuestionIndex]?.includes(option)}
+                          onChange={() => handleCheckboxSelect(currentQuestionIndex, option)}
+                          className={styles.listCheckbox + " " + styles.square}
+                        />
+                      )}
+                      <label htmlFor={`option-${index}`}>{option}</label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className={styles.navigation}>
+                <button
+                  className={styles.navButton}
+                  onClick={handlePreviousQuestion}
+                  disabled={currentQuestionIndex === 0}
+                >
+                  Previous
+                </button>
+
+                <button
+                  className={styles.navButton}
+                  onClick={handleNextQuestion}
+                  disabled={currentQuestionIndex === questions.length - 1}
+                >
+                  Next
+                </button>
+              </div>
+
+
             </div>
-          ))}
+
+          </div>
+
+        </div>
+        <div className={styles.navigationBoxWrapper}>
+          <div className={styles.navigationBox}>
+            <div>
+              <h2 className={styles.navigationTitle}>Question Navigation</h2>
+              <div className={styles.questionNavigation}>
+                {questions && questions.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`${styles.questionNumber} ${currentQuestionIndex === index ? styles.current : (selectedAnswers[index] && selectedAnswers[index].length > 0 ? styles.attempted : styles.unattempted)}`}
+                    onClick={() => setCurrentQuestionIndex(index)}
+                  >
+
+                    {index + 1}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <ul className={styles.navGuideIcons}>
+                <li><span className={styles.guideIcon}></span> Unattempted</li>
+                <li><span className={styles.guideIcon + " " + styles.c}></span> Current</li>
+                <li><span className={styles.guideIcon + " " + styles.a}></span> Attempted</li>
+              </ul>
+              <div className={styles.submitContainer}>
+                <button className={styles.submitButton} onClick={handleSubmitQuiz}>
+                  Submit Quiz
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+
+
       {showError && <ErrorPopup message={errorMessage} onClose={handleCloseError} />}
     </div>
   );
