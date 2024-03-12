@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './AddQuestionBankForm.module.css'; 
 import {useNavigate} from 'react-router-dom';
+import logo from '../../../assets/images/logo/logo.png';
+import { GoHomeFill } from "react-icons/go";
+import { GoChevronRight } from "react-icons/go";
+import { Link } from 'react-router-dom';
 
 const AddQuestionBankForm = () => {
     const [name, setName] = useState('');
@@ -69,6 +73,21 @@ const AddQuestionBankForm = () => {
     };
 
     return (
+        <>
+         <nav className={styles.navbar}>
+        <div className={styles.logoContainer}>
+          <img src={logo} alt='Logo' className={styles.logo} />
+        </div>
+        </nav>
+        <div className={styles.backBtn}>
+        <Link to="/"><GoHomeFill className={styles.navIcon + ' ' + styles.Hover}  /></Link>
+        <GoChevronRight className={styles.navIcon } />
+        <Link to="/teacher/quizgame"><div className={styles.navIcon + " " + styles.text + ' ' + styles.Hover}>Quiz Game</div></Link>
+        <GoChevronRight className={styles.navIcon } />
+        <div className={styles.navIcon + " " + styles.text}>Create Question Bank</div>
+        <div className={styles.blackOverlay}></div>
+        <div className={styles.blackOverlay}></div>
+      </div>
         <div className={styles.addQuestionBankForm}>
         <h1>Create Question Bank</h1>
         <form onSubmit={handleSubmit}>
@@ -93,7 +112,7 @@ const AddQuestionBankForm = () => {
                 />
             </div>
             <div className={styles.questionList}>
-                <h3>Available Questions</h3>
+                <h3>Available Questions<span className={styles.instructionText}> &ensp;(Select all questions you want to add in your Question Bank)</span></h3>
                 <ul className={styles.questionListContainer}>
                 {questions.map(question => (
                     <li key={question._id} className={styles.questionItem}>
@@ -117,7 +136,7 @@ const AddQuestionBankForm = () => {
         </form>
         {error && <p className={styles.errorMessage}>Error: {error}</p>}
     </div>
-    
+    </>
     );
 };
 
