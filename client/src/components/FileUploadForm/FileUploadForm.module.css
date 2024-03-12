@@ -1,0 +1,382 @@
+@import url("https://fonts.googleapis.com/css?family=Barlow+Condensed:200,300,400,500,600,700,800,900|Barlow:200,300,400,500,600,700,800,900&display=swap");
+ .about {
+	 position: fixed;
+	 z-index: 10;
+	 bottom: 10px;
+	 right: 10px;
+	 width: 40px;
+	 height: 40px;
+	 display: flex;
+	 justify-content: flex-end;
+	 align-items: flex-end;
+	 transition: all 0.2s ease;
+}
+ .about .bg_links {
+	 width: 40px;
+	 height: 40px;
+	 border-radius: 100%;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 background-color: rgba(0, 0, 0, 0.2);
+	 border-radius: 100%;
+	 backdrop-filter: blur(5px);
+	 position: absolute;
+}
+ .about .logo {
+	 width: 40px;
+	 height: 40px;
+	 z-index: 9;
+	 background-image: url(https://rafaelavlucas.github.io/assets/codepen/logo_white.svg);
+	 background-size: 50%;
+	 background-repeat: no-repeat;
+	 background-position: 10px 7px;
+	 opacity: 0.9;
+	 transition: all 1s 0.2s ease;
+	 bottom: 0;
+	 right: 0;
+}
+ .about .social {
+	 opacity: 0;
+	 right: 0;
+	 bottom: 0;
+}
+ .about .social .icon {
+	 width: 100%;
+	 height: 100%;
+	 background-size: 20px;
+	 background-repeat: no-repeat;
+	 background-position: center;
+	 background-color: transparent;
+	 display: flex;
+	 transition: all 0.2s ease, background-color 0.4s ease;
+	 opacity: 0;
+	 border-radius: 100%;
+}
+ .about .social.portfolio {
+	 transition: all 0.8s ease;
+}
+ .about .social.portfolio .icon {
+	 background-image: url(https://rafaelavlucas.github.io/assets/codepen/link.svg);
+}
+ .about .social.dribbble {
+	 transition: all 0.3s ease;
+}
+ .about .social.dribbble .icon {
+	 background-image: url(https://rafaelavlucas.github.io/assets/codepen/dribbble.svg);
+}
+ .about .social.linkedin {
+	 transition: all 0.8s ease;
+}
+ .about .social.linkedin .icon {
+	 background-image: url(https://rafaelavlucas.github.io/assets/codepen/linkedin.svg);
+}
+ .about:hover {
+	 width: 105px;
+	 height: 105px;
+	 transition: all 0.6s cubic-bezier(0.64, 0.01, 0.07, 1.65);
+}
+ .about:hover .logo {
+	 opacity: 1;
+	 transition: all 0.6s ease;
+}
+ .about:hover .social {
+	 opacity: 1;
+}
+ .about:hover .social .icon {
+	 opacity: 0.9;
+}
+ .about:hover .social:hover {
+	 background-size: 28px;
+}
+ .about:hover .social:hover .icon {
+	 background-size: 65%;
+	 opacity: 1;
+}
+ .about:hover .social.portfolio {
+	 right: 0;
+	 bottom: calc(100% - 40px);
+	 transition: all 0.3s 0s cubic-bezier(0.64, 0.01, 0.07, 1.65);
+}
+ .about:hover .social.portfolio .icon:hover {
+	 background-color: #698fb7;
+}
+ .about:hover .social.dribbble {
+	 bottom: 45%;
+	 right: 45%;
+	 transition: all 0.3s 0.15s cubic-bezier(0.64, 0.01, 0.07, 1.65);
+}
+ .about:hover .social.dribbble .icon:hover {
+	 background-color: #ea4c89;
+}
+ .about:hover .social.linkedin {
+	 bottom: 0;
+	 right: calc(100% - 40px);
+	 transition: all 0.3s 0.25s cubic-bezier(0.64, 0.01, 0.07, 1.65);
+}
+ .about:hover .social.linkedin .icon:hover {
+	 background-color: #0077b5;
+}
+
+ 
+
+ .logo {
+	 position: fixed;
+	 z-index: 5;
+	 bottom: 10px;
+	 right: 10px;
+	 width: 40px;
+	 height: 40px;
+	 border-radius: 100%;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 background: rgba(0, 0, 0, 0.1);
+	 border-radius: 100%;
+	 backdrop-filter: blur(5px);
+}
+ .logo img {
+	 width: 55%;
+	 height: 55%;
+	 transform: translateY(-1px);
+	 opacity: 0.8;
+}
+ @media screen and (max-width: 799px) {
+	 .logo {
+		 display: none;
+	}
+}
+ .wrapper {
+	 display: grid;
+	 grid-template-columns: 1fr;
+	 width: 100%;
+	 height: 100vh;
+	 align-items: center;
+	 justify-content: center;
+	 color: white;
+	 font-family: "Barlow", sans-serif;
+	 user-select: none;
+	 letter-spacing: 0.8px;
+	 padding: 0px 5%;
+	 max-width: 1440px;
+	 margin: 0 auto;
+}
+ @media screen and (max-width: 1023px) {
+	 .wrapper {
+		 padding: 0px 20px;
+	}
+}
+ .wrapper .cta {
+	 background: linear-gradient(160deg, #ff8970 8%, #ffb571 86%);
+	 box-shadow: 0px 10px 30px -5px rgba(255, 151, 111, 0.5);
+	 padding: 18px 50px;
+	 font-size: 18px;
+	 line-height: 22px;
+	 text-align: center;
+	 text-transform: uppercase;
+	 border-radius: 10px;
+	 color: white;
+	 font-weight: 600;
+	 font-family: "Barlow", sans-serif;
+	 transition: transform 0.2s ease, box-shadow 0.2s ease;
+	 cursor: pointer;
+	 margin-top: 30px;
+}
+ .wrapper .cta:hover {
+	 transform: translateY(3px);
+	 box-shadow: 0px 4px 15px rgba(255, 151, 111, 0.5);
+}
+ .wrapper .cta:disabled {
+	 opacity: 0.3;
+	 cursor: default;
+}
+ .wrapper .cta:disabled:hover {
+	 transform: translateY(0px);
+	 box-shadow: 0px 10px 30px -5px rgba(255, 151, 111, 0.5);
+}
+ .wrapper .cta.btnAnother, .wrapper .cta.btnTry {
+	 box-shadow: none;
+	 background: white;
+}
+ .wrapper .cta.btnAnother:hover, .wrapper .cta.btnTry:hover {
+	 box-shadow: none;
+}
+ .wrapper .cta.btnTry span {
+	 -webkit-background-clip: text;
+	 background-clip: text;
+	 -webkit-text-fill-color: transparent;
+	 background-image: linear-gradient(120deg, #ee5764 8%, #ffab91 86%);
+}
+ .wrapper .cta.btnAnother span {
+	 -webkit-background-clip: text;
+	 background-clip: text;
+	 -webkit-text-fill-color: transparent;
+	 background-image: linear-gradient(120deg, #4daf9e 8%, #75edd7 86%);
+}
+ .wrapper .content {
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 width: 100%;
+	 margin: 60px auto;
+	 perspective: 800;
+}
+ .wrapper .content .card {
+	 width: 400px;
+	 height: 500px;
+	 transition: all 0.4s ease;
+	 position: relative;
+	 transform: rotateY(0deg);
+	 visibility: visible;
+	 display: flex;
+	 flex-direction: column;
+	 justify-content: center;
+	 align-items: center;
+	 border-radius: 10px;
+}
+ @media screen and (max-width: 512px) {
+	 .wrapper .content .card {
+		 width: 100%;
+	}
+}
+ .wrapper .content .card .scene {
+	 width: 340px;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 margin-bottom: 20px;
+}
+ .wrapper .content .card figure {
+	 object-fit: contain;
+}
+ @media screen and (max-width: 512px) {
+	 .wrapper .content .card figure {
+		 max-width: 340px;
+		 width: calc(100% - 40px);
+	}
+}
+ .wrapper .content .card article {
+	 max-width: 400px;
+	 display: flex;
+	 flex-direction: column;
+	 justify-content: center;
+	 align-items: center;
+	 color: #7a7a7a;
+	 padding: 0 60px;
+	 text-align: center;
+}
+ @media screen and (max-width: 512px) {
+	 .wrapper .content .card article {
+		 padding: 0 30px;
+	}
+}
+ .wrapper .content .card article .titleCard {
+	 font-weight: 200;
+	 text-transform: uppercase;
+	 font-size: 30px;
+}
+ .wrapper .content .card article .description {
+	 font-size: 24px;
+	 line-height: 30px;
+	 color: white;
+	 font-weight: 200;
+}
+ .wrapper .content .cardUpload {
+	 background-color: white;
+}
+ .wrapper .content .cardUpload .inputContent {
+	 width: 100%;
+	 height: 60px;
+	 position: relative;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 margin: 60px 0px 30px 0px;
+}
+ .wrapper .content .cardUpload .inputContent .inputFile {
+	 position: absolute;
+	 width: 50px;
+	 height: 50px;
+	 opacity: 0;
+}
+ .wrapper .content .cardUpload .inputContent .uploadIcon {
+	 background: linear-gradient(160deg, #ff8970 8%, #ffb571 86%);
+	 width: 50px;
+	 height: 50px;
+	 border-radius: 50%;
+	 position: absolute;
+	 box-shadow: 0px 10px 30px -5px rgba(255, 151, 111, 0.5);
+	 transition: box-shadow 0.2s ease;
+	 cursor: pointer;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 transition: transform 0.2s ease;
+}
+ .wrapper .content .cardUpload .inputContent .uploadIcon:before, .wrapper .content .cardUpload .inputContent .uploadIcon:after {
+	 content: "";
+	 position: absolute;
+	 width: 24px;
+	 height: 2px;
+	 background-color: white;
+	 transition: all 0.3s ease;
+}
+ .wrapper .content .cardUpload .inputContent .uploadIcon:after {
+	 transition: all 0.3s 0.1s ease;
+	 transform: rotate(90deg);
+}
+ .wrapper .content .cardUpload .inputContent .uploadIcon:hover {
+	 transform: scale(0.9);
+	 box-shadow: 0px 4px 15px rgba(255, 151, 111, 0.5);
+}
+ .wrapper .content .cardUpload .inputContent .uploadIcon:hover:before {
+	 transform: rotate(180deg);
+}
+ .wrapper .content .cardUpload .inputContent .uploadIcon:hover:after {
+	 transform: rotate(270deg);
+}
+ .wrapper .content .cardUpload .inputContent .fileReturn {
+	 color: #7a7a7a;
+	 position: absolute;
+	 padding-left: 30px;
+	 text-align: left;
+	 word-break: break-all;
+	 cursor: pointer;
+}
+ .wrapper .content .cardUpload .inputContent .fileReturn:before {
+	 content: "";
+	 position: absolute;
+	 width: 24px;
+	 height: 24px;
+	 background-image: url("https://www.rafaelalucas.com/dailyui/11/assets/attach.svg");
+	 background-size: contain;
+	 background-position: center;
+	 display: none;
+	 left: 0px;
+}
+ .wrapper .content .cardUpload .inputContent .fileReturn.show:before {
+	 display: flex;
+}
+ .wrapper .content .cardSuccess, .wrapper .content .cardError {
+	 transition: all 0.4s ease;
+	 /* transform: rotateY(-180deg); */
+	 position: absolute;
+	 z-index: 3;
+}
+ .wrapper .content .cardSuccess {
+	 background: linear-gradient(120deg, #4daf9e 8%, #75edd7 86%);
+	 
+	 z-index: 2;
+}
+ .wrapper .content .cardError {
+	 background: linear-gradient(120deg, #ee5764 8%, #ffab91 86%);
+}
+ .wrapper .content .flipIn {
+	 transform: rotateY(0deg);
+	 z-index: 2;
+}
+ .wrapper .content .flipOut {
+	 transform: rotateY(180deg);
+	 z-index: 1;
+}
+ 
