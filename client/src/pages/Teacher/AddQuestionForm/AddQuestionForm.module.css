@@ -1,5 +1,23 @@
 /* AddQuestionForm.module.css */
 
+.navbar
+{
+  padding: 0.7rem 3rem;
+  background-color: #0D0F14;
+  /* display: flex  */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoContainer{
+  width: fit-content;
+  
+}
+.logo {
+  width:220px;
+}
 .AddQuestionFormContainer {
   max-width: 90vw;
   margin: 0 auto;
@@ -178,3 +196,77 @@
     width: 50%;
     overflow:hidden;
   }
+
+  /* Back button container */
+.backBtn {
+  height: 3rem;
+  background-color: #f6581e;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  width: fit-content;
+  padding-right: 4%;
+  position: relative;
+
+  /* Triangle after the button */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-right: 60px solid transparent;
+    border-bottom: 3rem solid #f6581e;
+    transform: translateX(100%);
+  }
+}
+.backBtn .blackOverlay {
+  width: 20px;
+  height: inherit;
+  background-color: black;
+  transform: skewX(45deg);
+  margin-left: 20px;
+}/* Back button container */
+.backBtn {
+  height: 3rem;
+  background-color: #f6581e;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  width: fit-content;
+  padding-right: 4%;
+  position: relative;
+
+  /* Triangle after the button */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-right: 60px solid transparent;
+    border-bottom: 3rem solid #f6581e;
+    transform: translateX(100%);
+  }
+}
+.backBtn .blackOverlay {
+  width: 20px;
+  height: inherit;
+  background-color: black;
+  transform: skewX(45deg);
+  margin-left: 20px;
+}
+.navIcon {
+  font-size: 1.4rem;
+  margin-right: 5px;
+  color: white;
+}
+.navIcon.text{
+  font-size: 1.2rem;
+}
+.navIcon.Hover:hover {
+  color: #60d600;
+  margin-right: 5px;
+}

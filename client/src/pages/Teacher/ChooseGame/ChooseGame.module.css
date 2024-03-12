@@ -149,17 +149,18 @@
 }
 
 .navIcon {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   margin-right: 5px;
   color: white;
 }
 
-.navIcon.noHover:hover {
-  color: white;
-  font-size: 1.2rem;
+.navIcon.Hover:hover {
+  color: #60d600;
   margin-right: 5px;
 }
-
+.navIcon.text{
+  font-size: 1.2rem;
+}
 /* CSS for logo  */
 .logoContainer {
   width: 100%;

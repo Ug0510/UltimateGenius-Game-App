@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './AddQuestionForm.module.css';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../../assets/images/logo/logo.png';
+import { GoHomeFill } from "react-icons/go";
+import { GoChevronRight } from "react-icons/go";
+import { Link } from 'react-router-dom';
 
 const AddQuestionForm = () => {
     const [questionText, setQuestionText] = useState('');
@@ -80,6 +84,21 @@ const AddQuestionForm = () => {
     };
 
     return (
+        <>
+        <nav className={styles.navbar}>
+        <div className={styles.logoContainer}>
+          <img src={logo} alt='Logo' className={styles.logo} />
+        </div>
+        </nav>
+        <div className={styles.backBtn}>
+        <Link to="/"><GoHomeFill className={styles.navIcon + ' ' + styles.Hover}  /></Link>
+        <GoChevronRight className={styles.navIcon } />
+        <Link to="/teacher/quizgame"><div className={styles.navIcon + " " + styles.text + ' ' + styles.Hover}>Quiz Game</div></Link>
+        <GoChevronRight className={styles.navIcon } />
+        <div className={styles.navIcon + " " + styles.text}>Add Question</div>
+        <div className={styles.blackOverlay}></div>
+        <div className={styles.blackOverlay}></div>
+      </div>
         <div className={styles.AddQuestionFormContainer}>
     <h2 className={styles.heading}>Add Question Form</h2>
     <form onSubmit={handleSubmit}>
@@ -171,6 +190,8 @@ const AddQuestionForm = () => {
 
         {questionType === 'true_false' && (
             <div className={styles.choicesContainer}>
+                <label className={styles.label} style={{marginBottom:'1rem'}}>Select correct answer:</label>
+                <br/>
                 <label className={styles.label}>
                     <input
                         type="radio"
@@ -201,7 +222,7 @@ const AddQuestionForm = () => {
     </form>
     {error && <p className={styles.error}>{error}</p>}
 </div>
-
+</>
     );
 };
 
