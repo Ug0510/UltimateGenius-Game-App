@@ -71,6 +71,12 @@ exports.generateQuiz = async (req, res) => {
         // Save the quiz game to the database
         await quizGame.save();
 
+        // Add the generated quiz ID to the user's gameLog
+        const user = await User.findById(teacherId);
+        user.gameLog.push(quizGame);
+        await user.save();
+
+
         res.status(201).json(quizGame);
     } catch (error) {
         console.error('Error generating quiz:', error);
@@ -362,4 +368,29 @@ exports.getLastNResultLogs = async (req, res) => {
       console.error('Error fetching last N result logs:', error);
       res.status(500).json({ message: 'Internal server error' });
   }
+};
+
+// Controller function to get top 3 students for a quiz
+exports.getQuizLog = async (req, res) => {
+    try {
+        // Extract quizId from request parameters
+        const { quizId } = req.params;
+
+        // Find the quiz by its ID and populate the resultLog field
+        const quiz = await QuizGame.findById(quizId).populate({
+            path: 'resultLog',
+            options: { sort: { scoreObtained: 1 }, limit: 3 } // Sort by scoreObtained in ascending order and limit to 3 results
+        });
+
+        // If quiz not found
+        if (!quiz) {
+            return res.status(404).json({ message: 'Quiz not found' });
+        }
+
+        // Return the top 3 students in ascending order of score obtained
+        res.status(200).json(quiz.resultLog);
+    } catch (error) {
+        console.error('Error fetching quiz log:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 };

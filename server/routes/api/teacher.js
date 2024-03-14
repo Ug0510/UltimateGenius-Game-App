@@ -25,4 +25,6 @@ router.get('/get-students/:quizId',authenticate ,checkTeacher,QuizController.get
 router.delete('/remove-student/:gameCode/:studentId',authenticate,checkTeacher, QuizController.removeStudent);
 router.get('/question-banks', authenticate,checkTeacher, QBController.getQuestionBanks);
 
+router.get('/quiz/getlog/:quizId',authenticate, checkTeacher,QuizController.getQuizLog);
+
 module.exports = router;

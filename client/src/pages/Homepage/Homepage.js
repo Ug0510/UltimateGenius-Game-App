@@ -24,14 +24,13 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
         });
     }, []);
 
+
     useEffect(() => {
-
-        const token = localStorage.getItem('ultimate_genius0510_token');
-
 
         // Function to fetch result logs
         const fetchResultLogs = async () => {
             try {
+                const token = localStorage.getItem('ultimate_genius0510_token');
                 // Make API call to fetch result logs
                 const response = await axios.get('http://localhost:8000/api/student/quiz/resultLog/3', {
                     headers: {
@@ -49,8 +48,38 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
             }
         };
 
+        const fetchLastMatchLog = async (token) => {
+            try {
+                const token = localStorage.getItem('ultimate_genius0510_token');
+
+                const quizId = userData.gameLog[userData.gameLog.length - 1];
+
+                // Make API call to fetch latest quiz results
+                const response = await axios.get(`http://localhost:8000/api/teacher/quiz/getlog/${quizId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setResultLogs(response.data);
+                // Return the fetched data
+                console.log(response.data);
+            } catch (error) {
+                console.error('Error fetching latest quiz results:', error);
+                // Throw the error to handle it in the calling function
+                throw error;
+            }
+        };
+
         // Call the fetchResultLogs function
-        fetchResultLogs();
+        if(userData && userData.userType === 'student')
+        {
+            fetchResultLogs();
+        }
+        else if(userData && userData.userType === 'teacher')
+        {
+            fetchLastMatchLog();
+
+        }
     }, []);
 
 
@@ -156,7 +185,38 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
                             </div>
                         </div>)
                         :
-                        (<div></div>)
+                        (<div className="col-xl-4 col-lg-5 col-md-6 order-md-1 order-lg-last">
+                            <div className="hero-content">
+                                <div className="card-area py-lg-8 py-6 px-lg-6 px-3 rounded-5 tilt mb-10" data-tilt>
+                                    <h3 className="tcn-1 dot-icon cursor-scale growDown mb-6 title-anim">
+                                        Last Match Score
+                                    </h3>
+                                    <div className="hr-line mb-6"></div>
+                                    <div className="card-items d-grid gap-5">
+                                        {
+                                            resultLogs && resultLogs.map((log, index) => (
+                                                <>
+                                                <div key={index} className="card-item d-flex align-items-center gap-4">
+                                                <div className="card-img-area rounded-circle overflow-hidden">
+                                                    <img className="w-100" src="./assets/img/avatar1.png" alt="profile" />
+                                                </div>
+                                                <div className="card-info">
+                                                    <h4 className="card-title fw-semibold tcn-1 mb-1 cursor-scale growDown2 title-anim" style={{textTransform:'capitalize'}}>
+                                                    {log.studentName}
+                                                    </h4>
+                                                    <p className="card-text tcs-1 fw-medium">Score: {log.scoreObtained}/{log.totalScore}</p>
+                                                </div>
+                                            </div>
+                                            {(index < resultLogs.length - 1 )? <div className="hr-line mb-1"></div>: ""}
+                                            </>
+                                            ))
+                                        }
+                                        
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>)
                         }
 
 

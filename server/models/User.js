@@ -38,7 +38,12 @@ const userSchema = new mongoose.Schema({
         type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }],
         default: [],
         required: function() { return this.userType === 'teacher'; }
-    }
+    },
+    gameLog: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Quiz' 
+    }]
+    
 });
 
 const User = mongoose.model('User', userSchema);
