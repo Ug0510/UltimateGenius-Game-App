@@ -190,9 +190,9 @@ const QuizPlay = () => {
           <div className={styles.timerContainer}>
             <div className={styles.timerTitle}>Time Remaining:</div> 
             <span>
-            <span className={styles.timerTime}><span>{time.minutes}&nbsp; : &nbsp;</span> <span className={styles.timerTimeLabel}>Minutes</span> </span>
+            <span className={styles.timerTime}><span>{(time.minutes > 9)? time.minutes : "0" + time.minutes}&nbsp; : &nbsp;</span> <span className={styles.timerTimeLabel}>Minutes</span> </span>
             
-            <span className={styles.timerTime}><span>{time.seconds}</span> <span className={styles.timerTimeLabel}>Seconds</span></span>
+            <span className={styles.timerTime}><span>{(time.seconds > 9 )? time.seconds : "0" + time.seconds}</span> <span className={styles.timerTimeLabel}>Seconds</span></span>
           
             </span>
           </div>
