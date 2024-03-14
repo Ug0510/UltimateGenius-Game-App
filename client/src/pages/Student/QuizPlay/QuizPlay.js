@@ -5,6 +5,7 @@ import styles from './QuizPlay.module.css';
 import ErrorPopup from '../../../components/ErrorPopup/ErrorPopup';
 import bg from '../../../assets/images/orangeSpace.jpg';
 import logo from '../../../assets/images/logo/logo.png';
+import { useNavigate } from 'react-router-dom';
 
 const QuizPlay = () => {
   const [quiz, setQuiz] = useState(null);
@@ -15,6 +16,8 @@ const QuizPlay = () => {
   const { quizId } = useParams();
   const initialTime = localStorage.getItem('timer') ? JSON.parse(localStorage.getItem('timer')) : null;
   const [time, setTime] = useState(initialTime);  
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -156,6 +159,8 @@ const QuizPlay = () => {
       });
 
       console.log('Quiz submitted successfully:', submitData);
+
+      navigate('/user/quiz/scoreboard');
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setErrorMessage(error.response.data.message);
