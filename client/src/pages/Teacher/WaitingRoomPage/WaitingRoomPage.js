@@ -3,10 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './WaitingRoomPage.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const TeacherWaitingRoomPage = () => {
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -70,9 +72,16 @@ const TeacherWaitingRoomPage = () => {
         },
       });
 
-      // Redirect or perform any action after starting the quiz
+      navigate('/user/quiz/scoreboard');
     } catch (error) {
       console.error('Error starting quiz:', error);
+
+
+      // if already started redirect to scoreboard
+      if(String(error.response.data.message).toLowerCase().includes('already started'))
+      {
+        navigate('/user/quiz/scoreboard');
+      }
     }
   };
 
