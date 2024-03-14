@@ -331,3 +331,35 @@ exports.getQuizResults = async (req, res) => {
       res.status(500).json({ message: 'Internal server error' });
     }
   };
+
+// Controller function to fetch the last N result logs
+exports.getLastNResultLogs = async (req, res) => {
+  try {
+      let { n } = req.params;
+      
+      // Convert n to integer
+      n = parseInt(n); 
+      
+      // Check if n is less than 0
+      if (n < 0) {
+          return res.status(400).json({ message: 'Please enter a valid number of records' });
+      }
+
+      let lastNResultLogs;
+
+      // If n is 0, fetch all records
+      if (n === 0) {
+          lastNResultLogs = await StudentQuizResultLog.findById(req.user._id).sort({ submittedAt: -1 });
+      } else {
+          // Fetch the last N records
+          lastNResultLogs = await StudentQuizResultLog.find()
+              .sort({ submittedAt: -1 }) 
+              .limit(n); 
+      }
+
+      res.status(200).json(lastNResultLogs);
+  } catch (error) {
+      console.error('Error fetching last N result logs:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+};

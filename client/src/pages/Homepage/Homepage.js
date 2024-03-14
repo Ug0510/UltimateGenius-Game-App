@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import '../../assets/css/bootstrap.css';
 import './Homepage.css';
 import fetchUseData from '../../utils/fetchUserData';
-import {Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import VanillaTilt from 'vanilla-tilt';
 import Header from '../../components/Header/Header';
+import axios from 'axios';
+import gameImgage from '../../assets/images/games/quizGame.png';
 
 
-const Homepage = ({isLoggedIn, login, userData, addUserData}) => {
+const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
 
+    const [resultLogs, setResultLogs] = useState([]);
 
     const navigate = useNavigate();
 
@@ -21,13 +24,43 @@ const Homepage = ({isLoggedIn, login, userData, addUserData}) => {
         });
     }, []);
 
-    
+    useEffect(() => {
+
+        const token = localStorage.getItem('ultimate_genius0510_token');
+
+
+        // Function to fetch result logs
+        const fetchResultLogs = async () => {
+            try {
+                // Make API call to fetch result logs
+                const response = await axios.get('http://localhost:8000/api/student/quiz/resultLog/3', {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                // Set the result logs in state
+                setResultLogs(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error('Error fetching result logs:', error);
+                // Handle error
+                console.log(error.response.data);
+            }
+        };
+
+        // Call the fetchResultLogs function
+        fetchResultLogs();
+    }, []);
+
+
+
 
 
     return (
         <div>
             {/* header section start */}
-            <Header userData={userData} isLoggedIn={isLoggedIn} login={login}/>
+            <Header userData={userData} isLoggedIn={isLoggedIn} login={login} />
             {/* header section end */}
 
             {/* notification area start */}
@@ -51,7 +84,7 @@ const Homepage = ({isLoggedIn, login, userData, addUserData}) => {
             </div>
             {/* notification area end */}
 
-           
+
 
             {/* Hero Section start */}
             <section className="hero-section pt-20 pb-120 position-relative">
@@ -74,7 +107,7 @@ const Homepage = ({isLoggedIn, login, userData, addUserData}) => {
                                     <span className="d-block tcp-1">GAMER’S</span>
                                     HAVEN
                                 </h1>
-                                <Link to={userData && userData.userType === 'student'? "/student/quiz/join":"/teacher/game-choice"} className="btn-half-border position-relative d-inline-block py-2 px-6 bgp-1 rounded-pill popupvideo mfp-iframe">Play Now</Link>
+                                <Link to={userData && userData.userType === 'student' ? "/student/quiz/join" : "/teacher/game-choice"} className="btn-half-border position-relative d-inline-block py-2 px-6 bgp-1 rounded-pill popupvideo mfp-iframe">Play Now</Link>
                             </div>
                         </div>
                         <div className="col-xl-3 col-md-2 col-4 order-md-last order-lg-1">
@@ -87,55 +120,46 @@ const Homepage = ({isLoggedIn, login, userData, addUserData}) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-xl-4 col-lg-5 col-md-6 order-md-1 order-lg-last">
+
+
+                        {
+                            userData && resultLogs && (userData.userType === 'student')? (<div className="col-xl-4 col-lg-5 col-md-6 order-md-1 order-lg-last">
                             <div className="hero-content">
                                 <div className="card-area py-lg-8 py-6 px-lg-6 px-3 rounded-5 tilt mb-10" data-tilt>
                                     <h3 className="tcn-1 dot-icon cursor-scale growDown mb-6 title-anim">
-                                        Last Winners
+                                        Last Matches Score
                                     </h3>
                                     <div className="hr-line mb-6"></div>
                                     <div className="card-items d-grid gap-5">
-                                        {/* Card items */}
-                                        <div className="card-item d-flex align-items-center gap-4">
-                                            <div className="card-img-area rounded-circle overflow-hidden">
-                                                <img className="w-100" src="assets/img/avatar1.png" alt="profile" />
+                                        {
+                                            resultLogs && resultLogs.map((log, index) => (
+                                                <>
+                                                <div key={index} className="card-item d-flex align-items-center gap-4">
+                                                <div className="card-img-area rounded-circle overflow-hidden">
+                                                    <img className="w-100" src={gameImgage} alt="profile" />
+                                                </div>
+                                                <div className="card-info">
+                                                    <h4 className="card-title fw-semibold tcn-1 mb-1 cursor-scale growDown2 title-anim" style={{textTransform:'capitalize'}}>
+                                                    {log.quiz.title}
+                                                    </h4>
+                                                    <p className="card-text tcs-1 fw-medium">Score: {log.scoreObtained}/{log.totalScore}</p>
+                                                </div>
                                             </div>
-                                            <div className="card-info">
-                                                <h4 className="card-title fw-semibold tcn-1 mb-1 cursor-scale growDown2 title-anim">
-                                                    Cristofer Dorwart
-                                                </h4>
-                                                <p className="card-text tcs-1 fw-medium">+$220</p>
-                                            </div>
-                                        </div>
-                                        <div className="hr-line mb-1"></div>
-                                        <div className="card-item d-flex align-items-center gap-4">
-                                            <div className="card-img-area rounded-circle overflow-hidden">
-                                                <img className="w-100" src="assets/img/avatar2.png" alt="profile" />
-                                            </div>
-                                            <div className="card-info">
-                                                <h4 className="card-title fw-semibold tcn-1 mb-1 cursor-scale growDown2 title-anim">
-                                                    Cristofer Dorwart
-                                                </h4>
-                                                <p className="card-text tcs-1 fw-medium">+$220</p>
-                                            </div>
-                                        </div>
-                                        <div className="hr-line mb-1"></div>
-                                        <div className="card-item d-flex align-items-center gap-4">
-                                            <div className="card-img-area rounded-circle overflow-hidden">
-                                                <img className="w-100" src="assets/img/avatar3.png" alt="profile" />
-                                            </div>
-                                            <div className="card-info">
-                                                <h4 className="card-title fw-semibold tcn-1 mb-1 cursor-scale growDown2 title-anim">
-                                                    Cristofer Dorwart
-                                                </h4>
-                                                <p className="card-text tcs-1 fw-medium">+$220</p>
-                                            </div>
-                                        </div>
-                                        {/* End of card items */}
+                                            {(index < resultLogs.length - 1 )? <div className="hr-line mb-1"></div>: ""}
+                                            </>
+                                            ))
+                                        }
+                                        
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>)
+                        :
+                        (<div></div>)
+                        }
+
+
                     </div>
                 </div>
                 <div className="grid-lines overflow-hidden">
