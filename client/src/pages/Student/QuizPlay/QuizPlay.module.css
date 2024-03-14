@@ -90,12 +90,18 @@ Header css
 
 .question {
   font-size: 1.8rem;
-  margin: 3rem auto;
+  margin: 2rem auto;
   padding-left: 1rem;
+  min-height: 5vh;
+  max-height: 10vh;
+  overflow-y: auto;
 }
 
 .options {
   margin-bottom: 10px;
+  max-height: 42vh;
+  overflow-y: auto;
+  padding: 0 0.5rem;
 }
 
 .option {
