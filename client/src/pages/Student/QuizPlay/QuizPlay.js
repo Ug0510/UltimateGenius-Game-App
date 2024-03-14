@@ -10,10 +10,42 @@ const QuizPlay = () => {
   const [quiz, setQuiz] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [timeRemaining, setTimeRemaining] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [showError, setShowError] = useState(false);
   const { quizId } = useParams();
+  const initialTime = localStorage.getItem('timer') ? JSON.parse(localStorage.getItem('timer')) : null;
+  const [time, setTime] = useState(initialTime);  
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if(time == null)
+        return;
+      if (time.minutes === 0 && time.seconds === 0) {
+        clearInterval(timer);
+        handleSubmitQuiz();
+      } else {
+        setTime(prevTime => {
+          if (prevTime.seconds === 0) {
+            return {
+              minutes: prevTime.minutes - 1,
+              seconds: 59
+            };
+          } else {
+            return {
+              minutes: prevTime.minutes,
+              seconds: prevTime.seconds - 1
+            };
+          }
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [time]);
+
+  useEffect(() => {
+    localStorage.setItem('timer', JSON.stringify(time));
+  }, [time]);
 
   useEffect(() => {
     if (quiz) {
@@ -36,7 +68,12 @@ const QuizPlay = () => {
           },
         });
         setQuiz(response.data);
-        setTimeRemaining(response.data.timeLimit);
+        
+        if(localStorage.getItem('timer') === null)
+        {
+          setTime({minutes: response.data.timeLimit, seconds: 0});
+        }
+        
       } catch (error) {
         setErrorMessage('Error fetching quiz. Please try again later.');
         setShowError(true);
@@ -149,13 +186,13 @@ const QuizPlay = () => {
           <img src={logo} alt='Logo' className={styles.logo} />
         </div>
         <h1 className={styles.title}><span>{quiz.title}</span></h1>
-        {timeRemaining !== null && (
+        {time !== null && time.minutes && (
           <div className={styles.timerContainer}>
             <div className={styles.timerTitle}>Time Remaining:</div> 
             <span>
-            <span className={styles.timerTime}><span>30&nbsp; : &nbsp;</span> <span className={styles.timerTimeLabel}>Minutes</span> </span>
+            <span className={styles.timerTime}><span>{time.minutes}&nbsp; : &nbsp;</span> <span className={styles.timerTimeLabel}>Minutes</span> </span>
             
-            <span className={styles.timerTime}><span>15</span> <span className={styles.timerTimeLabel}>Seconds</span></span>
+            <span className={styles.timerTime}><span>{time.seconds}</span> <span className={styles.timerTimeLabel}>Seconds</span></span>
           
             </span>
           </div>
