@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './ScoreboardPage.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import logo from '../../../assets/images/logo/logo.png';
 import { GoHomeFill } from "react-icons/go";
 import { GoChevronRight } from "react-icons/go";
@@ -11,11 +11,19 @@ import profile from '../../../assets/images/common/team_3.png';
 const ScoreboardPage = ({userData}) => {
   const [quizResults, setQuizResults] = useState([]);
 
+  let {quizId} = useParams();
+
   useEffect(() => {
     const fetchQuizResults = async () => {
       try {
         const token = localStorage.getItem('ultimate_genius0510_token');
-        const quizId = localStorage.getItem('ug_game_id');
+
+        console.log(quizId);
+        if(!quizId)
+        {
+          quizId = localStorage.getItem('ug_game_id');
+        }
+
         const response = await axios.get(`http://localhost:8000/api/user/quiz/results/${quizId}`, {
           headers: {
             Authorization: `Bearer ${token}`
