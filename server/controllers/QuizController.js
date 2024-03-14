@@ -316,8 +316,14 @@ exports.getQuizResults = async (req, res) => {
     try {
       // Fetch quiz results from the database
       const {quizId} = req.params;
-      const quiz = await QuizGame.findById(quizId).populate('resultLog');
-  
+      const quiz = await QuizGame.findById(quizId).populate({
+        path: 'resultLog',
+        populate: {
+          path: 'studentId',
+          model: 'User'
+        }
+      });
+    
       // Return quiz results as JSON response
       res.status(200).json(quiz);
     } catch (error) {

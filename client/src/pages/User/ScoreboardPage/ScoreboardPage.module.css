@@ -1,44 +1,210 @@
 /* ScoreboardPage.module.css */
 
+.scoreboardWrapper {
+  height: 100vh;
+  width: 100vw;
+  background-image: url(../../../assets/images/orangeSpace.jpg);
+  background-size: cover; /* Cover the entire screen */
+  background-attachment: fixed; /* Remain fixed while scrolling */
+  overflow-x: hidden;
+}
+
+
 .scoreboardContainer {
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 90vw;
+  margin: 2rem auto;
+  
+}
+.quizDetails{
+  background-color: transparent;
+  backdrop-filter: blur(5px);
+  border:none;
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.1);;
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  padding: 2rem 5rem;
+}
+.scoreboardHeading{
+  color:#F6561E;;
+  color:white;
+  text-align: center;
+  text-transform: capitalize;
+  width: fit-content;
+  margin:auto;
+  margin-bottom: 2rem;
+  position: relative;
+  font-weight: 700;
+  animation: flicker 0.8s ease infinite;
+
+
+  &::after{
+    content: '';
+    width: 100%;
+    height: 3px;
+    position: absolute;
+    bottom: -5px;
+    transform: translateX(-100%);
+    border-radius: 50%;
+    background: linear-gradient(90deg,#ffffff2f, white,#ffffff2f);
+  }
 }
 
-.scoreboardHeading {
-  color: #FFA500; /* Orange */
-  font-size: 24px;
-  margin-bottom: 20px;
+@keyframes flicker {
+  0%{
+    text-shadow: 0 0 30px #F6561E;; 
+  }
+  100%{
+    text-shadow: 0 0 15px #F6561E;; 
+  }
+}
+.quizDetails p{
+  color:white;
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-family: 'Chakra Petch';
+  text-transform: capitalize;
+
 }
 
-.commentOutData {
-  background-color: #FFD700; /* Gold */
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-}
-
-.commentOutData p {
-  margin: 5px 0;
-}
 
 .scoreboardTable {
-  width: 100%;
+  width: 60vw;
+  margin:auto;
   border-collapse: collapse;
 }
 
-.scoreboardTable th,
-.scoreboardTable td {
-  padding: 10px;
-  border-bottom: 1px solid #008000; /* Green */
+.scoreboardTable th{
+  padding: 0.5rem 1rem;
   text-align: left;
 }
 
 .scoreboardTable th {
-  background-color: #32CD32; /* Lime Green */
+  background-color: white;
   font-weight: bold;
+  color:black;
+  mix-blend-mode: screen;
 }
 
-.scoreboardTable tr:hover {
-  background-color: #FFD700; /* Gold */
+
+
+/* Header css  */
+.navbar
+{
+  padding: 0.7rem 3rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+.logoContainer{
+  width: fit-content;
+  /* margin:auto; */
+  
+}
+.logo {
+  width:220px;
+}
+
+
+  .backBtn {
+    height: 3rem;
+    background-color: transparent;
+    border:2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    border-left:none;
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+    padding-left: 40px;
+    width: fit-content;
+    padding-right: 4%;
+    position: relative;
+    transform: skew(20deg);
+    box-shadow: 0 0 8px 3px rgba(255, 255, 255, 0.1);
+    margin-left: -20px;
+  }
+
+  .backBtn > * {
+    transform: skew(-20deg);
+  }
+
+ 
+  
+  .backBtn .blackOverlay {
+
+    display: inline;
+    width: 8px;
+    height: inherit ;
+    padding:2rem 0;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 5px 2px #ffffff;
+    transform: skewX(8deg);
+    margin-left: 2rem;
+  }
+  .navIcon {
+    font-size: 1.4rem;
+    margin-right: 5px;
+    color: white;
+    font-family: 'Chakra petch';
+    font-weight: 900;
+  }
+  .navIcon.text{
+    font-size: 1.2rem;
+  }
+  .navIcon.Hover:hover {
+    color: #60d600;
+    margin-right: 5px;
+  }
+
+  /* Students List css */
+
+  .studentScoreList{
+    width: 60vw;
+    margin:auto;
+  }
+
+  .studentScoreList ul {
+    list-style-type: none;
+  }
+  .studentScoreList ul li {
+    display: flex;
+    justify-content: space-between;
+    /* background-color: #333; */
+    border:1px solid white;
+    backdrop-filter: blur(5px);
+    box-shadow: 2px 2px 20px 5px #ffffff2f;
+    margin: 1rem 0;
+    border-radius: 10px;
+    padding: 1rem;
+    
+  }
+
+  .studentScoreList p{
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+  }
+  .profileContainer{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: black;
+    border:2px solid white;
+    box-shadow: 2px 2px 8px 3px #ffffff37;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .profileContainer img{
+      width: 80%;
+  }
+  .flexBox{
+    display: flex;
+    align-items: center;
+  }
+  .userEmail{
+    font-size: 12px;
+  }
+  .verticalAlign {
+    align-items: center;
+  }

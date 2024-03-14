@@ -62,7 +62,7 @@ const App = () => {
                 <Route path="/teacher/question-banks/manage" element={<QuestionBankManagementPage/>}/>
                 <Route path="/teacher/question-banks/add" element={<AddQuestionBankForm/>}/>
                 <Route path="/student/quiz/play/:quizId" element={<QuizPlay/>}/>
-                <Route path="/user/quiz/scoreboard" element={<ScoreboardPage/>}/>
+                <Route path="/user/quiz/scoreboard" element={<ScoreboardPage userData={userData}/>}/>
                 <Route path="/teacher/question-banks/:id" element={<QuestionBankModifyPage/>}/>
             </Routes>
         </Router>
