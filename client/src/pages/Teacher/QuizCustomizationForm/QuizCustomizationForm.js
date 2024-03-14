@@ -24,7 +24,7 @@ const QuizCustomizationForm = ({ onSubmit }) => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const val = type === 'checkbox' ? checked : value;
-    console.log(name,'-',val);
+    console.log(name, '-', val);
     setFormData((prevData) => ({
       ...prevData,
       [name]: val,
@@ -60,106 +60,110 @@ const QuizCustomizationForm = ({ onSubmit }) => {
           Authorization: `Bearer ${token}`
         }
       });
-      localStorage.setItem('ug_game_id',response.data._id);
-      localStorage.setItem('ug_game_code',response.data.gameCode);
+      localStorage.setItem('ug_game_id', response.data._id);
+      localStorage.setItem('ug_game_code', response.data.gameCode);
       console.log(response.data);
       navigate('/teacher/quiz/waiting-room');
-      
+
     } catch (error) {
       console.error('Error generating quiz:', error);
     }
   }
-  
+
 
   return (
     <div className={styles.formContainer}>
-      <form className={styles.formBody + ' ' + styles.form2} style={{marginTop:'1rem'}} onSubmit={handleSubmit}>
-        <h1 style={{marginBottom:'2rem'}}>Quiz Customization Form</h1>
-      <div>
-        <label className={styles.label}>Title<span>*</span>:</label>
-        <input type="text" name="title" value={formData.title} onChange={handleChange} className={styles.input} required />
-      </div>
-      <div>
-        <label className={styles.label}>Category<span>*</span>: <span className={styles.instruction}>(Course/Subject)</span></label>
-        <input type="text" name="category" value={formData.category} onChange={handleChange} className={styles.input} placeholder='example: Data Structures' required />
-      </div>
-      <div>
-        <label className={styles.label}>Description: <span className={styles.instruction}>(Optional)</span></label>
-        <textarea name="description" value={formData.description} onChange={handleChange} className={styles.input} placeholder='Some Description about this Quiz to guide Students...' />
-      </div>
-      <div>
-        <label className={styles.label}>Question Bank ID<span>*</span>:</label>
-        <select name="quizBankId" value={formData.quizBankId} onChange={handleChange} className={styles.input} required>
-          <option value="">Select Question Bank</option>
-          {questionBanks && questionBanks.map((questionBank) => (
-            <option key={questionBank._id} value={questionBank._id}>{questionBank.name}</option>
-          ))}
-        </select>
-      </div>
+      <form className={styles.formBody + ' ' + styles.form2} style={{ marginTop: '1rem' }} onSubmit={handleSubmit}>
+        <h1 style={{ marginBottom: '2rem' }}>Quiz Customization Form</h1>
+        <div>
+          <label className={styles.label}>Title<span>*</span>:</label>
+          <input type="text" name="title" value={formData.title} onChange={handleChange} className={styles.input} required />
+        </div>
+        <div>
+          <label className={styles.label}>Category<span>*</span>: <span className={styles.instruction}>(Course/Subject)</span></label>
+          <input type="text" name="category" value={formData.category} onChange={handleChange} className={styles.input} placeholder='example: Data Structures' required />
+        </div>
+        <div>
+          <label className={styles.label}>Description: <span className={styles.instruction}>(Optional)</span></label>
+          <textarea name="description" value={formData.description} onChange={handleChange} className={styles.input} placeholder='Some Description about this Quiz to guide Students...' />
+        </div>
+        <div>
+          <label className={styles.label}>Question Bank ID<span>*</span>:</label>
+          <select name="quizBankId" value={formData.quizBankId} onChange={handleChange} className={styles.input} required>
+            <option value="">Select Question Bank</option>
+            {questionBanks && questionBanks.map((questionBank) => (
+              <option key={questionBank._id} value={questionBank._id}>{questionBank.name}</option>
+            ))}
+          </select>
+        </div>
 
-      <div>
-        <label className={styles.label}>Time Limit (in minutes):</label>
-        <input type="number" name="timeLimit" value={formData.timeLimit} onChange={handleChange} className={styles.input} />
-      </div>
-      <div>
-        <label className={styles.label}>Number of Questions:</label>
-        <input
-          type="number"
-          name="numberOfQuestions"
-          value={formData.numberOfQuestions}
-          onChange={handleChange}
-          className={styles.input}
-        />
-      </div>
-      <div>
-        <label className={styles.label}>Passing Percentage</label>
-        <input
-          type="number"
-          name="passingScorePercentage"
-          value={formData.passingScorePercentage}
-          onChange={handleChange}
-          className={styles.input}
-        />
-      </div>
-      <div >
-        <input
-          type="checkbox"
-          name="showCorrectAnswers"
-          checked={formData.showCorrectAnswers}
-          onChange={handleChange}
-          className={styles.listCheckbox}
-        />
-        <label className={styles.labelCheckbox}>Show Correct Answers to student at the end of Quiz</label>
-      </div>
+        <div>
+          <label className={styles.label}>Time Limit (in minutes):</label>
+          <input type="number" name="timeLimit" value={formData.timeLimit} onChange={handleChange} className={styles.input} min="1" />
+        </div>
+        <div>
+          <label className={styles.label}>Number of Questions:</label>
+          <input
+            type="number"
+            name="numberOfQuestions"
+            value={formData.numberOfQuestions}
+            onChange={handleChange}
+            className={styles.input}
+            min="1"
+          />
+        </div>
+        <div>
+          <label className={styles.label}>Passing Percentage</label>
+          <input
+            type="number"
+            name="passingScorePercentage"
+            value={formData.passingScorePercentage}
+            onChange={handleChange}
+            className={styles.input}
+            min="0"
+            max="100"
+          />
+        </div>
 
-      <div style={{margin:'20px 0'}}>
-        <input
-          type="checkbox"
-          name="sendQuizOutputToStudents"
-          checked={formData.sendQuizOutputToStudents}
-          onClick={handleChange}
-          className={styles.listCheckbox}
-        />
-        <label className={styles.labelCheckbox}>Send Quiz Output to Students on mail</label>
-      </div>
+        <div >
+          <input
+            type="checkbox"
+            name="showCorrectAnswers"
+            checked={formData.showCorrectAnswers}
+            onChange={handleChange}
+            className={styles.listCheckbox}
+          />
+          <label className={styles.labelCheckbox}>Show Correct Answers to student at the end of Quiz</label>
+        </div>
 
-      <div>
-        <input
-          type="checkbox"
-          name="getQuizResultOnMail"
-          checked={formData.getQuizResultOnMail}
-          onClick={handleChange}
-          className={styles.listCheckbox}
-        />
-        <label className={styles.labelCheckbox}>Get Quiz Result on your mail</label>
-      </div>
+        <div style={{ margin: '20px 0' }}>
+          <input
+            type="checkbox"
+            name="sendQuizOutputToStudents"
+            checked={formData.sendQuizOutputToStudents}
+            onClick={handleChange}
+            className={styles.listCheckbox}
+          />
+          <label className={styles.labelCheckbox}>Send Quiz Output to Students on mail</label>
+        </div>
 
-      <button type="submit" className={styles.button}>Generate Quiz</button>
-    </form>
+        <div>
+          <input
+            type="checkbox"
+            name="getQuizResultOnMail"
+            checked={formData.getQuizResultOnMail}
+            onClick={handleChange}
+            className={styles.listCheckbox}
+          />
+          <label className={styles.labelCheckbox}>Get Quiz Result on your mail</label>
+        </div>
+
+        <button type="submit" className={styles.button}>Generate Quiz</button>
+      </form>
     </div>
   );
-  
-  
+
+
 };
 
 export default QuizCustomizationForm;
