@@ -71,9 +71,12 @@ const QuizPlay = () => {
           },
         });
         setQuiz(response.data);
-        
-        if(localStorage.getItem('timer') === null)
+        console.log(localStorage.getItem('timer'));
+        console.log(response.data.timeLimit)
+        // localStorage.removeItem('timer');
+        if(localStorage.getItem('timer') === 'null' || localStorage.getItem('timer') === null)
         {
+          console.log('here');
           setTime({minutes: response.data.timeLimit, seconds: 0});
         }
         
@@ -159,6 +162,7 @@ const QuizPlay = () => {
       });
 
       console.log('Quiz submitted successfully:', submitData);
+      localStorage.removeItem('timer');
 
       navigate('/user/quiz/scoreboard');
     } catch (error) {
@@ -191,7 +195,7 @@ const QuizPlay = () => {
           <img src={logo} alt='Logo' className={styles.logo} />
         </div>
         <h1 className={styles.title}><span>{quiz.title}</span></h1>
-        {time !== null && time.minutes && (
+        {time !== null && (time.minutes || time.seconds) && (
           <div className={styles.timerContainer}>
             <div className={styles.timerTitle}>Time Remaining:</div> 
             <span>
