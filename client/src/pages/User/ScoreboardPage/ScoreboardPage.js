@@ -8,10 +8,10 @@ import { GoChevronRight } from "react-icons/go";
 import { Link } from 'react-router-dom';
 import profile from '../../../assets/images/common/team_3.png';
 
-const ScoreboardPage = ({userData}) => {
+const ScoreboardPage = ({ userData }) => {
   const [quizResults, setQuizResults] = useState([]);
 
-  let {quizId} = useParams();
+  let { quizId } = useParams();
 
   useEffect(() => {
     const fetchQuizResults = async () => {
@@ -19,8 +19,7 @@ const ScoreboardPage = ({userData}) => {
         const token = localStorage.getItem('ultimate_genius0510_token');
 
         console.log(quizId);
-        if(!quizId)
-        {
+        if (!quizId) {
           quizId = localStorage.getItem('ug_game_id');
         }
 
@@ -32,9 +31,9 @@ const ScoreboardPage = ({userData}) => {
         console.log(response.data);
         console.log(typeof (response.data));
         setQuizResults(response.data);
-        setTimeout(()=>{
+        setTimeout(() => {
           console.log(quizResults.resultLog);
-        },1000);
+        }, 1000);
       } catch (error) {
         console.error('Error fetching quiz results:', error);
       }
@@ -61,20 +60,27 @@ const ScoreboardPage = ({userData}) => {
         <div className={styles.triangle}></div>
       </div>
       <div className={styles.scoreboardContainer}>
-        
+
         {
           quizResults && quizResults.resultLog ? (<div className={styles.quizDetails}>
             <h1 className={styles.scoreboardHeading}>Quiz Scoreboard</h1>
             <div className='row'>
-              <div className='col-6'>  <p>Title: {quizResults.title}</p>
-            <p>Category: {quizResults.category}</p>
-            <p>Teacher Name: {quizResults.resultLog[0].quiz.teacherName} {userData && (quizResults.teacherId == userData._id)? '(You)':""}</p></div>
-
-              <div className={'col-6 '}><p>Duration: {quizResults.resultLog[0].quiz.duration} minutes</p>
-            <p>Total Questions: {quizResults.resultLog[0].quiz.totalQuestions}</p></div>
+              <div className='col-4'>  <p>Title: {quizResults.title}</p>
+                <p>Category: {quizResults.category}</p>
               </div>
+
+              <div className='col-4'><p>Duration: {quizResults.resultLog[0].quiz.duration} minutes</p>
+                <p>Total Questions: {quizResults.resultLog[0].quiz.totalQuestions}</p>
+                </div>
+                <div className='col-3'>
+              <p>Teacher Name: {quizResults.resultLog[0].quiz.teacherName} {userData && (quizResults.teacherId == userData._id) ? '(You)' : ""}</p>
+
+            </div>
+            </div>
+
             
-            
+
+
           </div>) : <div></div>
         }
 
@@ -82,24 +88,24 @@ const ScoreboardPage = ({userData}) => {
           <thead>
             <tr>
               <th>Student Name</th>
-              <th style={{textAlign:'right', paddingRight:'2rem'}}>Score Obtained</th>
+              <th style={{ textAlign: 'right', paddingRight: '2rem' }}>Score Obtained</th>
             </tr>
           </thead>
         </table>
 
         <div className={styles.studentScoreList}>
 
-              <ul>
-              {quizResults && quizResults.resultLog && quizResults.resultLog.map((log, logIndex) => (
+          <ul>
+            {quizResults && quizResults.resultLog && quizResults.resultLog.map((log, logIndex) => (
               <li key={logIndex}>
                 <div className={styles.flexBox}>
-                <span className={styles.profileContainer}>
-                  <img src={profile}></img>
-                </span>
-                <span style={{marginLeft:'20px'}}>
-                  <p>{log.studentName} {userData && (log.studentId._id == userData._id)? '(You)':""}</p>
-                  {/* <p className={styles.userEmail}>{log.studentId.email}</p> */}
-                </span>
+                  <span className={styles.profileContainer}>
+                    <img src={profile}></img>
+                  </span>
+                  <span style={{ marginLeft: '20px' }}>
+                    <p>{log.studentName} {userData && (log.studentId._id == userData._id) ? '(You)' : ""}</p>
+                    {/* <p className={styles.userEmail}>{log.studentId.email}</p> */}
+                  </span>
                 </div>
                 <p className={styles.flexBox + ' ' + styles.verticalAlign}>
                   Score Obtained: {log.scoreObtained}
@@ -108,7 +114,7 @@ const ScoreboardPage = ({userData}) => {
                 {/* <p>{log.studentName}</p> */}
               </li>
             ))}
-              </ul>
+          </ul>
         </div>
       </div>
     </div>

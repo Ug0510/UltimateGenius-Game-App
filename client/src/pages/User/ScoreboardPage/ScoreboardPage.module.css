@@ -141,6 +141,7 @@
     transform: skewX(8deg);
     margin-left: 2rem;
   }
+  
   .navIcon {
     font-size: 1.4rem;
     margin-right: 5px;
@@ -155,6 +156,11 @@
     color: #60d600;
     margin-right: 5px;
   }
+  .backBtn:hover .blackOverlay{
+    background-color: #F6561E;
+    box-shadow: 0 0 15px 2px #f6581ec9;
+  }
+ 
 
   /* Students List css */
 
