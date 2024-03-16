@@ -7,7 +7,7 @@ import checkIsLoggedIn from './utils/checkIsLoggedIn';
 import RegisterForm from './pages/User/Login/RegisterForm';
 import ChooseGame from './pages/Teacher/ChooseGame/ChooseGame';
 import QuizCustomizationForm from './pages/Teacher/QuizCustomizationForm/QuizCustomizationForm';
-import TeacherWaitingRoomPage from './pages/Teacher/WaitingRoomPage/WaitingRoomPage';
+import WaitingRoomPage from './pages/User/WaitingRoomPage/WaitingRoomPage';
 import JoinQuizPage from './pages/Student/JoinQuizPage/JoinQuizPage';
 import StudentWaitingRoomPage from './pages/Student/WaitingRoomPage/WaitingRoomPage';
 import QuestionManagementPage from './pages/Teacher/QuestionManagementPage/QuestionManagementPage';
@@ -53,7 +53,7 @@ const App = () => {
                 <Route path="/teacher/game-choice" element={<ChooseGame isLoggedIn={isLoggedIn} userData={userData} />} />
                 <Route path="/teacher/quizgame" element={<QuizGame isLoggedIn={isLoggedIn} userData={userData} />} />
                 <Route path="/teacher/quiz/create" element={<QuizCustomizationForm />} />
-                <Route path="/teacher/quiz/waiting-room" element={<TeacherWaitingRoomPage />} />
+                <Route path="/user/quiz/waiting-room" element={<WaitingRoomPage userData={userData} />} />
                 <Route path="/student/quiz/join" element={<JoinQuizPage />} />
                 <Route path="/student/quiz/waiting-room" element={<StudentWaitingRoomPage />} />
                 <Route path="/teacher/question/manage" element={<QuestionManagementPage />} />

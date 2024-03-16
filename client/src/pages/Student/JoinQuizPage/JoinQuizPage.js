@@ -47,7 +47,7 @@ const JoinQuizPage = () => {
       
       localStorage.setItem('ug_game_id',response.data.quizId);
 
-      navigate('/student/quiz/waiting-room');
+      navigate('/user/quiz/waiting-room');
     } catch (error) {
       // Handle errors
       console.error('Error joining quiz:', error);

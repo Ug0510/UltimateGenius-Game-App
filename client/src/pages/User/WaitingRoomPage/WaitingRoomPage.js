@@ -5,7 +5,7 @@ import axios from 'axios';
 import styles from './WaitingRoomPage.module.css';
 import { useNavigate } from 'react-router-dom';
 
-const TeacherWaitingRoomPage = () => {
+const WaitingRoomPage = ({userData}) => {
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -104,7 +104,9 @@ const TeacherWaitingRoomPage = () => {
                   <img className={styles.avatar} src='/assets/img/avatar1.png' alt="Avatar" />
                   <span>{student.gameName}</span>
                   </span>
-                  <button className={styles.removeButton} onClick={() => removeStudent(student._id)}>Remove</button>
+                  {
+                    userData && (userData.userType === 'teacher')? <button className={styles.removeButton} onClick={() => removeStudent(student._id)}>Remove</button>:<></>
+                  }
                 </div>
                
               </li>
@@ -116,4 +118,4 @@ const TeacherWaitingRoomPage = () => {
   );
 };
 
-export default TeacherWaitingRoomPage;
+export default WaitingRoomPage;

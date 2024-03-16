@@ -63,7 +63,7 @@ const QuizCustomizationForm = ({ onSubmit }) => {
       localStorage.setItem('ug_game_id', response.data._id);
       localStorage.setItem('ug_game_code', response.data.gameCode);
       console.log(response.data);
-      navigate('/teacher/quiz/waiting-room');
+      navigate('/user/quiz/waiting-room');
 
     } catch (error) {
       console.error('Error generating quiz:', error);
