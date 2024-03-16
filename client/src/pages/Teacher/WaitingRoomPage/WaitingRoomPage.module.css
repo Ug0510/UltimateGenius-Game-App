@@ -3,13 +3,18 @@
     background-color: #000000;
     color: #ffffff;
     padding: 20px;
+    text-align: center;
   }
   
   .studentList {
     list-style-type: none;
     padding: 0;
+
   }
-  
+  .listHeading{
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
   .studentItem {
     margin-bottom: 10px;
   }
@@ -17,6 +22,12 @@
   .studentInfo {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 2rem;
+    border-radius: 50px;
+    border:1px solid #f6561e;
+    width: 60vw;
+    margin:auto;
   }
   
   .avatar {
@@ -41,14 +52,21 @@
   }
   
   .startButton {
-    background-color: #f6561e;
+    background-color: #60d600;
     color: #ffffff;
     border: none;
+    border-bottom: 4px solid #367800;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 20px;
     transition: background-color 0.3s ease;
+  }
+  .startButton:hover{
+    font-weight: 700;
+  }
+  .startButton:active{
+    border-color:#ff7f44;
   }
   
   .startButton:hover {

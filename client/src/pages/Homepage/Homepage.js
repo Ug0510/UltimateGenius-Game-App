@@ -14,6 +14,7 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
     const [resultLogs, setResultLogs] = useState([]);
 
     const navigate = useNavigate();
+    console.log(resultLogs);
 
     useEffect(() => {
         VanillaTilt.init(document.querySelector('.tilt'), {
@@ -80,7 +81,7 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
             fetchLastMatchLog();
 
         }
-    }, []);
+    }, [userData]);
 
 
 
@@ -187,7 +188,7 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
                         :
                         (<div className="col-xl-4 col-lg-5 col-md-6 order-md-1 order-lg-last">
                             <div className="hero-content">
-                                <div className="card-area py-lg-8 py-6 px-lg-6 px-3 rounded-5 tilt mb-10" data-tilt>
+                                <div className="card-area py-lg-8 py-6 px-lg-6 px-3 rounded-5 tilt mb-10" >
                                     <h3 className="tcn-1 dot-icon cursor-scale growDown mb-6 title-anim">
                                         Last Match Score
                                     </h3>

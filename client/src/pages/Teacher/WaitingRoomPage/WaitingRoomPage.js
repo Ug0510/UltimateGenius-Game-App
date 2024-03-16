@@ -87,24 +87,29 @@ const TeacherWaitingRoomPage = () => {
 
   return (
     <div className={styles.waitingRoom}>
-      <h2>Waiting Room {localStorage.getItem('ug_game_code')}</h2>
+      <h1>Quiz Game Waiting Room </h1>
+      <h5>Game Code: <span style={{color:'#f6561e'}}>{localStorage.getItem('ug_game_code')}</span></h5>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
         <>
-          <h3>List of Students {localStorage.getItem('ug_game_code')}</h3>
+          <button className={styles.startButton} onClick={startQuiz}>Start Quiz</button>
+          <h3 className={styles.listHeading}>List of Students</h3>
           <ul className={styles.studentList}>
+            
             {students.map((student) => (
               <li key={student._id} className={styles.studentItem}>
                 <div className={styles.studentInfo}>
+                  <span>
+                  <img className={styles.avatar} src='/assets/img/avatar1.png' alt="Avatar" />
                   <span>{student.gameName}</span>
-                  <img className={styles.avatar} src={student.avatar} alt="Avatar" />
+                  </span>
+                  <button className={styles.removeButton} onClick={() => removeStudent(student._id)}>Remove</button>
                 </div>
-                <button className={styles.removeButton} onClick={() => removeStudent(student._id)}>Remove</button>
+               
               </li>
             ))}
           </ul>
-          <button className={styles.startButton} onClick={startQuiz}>Start Quiz</button>
         </>
       )}
     </div>
