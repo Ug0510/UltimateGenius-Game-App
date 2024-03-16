@@ -14,7 +14,8 @@ const QuizPlay = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [showError, setShowError] = useState(false);
   const { quizId } = useParams();
-  const initialTime = localStorage.getItem('timer') ? JSON.parse(localStorage.getItem('timer')) : null;
+  const gameId = localStorage.getItem('ug_game_id');
+  const initialTime = localStorage.getItem(`timer${gameId}`) ? JSON.parse(localStorage.getItem(`timer${gameId}`)) : null;
   const [time, setTime] = useState(initialTime);  
 
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const QuizPlay = () => {
   }, [time]);
 
   useEffect(() => {
-    localStorage.setItem('timer', JSON.stringify(time));
+    localStorage.setItem(`timer${gameId}`, JSON.stringify(time));
   }, [time]);
 
   useEffect(() => {
@@ -71,10 +72,8 @@ const QuizPlay = () => {
           },
         });
         setQuiz(response.data);
-        console.log(localStorage.getItem('timer'));
-        console.log(response.data.timeLimit)
-        // localStorage.removeItem('timer');
-        if(localStorage.getItem('timer') === 'null' || localStorage.getItem('timer') === null)
+        // localStorage.removeItem(`timer${gameId}`);
+        if(localStorage.getItem(`timer${gameId}`) === 'null' || localStorage.getItem(`timer${gameId}`) === null)
         {
           console.log('here');
           setTime({minutes: response.data.timeLimit, seconds: 0});
@@ -162,7 +161,7 @@ const QuizPlay = () => {
       });
 
       console.log('Quiz submitted successfully:', submitData);
-      localStorage.removeItem('timer');
+      localStorage.removeItem(`timer${gameId}`);
 
       navigate('/user/quiz/scoreboard');
     } catch (error) {
