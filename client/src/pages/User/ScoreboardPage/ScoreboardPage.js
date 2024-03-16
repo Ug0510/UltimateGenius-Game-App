@@ -10,6 +10,7 @@ import profile from '../../../assets/images/common/team_3.png';
 
 const ScoreboardPage = ({ userData }) => {
   const [quizResults, setQuizResults] = useState([]);
+  const [quizOnGoing, setQuizOnGoing] = useState(true);
 
   let { quizId } = useParams();
 
@@ -40,7 +41,40 @@ const ScoreboardPage = ({ userData }) => {
     };
 
     fetchQuizResults();
-  }, []);
+  }, [userData]);
+
+  useEffect(() => {
+    let intervalId;
+
+    const checkQuizStatus = async () => {
+        try {
+            // Fetch quiz status from the server
+            const token = localStorage.getItem('ultimate_genius0510_token');
+            const gameCode = localStorage.getItem('ug_game_id');
+
+            const response = await axios.get(`http://localhost:8000/api/student/check-quiz-if-started/${gameCode}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log(response.data.isStarted);
+
+            if (response.data.isStarted === false) {
+              setQuizOnGoing(false);
+            }
+        } catch (error) {
+            console.error('Error checking quiz status:', error);
+        }
+    };
+
+    if(quizOnGoing)
+    {
+      checkQuizStatus(); 
+      intervalId = setInterval(checkQuizStatus, 5000);
+    }
+    return () => clearInterval(intervalId); 
+}, [userData]);
+
 
   return (
     <div className={styles.scoreboardWrapper} >
@@ -69,16 +103,16 @@ const ScoreboardPage = ({ userData }) => {
                 <p>Category: {quizResults.category}</p>
               </div>
 
-              <div className='col-4'><p>Duration: {quizResults.resultLog[0].quiz.duration} minutes</p>
-                <p>Total Questions: {quizResults.resultLog[0].quiz.totalQuestions}</p>
-                </div>
-                <div className='col-3'>
-              <p>Teacher Name: {quizResults.resultLog[0].quiz.teacherName} {userData && (quizResults.teacherId == userData._id) ? '(You)' : ""}</p>
-
+              <div className='col-4'><p>Duration: {quizResults.timeLimit} minutes</p>
+                <p>Total Questions: {quizResults.numberOfQuestions}</p>
+              </div>
+              <div className='col-3'>
+              <Link to={`/user/profile/${quizResults.teacherId}`} ><p className={styles.Hover}>Teacher Name:  {quizResults.teacherName} {userData && (quizResults.teacherId == userData._id) ? '(You)' : ""}</p></Link>
+                <p>Quiz Status: {quizOnGoing? 'Ongoing':'Ended'}</p>
+              </div>
             </div>
-            </div>
 
-            
+
 
 
           </div>) : <div></div>
@@ -94,28 +128,29 @@ const ScoreboardPage = ({ userData }) => {
         </table>
 
         <div className={styles.studentScoreList}>
-
           <ul>
-            {quizResults && quizResults.resultLog && quizResults.resultLog.map((log, logIndex) => (
-              <li key={logIndex}>
-                <div className={styles.flexBox}>
-                  <span className={styles.profileContainer}>
-                    <img src={profile}></img>
-                  </span>
-                  <span style={{ marginLeft: '20px' }}>
-                    <p>{log.studentName} {userData && (log.studentId._id == userData._id) ? '(You)' : ""}</p>
-                    {/* <p className={styles.userEmail}>{log.studentId.email}</p> */}
-                  </span>
-                </div>
-                <p className={styles.flexBox + ' ' + styles.verticalAlign}>
-                  Score Obtained: {log.scoreObtained}
-                </p>
-
-                {/* <p>{log.studentName}</p> */}
-              </li>
-            ))}
+            {quizResults && quizResults.resultLog && quizResults.resultLog.length > 0 ? (
+              quizResults.resultLog.map((log, logIndex) => (
+                <li key={logIndex}>
+                  <div className={styles.flexBox}>
+                    <span className={styles.profileContainer}>
+                      <img src={profile}></img>
+                    </span>
+                    <span style={{ marginLeft: '20px' }}>
+                      <Link to={`/user/profile/${log.studentId._id}`}><p className={styles.Hover}>{log.studentName} {userData && (log.studentId._id == userData._id) ? '(You)' : ""}</p></Link>
+                    </span>
+                  </div>
+                  <p className={styles.flexBox + ' ' + styles.verticalAlign}>
+                    Score Obtained: {log.scoreObtained}
+                  </p>
+                </li>
+              ))
+            ) : (
+              <li style={{textAlign:'center'}}>No student has finished the game yet!</li>
+            )}
           </ul>
         </div>
+
       </div>
     </div>
   );

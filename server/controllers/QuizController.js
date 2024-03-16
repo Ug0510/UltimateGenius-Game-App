@@ -167,7 +167,13 @@ exports.startQuiz = async (req, res) => {
         // Update the quiz to be started
         quiz.isStarted = true;
         await quiz.save();
-        console.log()
+
+        // Automatically set isStarted to false after quiz.timeLimit minutes
+        setTimeout(async () => {
+            quiz.isStarted = false;
+            await quiz.save();
+            console.log(`Quiz ${quizId} automatically ended`);
+        }, quiz.timeLimit * 60 * 1000); // Convert minutes to milliseconds
 
         res.status(200).json({ message: 'Quiz started successfully' });
     } catch (error) {
@@ -322,16 +328,21 @@ exports.getQuizResults = async (req, res) => {
     try {
       // Fetch quiz results from the database
       const {quizId} = req.params;
-      const quiz = await QuizGame.findById(quizId).populate({
+      let quiz = await QuizGame.findById(quizId).populate({
         path: 'resultLog',
         populate: {
           path: 'studentId',
           model: 'User'
         }
       });
+
+      // Adding teacher name too
+      const teacher = await User.findById(quiz.teacherId);
+      
+      const quizModified = {...quiz._doc, teacherName:teacher.userName};
     
       // Return quiz results as JSON response
-      res.status(200).json(quiz);
+      res.status(200).json(quizModified);
     } catch (error) {
       console.error('Error fetching quiz results:', error);
       res.status(500).json({ message: 'Internal server error' });
