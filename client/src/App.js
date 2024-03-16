@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Homepage from './pages/Homepage/Homepage';
 import LoginPage from './pages/User/Login/LoginForm';
-import RegisterPage from './pages/User/Register';
 import checkIsLoggedIn from './utils/checkIsLoggedIn';
 import RegisterForm from './pages/User/Login/RegisterForm';
 import ChooseGame from './pages/Teacher/ChooseGame/ChooseGame';
 import QuizCustomizationForm from './pages/Teacher/QuizCustomizationForm/QuizCustomizationForm';
 import WaitingRoomPage from './pages/User/WaitingRoomPage/WaitingRoomPage';
 import JoinQuizPage from './pages/Student/JoinQuizPage/JoinQuizPage';
-import StudentWaitingRoomPage from './pages/Student/WaitingRoomPage/WaitingRoomPage';
 import QuestionManagementPage from './pages/Teacher/QuestionManagementPage/QuestionManagementPage';
 import AddQuestionForm from './pages/Teacher/AddQuestionForm/AddQuestionForm';
 import QuizGame from './pages/Teacher/QuizGame/QuizGame';
@@ -55,7 +53,6 @@ const App = () => {
                 <Route path="/teacher/quiz/create" element={<QuizCustomizationForm />} />
                 <Route path="/user/quiz/waiting-room" element={<WaitingRoomPage userData={userData} />} />
                 <Route path="/student/quiz/join" element={<JoinQuizPage />} />
-                <Route path="/student/quiz/waiting-room" element={<StudentWaitingRoomPage />} />
                 <Route path="/teacher/question/manage" element={<QuestionManagementPage />} />
                 <Route path="/teacher/question/add" element={<AddQuestionForm />} />
                 <Route path="/teacher/question-banks/manage" element={<QuestionBankManagementPage />} />
