@@ -93,7 +93,7 @@ const WaitingRoomPage = ({userData}) => {
         <p>Loading...</p>
       ) : (
         <>
-          <button className={styles.startButton} onClick={startQuiz}>Start Quiz</button>
+         {userData && (userData.userType === 'teacher')?<button className={styles.startButton} onClick={startQuiz}>Start Quiz</button>:<></>}
           <h3 className={styles.listHeading}>List of Students</h3>
           <ul className={styles.studentList}>
             
