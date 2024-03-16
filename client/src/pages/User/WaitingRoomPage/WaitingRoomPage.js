@@ -10,6 +10,42 @@ const WaitingRoomPage = ({userData}) => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
+
+  useEffect(() => {
+    let intervalId; 
+
+    const checkQuizStatus = async () => {
+        try {
+            // Fetch quiz status from the server
+            const token = localStorage.getItem('ultimate_genius0510_token');
+            const gameCode = localStorage.getItem('ug_game_id');
+
+            const response = await axios.get(`http://localhost:8000/api/student/check-quiz-if-started/${gameCode}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            // Check if quiz is started
+            if (response.data.isStarted) {
+                // Redirect to quiz play page
+                navigate(`/student/quiz/play/${localStorage.getItem('ug_game_id')}`); 
+            }
+        } catch (error) {
+            console.error('Error checking quiz status:', error);
+        }
+    };
+
+    if (userData && userData.userType === 'student') {
+        checkQuizStatus(); 
+        intervalId = setInterval(checkQuizStatus, 5000); // Set up interval to check every 5 seconds
+    }
+
+    return () => clearInterval(intervalId); // Clear the interval when the component unmounts
+}, [userData]);
+
+
+
   useEffect(() => {
     const fetchStudents = async () => {
       try {
