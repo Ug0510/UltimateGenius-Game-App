@@ -5,8 +5,7 @@ import PopupMessage from '../../../components/Popup/PopupMessage';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../../assets/images/logo/logo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link} from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +20,8 @@ const RegisterForm = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState('avatar1');
+  const [avatarFile, setAvatarFile] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -38,6 +39,43 @@ const RegisterForm = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleAvatarClick = (avatar) => {
+    setAvatarFile('');
+    setSelectedAvatar(avatar);
+    setFormData({ ...formData, avatar: 'avatar4' });
+  };
+
+  const handleFileChange = (e) => {
+    setAvatarFile(e.target.files[0]);
+    console.log(e.target.files[0]);
+    handleAvatarClick('avatar4');
+  };
+
+  const handleAvatarUpload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('avatar', avatarFile);
+
+      console.log(avatarFile);
+      console.log(formData);
+
+      const response = await axios.post('http://localhost:8000/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      setAvatarFile(response.data.imagePath);
+      setFormData({
+        ...formData, avatar:response.data.imagePath
+      });
+    } catch (error) {
+      console.error('Error uploading avatar:', error);
+      setPopupMessage('Error uploading avatar');
+      setShowPopup(true);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -78,7 +116,7 @@ const RegisterForm = () => {
       return;
     }
 
-    if (formData.userName.length > 20 || formData.email.length > 20 || formData.gameName.length > 20) {
+    if (formData.userName.length > 20 || formData.email.length > 50 || formData.gameName.length > 20) {
       setPopupMessage('Field value should not exceed 20 characters');
       setShowPopup(true);
       return;
@@ -86,12 +124,17 @@ const RegisterForm = () => {
 
     try {
       // Check if gameName and email already exist
-      const existingUserCheck = await axios.get(`http://localhost:8000/api/user/check?gameName=${formData.gameName}&email=${formData.email}`);
+      const existingUserCheck = await axios.get(`http://localhost:8000/api/user/check/${formData.gameName}/${formData.email}`);
       console.log(existingUserCheck.data);
       if (existingUserCheck.data.exists) {
         setPopupMessage('User with this game name or email already exists');
         setShowPopup(true);
         return;
+      }
+
+      if(avatarFile === 'avatar4')
+      {
+        handleAvatarUpload();
       }
 
       // Proceed with registration if validations pass
@@ -215,7 +258,7 @@ const RegisterForm = () => {
                 <label htmlFor="password" className={styles.label}>Password:</label>
                 <div style={{ position: 'relative' }}>
                   <input
-                    type={showPassword? 'text' : "password"}
+                    type={showPassword ? 'text' : "password"}
                     id="password"
                     name="password"
                     value={formData.password}
@@ -241,24 +284,51 @@ const RegisterForm = () => {
                 />
               </div>
 
+              {/* Avatar selection */}
               <div className={styles.formGroup}>
                 <label htmlFor="avatar" className={styles.label}>Choose your Avatar:</label>
-                <input
-                  type="text"
-                  id="avatar"
-                  name="avatar"
-                  value={formData.avatar}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                />
-              </div></div>
+                <div className='row' >
+                  <div className={'col-3 ' + styles.avatarIcon + (selectedAvatar === 'avatar1' ? ' ' + styles.selected : '')} onClick={() => handleAvatarClick('avatar1')}>
+                    <img src='http://localhost:8000/assets/avatar/avatar1.png' alt="Avatar 1" />
+                  </div>
+                  <div className={'col-3 ' + styles.avatarIcon + (selectedAvatar === 'avatar2' ? ' ' + styles.selected : '')} onClick={() => handleAvatarClick('avatar2')}>
+                    <img src='http://localhost:8000/assets/avatar/avatar2.png' alt="Avatar 2" />
+                  </div>
+                  <div className={'col-3 ' + styles.avatarIcon + (selectedAvatar === 'avatar3' ? ' ' + styles.selected : '')} onClick={() => handleAvatarClick('avatar3')}>
+                    <img src='http://localhost:8000/assets/avatar/avatar3.png' alt="Avatar 3" />
+                  </div>
+                  {/* Upload button */}
+                  <div className={'col-3 ' + styles.avatarIcon + (selectedAvatar === 'avatar4' ? ' ' + styles.selected : '')} >
+                    <input type="file" id="avatar" name="avatar" accept="image/*" onChange={handleFileChange} style={{display:'none'}} />
+                    <label htmlFor="avatar" className={styles.uploadButton}>
+                      
+                        {
+                          selectedAvatar === 'avatar4' ? 
+                          (<></>):
+                          (<div className={styles.uploadIconContainer}>
+                            <div className={styles.uploadIcon}></div>
+                            <div className={styles.uploadIcon}></div>
+                          </div>)
+                          
+                        }
+                      
+                      {
+                        selectedAvatar === 'avatar4'?
+                        <p className={styles.uploadText}>Uploaded</p>:
+                        <p className={styles.uploadText}>Upload</p>
+                      }
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
 
           <button type="submit" className={styles.button}>Register</button>
-          <br/>
-          <div style={{textAlign:'center'}}>
-          Already have a account? <Link to="/user/login" style={{color:'#60d600'}}>Click here</Link>
+          <br />
+          <div style={{ textAlign: 'center' }}>
+            Already have a account? <Link to="/user/login" style={{ color: '#60d600' }}>Click here</Link>
           </div>
           {showPopup && <PopupMessage message={popupMessage} onClose={closePopup} />}
         </form>
