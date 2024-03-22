@@ -7,7 +7,6 @@ import VanillaTilt from 'vanilla-tilt';
 import Header from '../../components/Header/Header';
 import axios from 'axios';
 import gameImgage from '../../assets/images/games/quizGame.png';
-import './Text.css';
 
 
 const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
