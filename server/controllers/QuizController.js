@@ -381,27 +381,38 @@ exports.getLastNResultLogs = async (req, res) => {
   }
 };
 
-// Controller function to get top 3 students for a quiz
+// Controller function to get the last n quiz logs created by the teacher
 exports.getQuizLog = async (req, res) => {
     try {
-        // Extract quizId from request parameters
-        const { quizId } = req.params;
+        // Extract the value of n from request parameters
+        const { n } = req.params;
 
-        // Find the quiz by its ID and populate the resultLog field
-        const quiz = await QuizGame.findById(quizId).populate({
-            path: 'resultLog',
-            options: { sort: { scoreObtained: 1 }, limit: 3 } // Sort by scoreObtained in ascending order and limit to 3 results
-        });
+        // Ensure n is a valid number
+        if (isNaN(n) || n <= 0) {
+            return res.status(400).json({ message: 'Invalid value for n' });
+        }
+        console.log('here', req.user._id);
+        const teacher = await User.findById(req.user._id);
+        console.log(teacher);
 
-        // If quiz not found
-        if (!quiz) {
-            return res.status(404).json({ message: 'Quiz not found' });
+        let gameLogs;
+
+        // If n is 0, retrieve all game logs
+        if (n == 0) {
+            gameLogs = teacher.gameLog;
+        } else {
+            // Extract the latest n game log IDs
+            const latestGameLogs = teacher.gameLog.slice(-n);
+
+            // Populate the latest game logs
+            gameLogs = await QuizGame.find({ _id: { $in: latestGameLogs } }).populate('resultLog');
         }
 
-        // Return the top 3 students in ascending order of score obtained
-        res.status(200).json(quiz.resultLog);
+        // Return the latest n quiz logs or all if n is 0
+        res.status(200).json(gameLogs);
+        
     } catch (error) {
-        console.error('Error fetching quiz log:', error);
+        console.error('Error fetching quiz logs:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };

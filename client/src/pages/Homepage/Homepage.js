@@ -24,6 +24,8 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
             glare: true,
             'max-glare': 0.5
         });
+
+        console.log(userData);
     }, []);
 
 
@@ -54,10 +56,8 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
             try {
                 const token = localStorage.getItem('ultimate_genius0510_token');
 
-                const quizId = userData.gameLog[userData.gameLog.length - 1];
-
                 // Make API call to fetch latest quiz results
-                const response = await axios.get(`http://localhost:8000/api/teacher/quiz/getlog/${quizId}`, {
+                const response = await axios.get(`http://localhost:8000/api/teacher/quiz/getlog/3`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -197,7 +197,7 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
                                     <div className="hero-content">
                                         <div className="card-area py-lg-8 py-6 px-lg-6 px-3 rounded-5 tilt mb-10" >
                                             <h3 className="tcn-1 dot-icon cursor-scale growDown mb-6 title-anim">
-                                                Last Match Score
+                                                Last Matches
                                             </h3>
                                             <div className="hr-line mb-6"></div>
                                             <div className="card-items d-grid gap-5">
@@ -206,13 +206,13 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
                                                         <>
                                                             <div key={index} className="card-item d-flex align-items-center gap-4">
                                                                 <div className="card-img-area rounded-circle overflow-hidden">
-                                                                    <img className="w-100" src="./assets/img/avatar1.png" alt="profile" />
+                                                                    <img className="w-100" src={gameImgage} alt="profile" />
                                                                 </div>
                                                                 <div className="card-info">
                                                                     <h4 className="card-title fw-semibold tcn-1 mb-1 cursor-scale growDown2 title-anim" style={{ textTransform: 'capitalize' }}>
-                                                                        {log.studentName}
+                                                                        {log.title}
                                                                     </h4>
-                                                                    <p className="card-text tcs-1 fw-medium">Score: {log.scoreObtained}/{log.totalScore}</p>
+                                                                    <p className="card-text tcs-1 fw-medium">Students Joined: {log.studentIds.length}</p>
                                                                 </div>
                                                             </div>
                                                             {(index < resultLogs.length - 1) ? <div className="hr-line mb-1"></div> : ""}
