@@ -16,12 +16,11 @@ const RegisterForm = () => {
     password: '',
     confirmPassword: '',
     gameName: '',
-    avatar: 'base.png' // Default value for avatar
+    avatar: 'http://localhost:8000/assets/avatar/avatar1.png'
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState('avatar1');
-  const [avatarFile, setAvatarFile] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -38,39 +37,51 @@ const RegisterForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
   const handleAvatarClick = (avatar) => {
-    setAvatarFile('');
+    let avatarImageUrl = '';
+  
+    if (avatar === 'avatar1')
+      avatarImageUrl = 'http://localhost:8000/assets/avatar/avatar1.png';
+    else if (avatar === 'avatar2')
+      avatarImageUrl = 'http://localhost:8000/assets/avatar/avatar2.png';
+    else if (avatar === 'avatar3')
+      avatarImageUrl = 'http://localhost:8000/assets/avatar/avatar3.png';
+  
     setSelectedAvatar(avatar);
-    setFormData({ ...formData, avatar: 'avatar4' });
+    
+    // Use functional update to ensure avatarImageUrl is up-to-date
+    
+      setFormData(prevState => ({
+        ...prevState,
+        avatar: avatarImageUrl
+      }));
   };
-
-  const handleFileChange = (e) => {
-    setAvatarFile(e.target.files[0]);
-    console.log(e.target.files[0]);
-    handleAvatarClick('avatar4');
-  };
-
-  const handleAvatarUpload = async () => {
+  
+  const handleFileChange = async (e) => {
+    const uploadedAvatar = e.target.files[0];
+  
     try {
+      setSelectedAvatar('avatar4');
       const formData = new FormData();
-      formData.append('avatar', avatarFile);
-
-      console.log(avatarFile);
-      console.log(formData);
-
+      formData.append('avatar', uploadedAvatar);
+  
       const response = await axios.post('http://localhost:8000/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
+  
+      setFormData(prevState => ({
+        ...prevState,
+        avatar: response.data.imagePath
+      }));
 
-      setAvatarFile(response.data.imagePath);
-      setFormData({
-        ...formData, avatar:response.data.imagePath
-      });
     } catch (error) {
       console.error('Error uploading avatar:', error);
       setPopupMessage('Error uploading avatar');
@@ -117,7 +128,7 @@ const RegisterForm = () => {
     }
 
     if (formData.userName.length > 20 || formData.email.length > 50 || formData.gameName.length > 20) {
-      setPopupMessage('Field value should not exceed 20 characters');
+      setPopupMessage('UserName and GameName should not exceed 20 characters');
       setShowPopup(true);
       return;
     }
@@ -125,16 +136,10 @@ const RegisterForm = () => {
     try {
       // Check if gameName and email already exist
       const existingUserCheck = await axios.get(`http://localhost:8000/api/user/check/${formData.gameName}/${formData.email}`);
-      console.log(existingUserCheck.data);
       if (existingUserCheck.data.exists) {
         setPopupMessage('User with this game name or email already exists');
         setShowPopup(true);
         return;
-      }
-
-      if(avatarFile === 'avatar4')
-      {
-        handleAvatarUpload();
       }
 
       // Proceed with registration if validations pass
@@ -148,7 +153,6 @@ const RegisterForm = () => {
       setPopupMessage('Error registering user');
       setShowPopup(true);
     }
-
   };
 
   return (
@@ -213,7 +217,6 @@ const RegisterForm = () => {
                 </div>
               </div>
               <div className={styles.formGroup}>
-
                 <label className={styles.label}>User Type:</label>
                 <div className={styles.radioGroup}>
                   <input
@@ -228,11 +231,10 @@ const RegisterForm = () => {
                   <label htmlFor="teacher" className={styles.labelRadio}>Teacher</label>
                 </div>
                 <div className={styles.radioGroup}>
-
-
                   <input
                     type="radio"
                     id="student"
+                   
                     name="userType"
                     value="student"
                     onChange={handleInputChange}
@@ -241,19 +243,21 @@ const RegisterForm = () => {
                   />
                   <label htmlFor="student" className={styles.labelRadio}>Student</label>
                 </div>
-              </div></div>
-            <div className='col-lg-6'><div className={styles.formGroup}>
-              <label htmlFor="email" className={styles.label}>Email:</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                className={styles.input}
-              />
+              </div>
             </div>
+            <div className='col-lg-6'>
+              <div className={styles.formGroup}>
+                <label htmlFor="email" className={styles.label}>Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className={styles.input}
+                />
+              </div>
               <div className={styles.formGroup}>
                 <label htmlFor="password" className={styles.label}>Password:</label>
                 <div style={{ position: 'relative' }}>
@@ -299,23 +303,17 @@ const RegisterForm = () => {
                   </div>
                   {/* Upload button */}
                   <div className={'col-3 ' + styles.avatarIcon + (selectedAvatar === 'avatar4' ? ' ' + styles.selected : '')} >
-                    <input type="file" id="avatar" name="avatar" accept="image/*" onChange={handleFileChange} style={{display:'none'}} />
+                    <input type="file" id="avatar" name="avatar" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
                     <label htmlFor="avatar" className={styles.uploadButton}>
-                      
-                        {
-                          selectedAvatar === 'avatar4' ? 
-                          (<></>):
-                          (<div className={styles.uploadIconContainer}>
+                      {selectedAvatar === 'avatar4' ?
+                        <p className={styles.uploadText}>Uploaded</p> :
+                        <>
+                          <div className={styles.uploadIconContainer}>
                             <div className={styles.uploadIcon}></div>
                             <div className={styles.uploadIcon}></div>
-                          </div>)
-                          
-                        }
-                      
-                      {
-                        selectedAvatar === 'avatar4'?
-                        <p className={styles.uploadText}>Uploaded</p>:
-                        <p className={styles.uploadText}>Upload</p>
+                          </div>
+                          <p className={styles.uploadText}>Upload</p>
+                        </>
                       }
                     </label>
                   </div>
@@ -323,18 +321,14 @@ const RegisterForm = () => {
               </div>
             </div>
           </div>
-
-
           <button type="submit" className={styles.button}>Register</button>
           <br />
           <div style={{ textAlign: 'center' }}>
-            Already have a account? <Link to="/user/login" style={{ color: '#60d600' }}>Click here</Link>
+            Already have an account? <Link to="/user/login" style={{ color: '#60d600' }}>Click here</Link>
           </div>
           {showPopup && <PopupMessage message={popupMessage} onClose={closePopup} />}
         </form>
-
       </div>
-
     </div>
   );
 };
