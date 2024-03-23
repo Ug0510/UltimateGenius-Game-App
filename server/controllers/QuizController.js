@@ -369,7 +369,7 @@ exports.getLastNResultLogs = async (req, res) => {
           lastNResultLogs = await StudentQuizResultLog.findById(req.user._id).sort({ submittedAt: -1 });
       } else {
           // Fetch the last N records
-          lastNResultLogs = await StudentQuizResultLog.find()
+          lastNResultLogs = await StudentQuizResultLog.findById(req.user._id)
               .sort({ submittedAt: -1 }) 
               .limit(n); 
       }

@@ -938,6 +938,7 @@ ul li {
 .hero-section .hero-content .card-area {
   border: 1px solid rgba(var(--n1), 0.2);
   background: rgba(var(--n1), 0.1);
+  min-height: 30vh;
 }
 
 .hero-section .hero-content .card-area .card-item .card-img-area {
