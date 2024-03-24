@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './QuizCustomizationForm.module.css';
 import { useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 const QuizCustomizationForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -44,6 +45,7 @@ const QuizCustomizationForm = ({ onSubmit }) => {
         setQuestionBanks(response.data);
       } catch (error) {
         console.error('Error fetching question banks:', error);
+        toast.error('Error fetching question banks');
       }
     };
 
@@ -62,11 +64,12 @@ const QuizCustomizationForm = ({ onSubmit }) => {
       });
       localStorage.setItem('ug_game_id', response.data._id);
       localStorage.setItem('ug_game_code', response.data.gameCode);
-      console.log(response.data);
       navigate('/user/quiz/waiting-room');
+      toast.success('Quiz Created Successfull');
 
     } catch (error) {
       console.error('Error generating quiz:', error);
+      toast.error('Error generating quiz');
     }
   }
 
