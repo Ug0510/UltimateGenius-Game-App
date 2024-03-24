@@ -97,7 +97,7 @@ const AddQuestionForm = () => {
             <div className={styles.backBtn}>
                 <Link to="/"><GoHomeFill className={styles.navIcon + ' ' + styles.Hover} /></Link>
                 <GoChevronRight className={styles.navIcon} />
-                <Link to="/teacher/quizgame"><div className={styles.navIcon + " " + styles.text + ' ' + styles.Hover}>Quiz Game</div></Link>
+                <Link to="/teacher/quizgame/0"><div className={styles.navIcon + " " + styles.text + ' ' + styles.Hover}>Question Management</div></Link>
                 <GoChevronRight className={styles.navIcon} />
                 <div className={styles.navIcon + " " + styles.text}>Add Question</div>
                 <div className={styles.blackOverlay}></div>
