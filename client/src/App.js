@@ -16,7 +16,7 @@ import QuestionBankManagementPage from './pages/Teacher/QuestionBankManagementPa
 import QuizPlay from './pages/Student/QuizPlay/QuizPlay';
 import ScoreboardPage from './pages/User/ScoreboardPage/ScoreboardPage';
 import fetchUserData from './utils/fetchUserData';
-import QuestionBankModifyPage from './pages/Teacher/QuestionBankModifyPage/QuestionBankModifyPage';
+import ModifyQuestionBankForm from './pages/Teacher/ModifyQuestionBankForm/ModifyQuestionBankForm';
 import { ToastContainer, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ModifyQuestionForm from './pages/Teacher/ModifyQuestionForm/ModifyQuestionForm';
@@ -65,7 +65,7 @@ const App = () => {
                 <Route path="/student/quiz/play/:quizId" element={<QuizPlay />} />
                 <Route path="/user/quiz/scoreboard/:quizId" element={<ScoreboardPage userData={userData} />} />
                 <Route path="/user/quiz/scoreboard" element={<ScoreboardPage userData={userData} />} />
-                <Route path="/teacher/question-banks/:id" element={<QuestionBankModifyPage />} />
+                <Route path="/teacher/question-banks/:questionBankId" element={<ModifyQuestionBankForm />} />
                 
             </Routes>
             <ToastContainer

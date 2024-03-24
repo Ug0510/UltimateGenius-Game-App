@@ -98,9 +98,9 @@ const QuestionBankManagementPage = () => {
                     {filteredQuestionBanks.length > 0 ? (
                         filteredQuestionBanks.map(questionBank => (
                             <li key={questionBank._id} className={styles.questionBankItem}>
-                                <Link to={`/teacher/question-banks/${questionBank._id}`} className={styles.link}>{questionBank.name}</Link>
+                                {questionBank.name}
                                 <span>
-                                    <button className={styles.modifyButton}> Modify</button>
+                                    <Link to={`/teacher/question-banks/${questionBank._id}`} className={styles.link}><button className={styles.modifyButton}> Modify</button></Link>
                                     <button onClick={() => {setSelectedQB(questionBank._id); setShowPopup(true)}} className={styles.deleteButton}>Delete</button>
                                 </span>
                             </li>

@@ -12,6 +12,8 @@ router.delete('/:questionBankId/remove-questions',authenticate,checkTeacher,QBCo
 router.get('/:questionBankId/questions-list',authenticate,checkTeacher,QBController.getQuestionsInQuestionBank);
 router.get('/get-question-bank/:questionBankId',authenticate,checkTeacher,QBController.fetchQuestionBank);
 router.delete('/question-banks/:questionBankId', authenticate, checkTeacher, QBController.deleteQuestionBank);
+router.put('/question-bank/:questionBankId', QBController.updateQuestionBank);
+
 
 router.post('/create-questions',authenticate,checkTeacher,QuestionController.createQuestions);
 router.post('/delete-questions',authenticate,checkTeacher,QuestionController.deleteQuestions);

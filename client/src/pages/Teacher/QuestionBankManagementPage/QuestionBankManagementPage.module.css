@@ -53,10 +53,6 @@
     font-weight: 900;
 }
 
-.link:hover {
-    text-decoration: underline;
-}
-
 .questionBankItem {
     display: flex;
     align-items: center;
