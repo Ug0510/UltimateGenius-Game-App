@@ -236,11 +236,14 @@
   padding: 8px 40px;
   border: none;
   border-radius: 4px;
-  background-color: #f6561e;
+  background-color: rgba(232, 46, 46, 1);
   color: #fff;
   cursor: pointer;
 }
 
-.confirmationWindow button:hover {
-  background-color: #d54b1a;
+.confirmationWindow .removeButton:hover {
+  background-color: rgba(232, 46, 46,0.8);
+}
+.confirmationWindow .mButton:hover{
+  background-color: #3e8901;
 }

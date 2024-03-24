@@ -16,6 +16,9 @@ const QuestionManagementPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [sortBy, setSortBy] = useState('');
+  const [questionBankName, setQuestionBankName] = useState('');
+  const [questionBankDescription, setQuestionBankDescription] = useState('');
+
   const navigate = useNavigate();
 
   const fetchQuestions = async () => {
@@ -70,7 +73,7 @@ const QuestionManagementPage = () => {
           },
         }
       );
-  
+
       // Check if the deletion was successful
       if (response.status === 200) {
         console.log(response.data.message);
@@ -84,12 +87,58 @@ const QuestionManagementPage = () => {
       console.error('Error deleting multiple questions:', error);
     }
   };
-  
+
+  const handleQuestionBankNameChange = (event) => {
+    setQuestionBankName(event.target.value);
+  };
+
+  const handleQuestionBankDescriptionChange = (event) => {
+    setQuestionBankDescription(event.target.value);
+  };
+
   // Function to handle creating a question bank using selected questions
   const handleCreateQuestionBank = () => {
     // Implement logic to create question bank using selectedQuestions array
     console.log('Creating question bank using selected questions:', selectedQuestions);
+    setShowPopup(true);
   };
+
+  const handleCreateQuestionBankConfirm = async () => {
+    try {
+      // Send API call to create Question Bank
+      const token = localStorage.getItem('ultimate_genius0510_token');
+      const response = await axios.post(
+        'http://localhost:8000/api/teacher/create-qb',
+        {
+          name: questionBankName,
+          description: questionBankDescription,
+          questions: selectedQuestions
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Handle response
+      console.log('Question Bank created successfully:', response.data);
+
+      // Close the popup and clear selected questions
+      handleClosePopup();
+      setSelectedQuestions([]);
+    } catch (error) {
+      console.error('Error creating Question Bank:', error);
+    }
+  };
+
+  const handleClosePopup = () => {
+    // Reset the input fields and hide the popup
+    setQuestionBankName('');
+    setQuestionBankDescription('');
+    setShowPopup(false);
+  };
+
 
   // Function to handle canceling selection
   const handleCancelSelection = () => {
@@ -273,6 +322,31 @@ const QuestionManagementPage = () => {
           <button onClick={() => setShowPopup(false)}>No</button>
         </div>
       </div>
+
+      {/* Question Bank Creation Popup Window  */}
+      <div className={`${styles.confirmationWindow} ${showPopup ? styles.active : ''}`}>
+        <p>Enter Question Bank Details:</p>
+        <input
+          type="text"
+          placeholder="Question Bank Name"
+          value={questionBankName}
+          onChange={handleQuestionBankNameChange}
+          className={styles.inputField} 
+          required
+        />
+        <textarea
+          placeholder="Question Bank Description"
+          value={questionBankDescription}
+          onChange={handleQuestionBankDescriptionChange}
+          className={styles.inputField} // Apply inputField class for styling
+        ></textarea>
+        <div className={styles.flexBox}>
+          <button onClick={handleClosePopup} className={styles.removeButton}>Cancel</button> {/* Apply removeButton class for styling */}
+          <button onClick={handleCreateQuestionBankConfirm} className={styles.mButton}>Create</button> {/* Apply mButton class for styling */}
+        </div>
+      </div>
+
+
     </>
   );
 };
