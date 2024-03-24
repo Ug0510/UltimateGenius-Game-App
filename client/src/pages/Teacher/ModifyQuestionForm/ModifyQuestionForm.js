@@ -73,6 +73,7 @@ const ModifyQuestionForm = () => {
             });
             console.log('Question updated successfully');
             toast.success('Question updated successfully')
+            navigate('/teacher/quizgame/0');
         } catch (error) {
             console.error('Error updating question:', error);
             toast.error('Error updating question. Please try again.');
