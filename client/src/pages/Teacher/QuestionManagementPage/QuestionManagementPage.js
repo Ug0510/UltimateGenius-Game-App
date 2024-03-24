@@ -4,6 +4,7 @@ import styles from './QuestionManagementPage.module.css';
 import { useNavigate } from 'react-router-dom';
 import { FaSearch, FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import { toast } from 'react-toastify';
 
 const QuestionManagementPage = () => {
   const [questions, setQuestions] = useState([]);
@@ -15,6 +16,7 @@ const QuestionManagementPage = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showPopup, setShowPopup] = useState(false);
+  const [showQBForm , setShowQBForm] = useState(false);
   const [sortBy, setSortBy] = useState('');
   const [questionBankName, setQuestionBankName] = useState('');
   const [questionBankDescription, setQuestionBankDescription] = useState('');
@@ -61,6 +63,13 @@ const QuestionManagementPage = () => {
   };
 
   const handleDeleteMultiple = async () => {
+
+    if(selectedQuestions.length === 0)
+      {
+        toast.error('No Question is selected');
+        setShowPopup(false);
+        return;
+      }
     try {
       // Make a POST request to delete questions
       const token = localStorage.getItem('ultimate_genius0510_token');
@@ -79,6 +88,7 @@ const QuestionManagementPage = () => {
         console.log(response.data.message);
         setShowPopup(false);
         setSelectedQuestions([]);
+        toast.success('Deleted Successfully');
         fetchQuestions();
       } else {
         console.error('Error deleting multiple questions:', response.data.error);
@@ -98,9 +108,12 @@ const QuestionManagementPage = () => {
 
   // Function to handle creating a question bank using selected questions
   const handleCreateQuestionBank = () => {
-    // Implement logic to create question bank using selectedQuestions array
-    console.log('Creating question bank using selected questions:', selectedQuestions);
-    setShowPopup(true);
+    if(selectedQuestions.length === 0)
+    {
+      toast.error('No question selected');
+      return;
+    }
+    setShowQBForm(true);
   };
 
   const handleCreateQuestionBankConfirm = async () => {
@@ -127,6 +140,7 @@ const QuestionManagementPage = () => {
       // Close the popup and clear selected questions
       handleClosePopup();
       setSelectedQuestions([]);
+      toast.success('Question Bank Created Successfully!');
     } catch (error) {
       console.error('Error creating Question Bank:', error);
     }
@@ -136,7 +150,7 @@ const QuestionManagementPage = () => {
     // Reset the input fields and hide the popup
     setQuestionBankName('');
     setQuestionBankDescription('');
-    setShowPopup(false);
+    setShowQBForm(false);
   };
 
 
@@ -213,7 +227,7 @@ const QuestionManagementPage = () => {
   useEffect(() => {
     // Fetch questions when the component mounts
     fetchQuestions();
-  }, []);
+  }, []); 
 
   return (
     <>
@@ -318,13 +332,13 @@ const QuestionManagementPage = () => {
       <div className={`${styles.confirmationWindow} ${showPopup ? styles.active : ''}`}>
         <p>Are you sure you want to delete?</p>
         <div className={styles.flexBox}>
-          <button onClick={handleDeleteMultiple}>Yes</button>
-          <button onClick={() => setShowPopup(false)}>No</button>
+          <button onClick={handleDeleteMultiple} className={styles.removeButton}>Delete</button>
+          <button onClick={() => setShowPopup(false)} className={styles.mButton}>Cancel</button>
         </div>
       </div>
 
       {/* Question Bank Creation Popup Window  */}
-      <div className={`${styles.confirmationWindow} ${showPopup ? styles.active : ''}`}>
+      <div className={`${styles.confirmationWindow} ${showQBForm ? styles.active : ''}`}>
         <p>Enter Question Bank Details:</p>
         <input
           type="text"

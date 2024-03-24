@@ -1,0 +1,272 @@
+/* AddQuestionForm.module.css */
+
+.navbar
+{
+  padding: 0.7rem 3rem;
+  background-color: #0D0F14;
+  /* display: flex  */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoContainer{
+  width: fit-content;
+  
+}
+.logo {
+  width:220px;
+}
+.AddQuestionFormContainer {
+  max-width: 90vw;
+  margin: 0 auto;
+  padding: 1rem 4rem;
+  border-radius: 5px;
+}
+
+.heading {
+  margin: 1rem auto;
+  text-align: center;
+  color: #f6561e;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+  font-size: 1.4rem;
+  color: white;
+  font-weight: 700;
+  font-family: "Chakra Petch", sans-serif;
+}
+
+.formGroup input[type="text"],
+.formGroup select {
+  background-color: #333;
+  color: white;
+  outline: none;
+  border: none;
+  padding: 10px; 
+  display: block;
+  width: 100%;
+}
+
+.formGroup input[type="text"]::placeholder {
+  color: red;
+}
+
+.formGroup input[type="text"]:focus,
+.formGroup select:focus {
+  outline: 1px solid #f6561e;
+}
+
+.choicesContainer {
+  margin-bottom: 1.5rem;
+}
+
+.choicesContainer input[type="text"] {
+  margin-bottom: 0.5rem;
+}
+
+.choicesContainer button {
+  margin-right: 0.5rem;
+}
+
+.correctAnswersContainer input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.correctAnswersContainer span {
+  color: white;
+}
+.flexBox{
+  width: 100%;
+  display: flex;
+  justify-content:left;
+  align-items: center;
+}
+
+.submitButton {
+  outline: none;
+  border: none;
+  color: white;
+  border-radius: 30px;
+  font-family: "Inria Sans", sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 14px 40px;
+  background-color: #60d600;
+  border-bottom: 3px solid #3e8901;
+  border-right: 2px solid #3e8901;
+  display: block;
+  margin: 3rem auto 1rem;
+}
+
+.submitButton:hover {
+  background-color: #3e8901;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+.inputText{
+  background-color: #333;
+  color: white;
+  outline: none;
+  border: none;
+  padding: 10px; 
+  display: block;
+  width: 50%;
+}
+
+.mButton{
+    outline: none;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    font-family: "Inria Sans", sans-serif;
+    font-weight: 700;
+    font-size: 0.87rem;
+    cursor: pointer;
+    padding: 7px 20px;
+    background-color: #D22B2B;
+    width: fit-content;
+  }
+  .mButton.second{
+    background-color: #f6561e;
+  }
+  
+  .mButton:hover {
+    opacity: 0.8;
+  }
+
+  .mButton.second:hover{
+    background-color: #60d600;
+    opacity: 1;
+  }
+
+  .label{
+    font-family: 'Chakra Petch','sans-serif';
+    font-weight: 700;
+    font-size: 1.2rem;
+    vertical-align:bottom;
+  }
+
+  .listCheckbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    background-color: #fff;
+    cursor: pointer;
+    outline: none;
+    margin-right:10px;
+    vertical-align:top;
+    position: relative;
+  }
+  .listCheckbox:checked{
+    background-color: yellow;
+  }
+  .listCheckbox:checked:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 8px;
+    width: 6px;
+    height: 14px;
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .answerSelection{
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: #333;
+    color:white;
+    width: 50%;
+    overflow:hidden;
+  }
+
+  /* Back button container */
+.backBtn {
+  height: 3rem;
+  background-color: #f6581e;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  width: fit-content;
+  padding-right: 4%;
+  position: relative;
+
+  /* Triangle after the button */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-right: 60px solid transparent;
+    border-bottom: 3rem solid #f6581e;
+    transform: translateX(100%);
+  }
+}
+.backBtn .blackOverlay {
+  width: 20px;
+  height: inherit;
+  background-color: black;
+  transform: skewX(45deg);
+  margin-left: 20px;
+}/* Back button container */
+.backBtn {
+  height: 3rem;
+  background-color: #f6581e;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  width: fit-content;
+  padding-right: 4%;
+  position: relative;
+
+  /* Triangle after the button */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-right: 60px solid transparent;
+    border-bottom: 3rem solid #f6581e;
+    transform: translateX(100%);
+  }
+}
+.backBtn .blackOverlay {
+  width: 20px;
+  height: inherit;
+  background-color: black;
+  transform: skewX(45deg);
+  margin-left: 20px;
+}
+.navIcon {
+  font-size: 1.4rem;
+  margin-right: 5px;
+  color: white;
+}
+.navIcon.text{
+  font-size: 1.2rem;
+}
+.navIcon.Hover:hover {
+  color: #60d600;
+  margin-right: 5px;
+}
