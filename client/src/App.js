@@ -17,6 +17,8 @@ import QuizPlay from './pages/Student/QuizPlay/QuizPlay';
 import ScoreboardPage from './pages/User/ScoreboardPage/ScoreboardPage';
 import fetchUserData from './utils/fetchUserData';
 import QuestionBankModifyPage from './pages/Teacher/QuestionBankModifyPage/QuestionBankModifyPage';
+import { ToastContainer, Flip } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -62,6 +64,10 @@ const App = () => {
                 <Route path="/user/quiz/scoreboard" element={<ScoreboardPage userData={userData} />} />
                 <Route path="/teacher/question-banks/:id" element={<QuestionBankModifyPage />} />
             </Routes>
+            <ToastContainer
+            position="bottom-left"
+            autoClose={2000} 
+            transition={Flip}/>
         </Router>
     );
 };
