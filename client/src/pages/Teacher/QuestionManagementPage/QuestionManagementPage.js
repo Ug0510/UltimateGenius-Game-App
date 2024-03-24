@@ -317,7 +317,7 @@ const QuestionManagementPage = () => {
                   )}
                     <span className={styles.questionContent}>{question.content}</span></div>
                   <span>
-                    <FaEdit className={styles.iconButton} style={{ fontSize: '1.2rem', marginRight: '10px' }} />
+                    <FaEdit className={styles.iconButton} style={{ fontSize: '1.2rem', marginRight: '10px' }} onClick={() => {navigate(`/teacher/question/modify/${question._id}`)}}/>
                     <MdDeleteForever className={styles.iconButton} onClick={() => { setSelectedQuestions([`${question._id}`]); setShowPopup(true); }} />
                   </span>
                 </li>

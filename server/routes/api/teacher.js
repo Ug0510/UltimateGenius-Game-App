@@ -17,6 +17,8 @@ router.post('/delete-questions',authenticate,checkTeacher,QuestionController.del
 router.put('/:questionId',authenticate,checkTeacher,QuestionController.updateQuestion);
 router.get('/get-questions',authenticate,checkTeacher,QuestionController.getAllQuestions);
 router.delete('/:questionBankId',authenticate,checkTeacher,QBController.deleteQuestionBank);
+router.get('/questions/:questionId', authenticate, checkTeacher, QuestionController.getQuestionById);
+
 
 
 router.post('/generate-quiz',authenticate,checkTeacher,QuizController.generateQuiz);

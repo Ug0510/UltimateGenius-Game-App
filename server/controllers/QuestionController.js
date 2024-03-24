@@ -125,3 +125,19 @@ exports.getAllQuestions = async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+// Controller to fetch a content of specific question
+exports.getQuestionById = async (req, res) => {
+    try {
+        const { questionId } = req.params;
+        const question = await Question.findById(questionId);
+        if (!question) {
+            return res.status(404).json({ message: 'Question not found' });
+        }
+        
+        res.status(200).json(question);
+    } catch (error) {
+        console.error('Error fetching question:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
