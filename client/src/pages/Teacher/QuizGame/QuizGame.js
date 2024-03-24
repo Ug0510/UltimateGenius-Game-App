@@ -13,8 +13,6 @@ const QuizGame = ({ isLoggedIn, userData }) => {
   const { pageIndex } = useParams();
   const [activeIndex, setActiveIndex] = useState(pageIndex? Number(pageIndex) : 2);
   const [currentPage, setCurrentPage] = useState(null);
-  console.log(activeIndex);
-  console.log(pageIndex);
 
   useEffect(() => {
 

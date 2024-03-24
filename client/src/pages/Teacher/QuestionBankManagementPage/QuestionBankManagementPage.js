@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaSearch, FaTimes } from 'react-icons/fa'; // Import icons
+import { FaSearch, FaTimes } from 'react-icons/fa';
 import styles from './QuestionBankManagementPage.module.css';
+import { toast } from 'react-toastify';
 
 const QuestionBankManagementPage = () => {
     const [questionBanks, setQuestionBanks] = useState([]);
-    const [error, setError] = useState('');
     const [searchText, setSearchText] = useState('');
     const navigate = useNavigate();
+    const [showPopup, setShowPopup] = useState(false);
+    const [selectedQB , setSelectedQB] = useState(null);
 
     useEffect(() => {
         fetchQuestionBanks();
@@ -25,7 +27,7 @@ const QuestionBankManagementPage = () => {
             setQuestionBanks(response.data);
         } catch (error) {
             console.error('Error fetching question banks:', error);
-            setError('Error fetching question banks');
+            toast.error('Error fetching question banks');
         }
     };
 
@@ -33,8 +35,9 @@ const QuestionBankManagementPage = () => {
         navigate('/teacher/question-banks/add');
     };
 
-    const handleDeleteQuestionBank = async (questionBankId) => {
+    const handleDeleteQuestionBank = async () => {
         try {
+            const questionBankId = selectedQB;
             const token = localStorage.getItem('ultimate_genius0510_token');
             const response = await axios.delete(`http://localhost:8000/api/teacher/question-banks/${questionBankId}`, {
                 headers: {
@@ -42,12 +45,15 @@ const QuestionBankManagementPage = () => {
                 }
             });
             if (response.status === 200) {
-                fetchQuestionBanks(); // Refresh question banks after deletion
+                fetchQuestionBanks();
+                setShowPopup(false);
+                toast.success('Question Bank deleted Successfully')
             } else {
-                console.error('Error deleting question bank:', response.data.error);
+                toast.error('Error deleting question bank');
+                console.error('Error deleting question bank',response.error);
             }
         } catch (error) {
-            console.error('Error deleting question bank:', error);
+            console.error('Error deleting question bank',error);
         }
     };
 
@@ -95,7 +101,7 @@ const QuestionBankManagementPage = () => {
                                 <Link to={`/teacher/question-banks/${questionBank._id}`} className={styles.link}>{questionBank.name}</Link>
                                 <span>
                                     <button className={styles.modifyButton}> Modify</button>
-                                    <button onClick={() => handleDeleteQuestionBank(questionBank._id)} className={styles.deleteButton}>Delete</button>
+                                    <button onClick={() => {setSelectedQB(questionBank._id); setShowPopup(true)}} className={styles.deleteButton}>Delete</button>
                                 </span>
                             </li>
                         ))
@@ -103,7 +109,14 @@ const QuestionBankManagementPage = () => {
                         <p>No Question Banks Exist.</p>
                     )}
                 </ul>
-                {error && <p className={styles.error}>Error: {error}</p>}
+            </div>
+            {/* Confirmation Window */}
+            <div className={`${styles.confirmationWindow} ${showPopup ? styles.active : ''}`}>
+                <p>Are you sure you want to delete?</p>
+                <div className={styles.flexBox}>
+                    <button onClick={handleDeleteQuestionBank} className={styles.removeButton}>Delete</button>
+                    <button onClick={() => setShowPopup(false)} className={styles.mButton}>Cancel</button>
+                </div>
             </div>
         </div>
     );
