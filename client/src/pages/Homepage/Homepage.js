@@ -273,8 +273,10 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
                     </div>
                 </div>
 
+
                 {/* <p style={{textAlign:'right', marginRight:'4rem'}}>Made with <span style={{color:'white'}}>&#9829;</span> By Udit Gupta</p> */}
                 <p style={{ textAlign: 'right', marginRight: '4rem', fontFamily: 'Chakra Petch' }}>Made with <img src='https://cdn-icons-png.flaticon.com/128/210/210545.png' alt='heart' style={{ width: '24px' }} /> By Udit Gupta</p>
+
             </section>
             {/* Hero Section end */}
         </div>
