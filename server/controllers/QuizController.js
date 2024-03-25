@@ -282,7 +282,7 @@ exports.saveQuizResult = async (req, res) => {
     // Check if the quiz result already exists for the same student and quiz
     const existingResult = await StudentQuizResultLog.findOne({ studentId: req.user._id, 'quiz.quizId': quiz._id });
     if (existingResult) {
-      return res.status(400).json({ message: 'Quiz result already submitted for this student and quiz' });
+      return res.status(400).json({ message: 'Quiz result already submitted' });
     }   
 
    const student = await User.findById(req.user._id);

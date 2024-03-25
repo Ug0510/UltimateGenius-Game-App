@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import styles from './QuizPlay.module.css';
-import ErrorPopup from '../../../components/ErrorPopup/ErrorPopup';
 import bg from '../../../assets/images/orangeSpace.jpg';
 import logo from '../../../assets/images/logo/logo.png';
 import { useNavigate } from 'react-router-dom';
@@ -12,8 +11,6 @@ const QuizPlay = () => {
   const [quiz, setQuiz] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [errorMessage, setErrorMessage] = useState('');
-  const [showError, setShowError] = useState(false);
   const { quizId } = useParams();
   const gameId = localStorage.getItem('ug_game_id');
   const initialTime = localStorage.getItem(`timer${gameId}`) ? JSON.parse(localStorage.getItem(`timer${gameId}`)) : null;
@@ -81,8 +78,7 @@ const QuizPlay = () => {
         }
         
       } catch (error) {
-        setErrorMessage('Error fetching quiz. Please try again later.');
-        setShowError(true);
+        toast.error('Error fetching quiz. Please try again later.');
         console.error('Error fetching quiz:', error);
       }
     };
@@ -167,19 +163,15 @@ const QuizPlay = () => {
       navigate('/user/quiz/scoreboard');
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        setErrorMessage(error.response.data.message);
-        setShowError(true);
+        toast.error(error.response.data.message);
+        navigate('/');
       } else {
-        setErrorMessage('Error submitting quiz. Please try again later.');
-        setShowError(true);
+        toast.error('Error submitting quiz. Please try again later.');
         console.error('Error submitting quiz:', error);
       }
     }
   };
 
-  const handleCloseError = () => {
-    setShowError(false);
-  };
 
   if (!quiz) {
     return <div className={styles.loading}>Loading...</div>;
@@ -300,8 +292,6 @@ const QuizPlay = () => {
       </div>
 
 
-
-      {showError && <ErrorPopup message={errorMessage} onClose={handleCloseError} />}
     </div>
   );
 };
