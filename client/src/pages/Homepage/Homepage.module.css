@@ -8,3 +8,8 @@
     font-size: 1.2rem;
     font-family: 'Chakra Petch', sans-serif;
 }
+.windowWrapper{
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styles from './JoinQuizPage.module.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 const JoinQuizPage = () => {
   const spans = [];
@@ -13,7 +14,6 @@ const JoinQuizPage = () => {
 
   const [gameCode, setGameCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
   
   const navigate =  useNavigate();
 
@@ -24,11 +24,10 @@ const JoinQuizPage = () => {
   const handleJoinQuiz = async () => {
     if(gameCode === '' || gameCode.length < 6)
     {
-      setError('Enter valid game code.');
+      toast.warning('Enter a valid game code')
       return;
     }
     setIsLoading(true);
-    setError('');
 
     try {
       // Fetch JWT token from localStorage
@@ -46,12 +45,13 @@ const JoinQuizPage = () => {
       );
       
       localStorage.setItem('ug_game_id',response.data.quizId);
-
+      localStorage.setItem('ug_game_code',gameCode);
+        toast.success("Joined successfully");
       navigate('/user/quiz/waiting-room');
     } catch (error) {
       // Handle errors
       console.error('Error joining quiz:', error);
-      setError(error.response.data.message);
+      toast.error(error.response.data.message);
     } finally {
       setIsLoading(false);
     }
@@ -69,7 +69,6 @@ const JoinQuizPage = () => {
                 <input type="number" required onChange={handleInputChange}/>
                 <i>Enter Game Code</i>
               </div>
-              {error && <p className={styles.error}>{error}</p>}
               <div className={styles.inputBox}>
                 <input type="button" value={isLoading ? 'Joining...' : 'Join Quiz'} onClick={handleJoinQuiz}/>
               </div>

@@ -15,6 +15,7 @@ const ScoreboardPage = ({ userData }) => {
   let { quizId } = useParams();
 
   useEffect(() => {
+    let intervalId2;
     const fetchQuizResults = async () => {
       try {
         const token = localStorage.getItem('ultimate_genius0510_token');
@@ -29,18 +30,18 @@ const ScoreboardPage = ({ userData }) => {
             Authorization: `Bearer ${token}`
           }
         });
-        console.log(response.data);
-        console.log(typeof (response.data));
         setQuizResults(response.data);
-        setTimeout(() => {
-          console.log(quizResults.resultLog);
-        }, 1000);
+        
       } catch (error) {
         console.error('Error fetching quiz results:', error);
       }
     };
 
-    fetchQuizResults();
+    
+
+    intervalId2 = setInterval(fetchQuizResults, 3000);
+    
+    return () => clearInterval(intervalId2); 
   }, [userData]);
 
   useEffect(() => {
@@ -70,7 +71,7 @@ const ScoreboardPage = ({ userData }) => {
     if(quizOnGoing)
     {
       checkQuizStatus(); 
-      intervalId = setInterval(checkQuizStatus, 5000);
+      intervalId = setInterval(checkQuizStatus, 3000);
     }
     return () => clearInterval(intervalId); 
 }, [userData]);
@@ -134,10 +135,10 @@ const ScoreboardPage = ({ userData }) => {
                 <li key={logIndex}>
                   <div className={styles.flexBox}>
                     <span className={styles.profileContainer}>
-                      <img src={profile}></img>
+                      <img src={log.studentId.avatar}></img>
                     </span>
                     <span style={{ marginLeft: '20px' }}>
-                      <Link to={`/user/profile/${log.studentId._id}`}><p className={styles.Hover}>{log.studentName} {userData && (log.studentId._id == userData._id) ? '(You)' : ""}</p></Link>
+                      <Link to={`/user/profile/${log.studentId._id}`}><p className={styles.Hover}>{log.studentId.gameName} {userData && (log.studentId._id == userData._id) ? '(You)' : ""}</p></Link>
                     </span>
                   </div>
                   <p className={styles.flexBox + ' ' + styles.verticalAlign}>

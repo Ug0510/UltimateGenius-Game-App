@@ -6,6 +6,7 @@ import ErrorPopup from '../../../components/ErrorPopup/ErrorPopup';
 import bg from '../../../assets/images/orangeSpace.jpg';
 import logo from '../../../assets/images/logo/logo.png';
 import { useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 const QuizPlay = () => {
   const [quiz, setQuiz] = useState(null);
@@ -160,7 +161,7 @@ const QuizPlay = () => {
         },
       });
 
-      console.log('Quiz submitted successfully:', submitData);
+      toast("🦄 Quiz submitted successfully");
       localStorage.removeItem(`timer${gameId}`);
 
       navigate('/user/quiz/scoreboard');

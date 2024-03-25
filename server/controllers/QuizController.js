@@ -227,6 +227,7 @@ exports.removeStudent = async (req, res) => {
         // Remove the student from the list of participants (studentIds) in the quiz
         quiz.studentIds.pull(studentId);
         await quiz.save();
+        console.log(quiz.studentIds +"8");
 
         res.status(200).json({ message: 'Student removed from the quiz successfully' });
     } catch (error) {
@@ -364,16 +365,22 @@ exports.getLastNResultLogs = async (req, res) => {
 
       let lastNResultLogs;
 
+      console.log('user ', req.user._id, "-> ", n);
+
+      const all = await StudentQuizResultLog.find();
+
+    
+
       // If n is 0, fetch all records
       if (n === 0) {
-          lastNResultLogs = await StudentQuizResultLog.findById(req.user._id).sort({ submittedAt: -1 });
+          lastNResultLogs = await StudentQuizResultLog.find({ studentId: req.user._id }).sort({ submittedAt: -1 });
       } else {
           // Fetch the last N records
-          lastNResultLogs = await StudentQuizResultLog.findById(req.user._id)
+          lastNResultLogs = await StudentQuizResultLog.find({ studentId: req.user._id })
               .sort({ submittedAt: -1 }) 
               .limit(n); 
       }
-
+      console.log(lastNResultLogs);
       res.status(200).json(lastNResultLogs);
   } catch (error) {
       console.error('Error fetching last N result logs:', error);
@@ -407,6 +414,9 @@ exports.getQuizLog = async (req, res) => {
             // Populate the latest game logs
             gameLogs = await QuizGame.find({ _id: { $in: latestGameLogs } }).populate('resultLog');
         }
+
+        // Reverse the order of the gameLogs array
+        gameLogs.reverse();
 
         // Return the latest n quiz logs or all if n is 0
         res.status(200).json(gameLogs);

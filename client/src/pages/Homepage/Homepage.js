@@ -67,8 +67,6 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
                 console.log(response.data);
             } catch (error) {
                 console.error('Error fetching latest quiz results:', error);
-                // Throw the error to handle it in the calling function
-                throw error;
             }
         };
 
@@ -78,16 +76,15 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
         }
         else if (userData && userData.userType === 'teacher') {
             fetchLastMatchLog();
-
         }
-    }, [userData]);
+    }, [userData, isLoggedIn]);
 
 
 
 
 
     return (
-        <div>
+        <div className={styles.windowWrapper}>
             {/* header section start */}
             <Header userData={userData} isLoggedIn={isLoggedIn} login={login} />
             {/* header section end */}
@@ -171,7 +168,7 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
                                                                 <h4 className="card-title fw-semibold tcn-1 mb-1 cursor-scale growDown2 title-anim" style={{ textTransform: 'capitalize' }}>
                                                                     {log.quiz.title}
                                                                 </h4>
-                                                                <p className="card-text tcs-1 fw-medium">Score: {log.scoreObtained}/{log.totalScore}</p>
+                                                                <p className="card-text tcs-1 fw-medium">Your Score: {log.scoreObtained}/{log.totalScore}</p>
                                                             </div>
                                                         </div>
                                                         {(index < resultLogs.length - 1) ? <div className="hr-line mb-1"></div> : ""}
