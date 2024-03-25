@@ -6,13 +6,14 @@ import logo from '../../../assets/images/logo/logo.png';
 import { GoHomeFill } from "react-icons/go";
 import { GoChevronRight } from "react-icons/go";
 import { Link } from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 const AddQuestionBankForm = () => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [questions, setQuestions] = useState([]);
     const [selectedQuestions, setSelectedQuestions] = useState([]);
-    const [error, setError] = useState('');
+    
 
     const navigate = useNavigate();
 
@@ -31,7 +32,7 @@ const AddQuestionBankForm = () => {
             setQuestions(response.data);
         } catch (error) {
             console.error('Error fetching questions:', error);
-            setError('Error fetching questions');
+            toast.error('Error fetching questions');
         }
     };
 
@@ -64,11 +65,11 @@ const AddQuestionBankForm = () => {
             setDescription('');
             setSelectedQuestions([]);
 
-            window.alert('Question bank created Successfully!');
-            navigate('/teacher/question-banks/manage');
+            toast.success('Question bank created Successfully!');
+            navigate('/teacher/quizgame/1');
         } catch (error) {
             console.error('Error creating question bank:', error);
-            setError('Error creating question bank');
+            toast.error('Error creating question bank');
         }
     };
 
@@ -76,13 +77,13 @@ const AddQuestionBankForm = () => {
         <>
          <nav className={styles.navbar}>
         <div className={styles.logoContainer}>
-          <img src={logo} alt='Logo' className={styles.logo} />
+          <Link to="/"><img src={logo} alt='Logo' className={styles.logo} /></Link>
         </div>
         </nav>
         <div className={styles.backBtn}>
         <Link to="/"><GoHomeFill className={styles.navIcon + ' ' + styles.Hover}  /></Link>
         <GoChevronRight className={styles.navIcon } />
-        <Link to="/teacher/quizgame"><div className={styles.navIcon + " " + styles.text + ' ' + styles.Hover}>Quiz Game</div></Link>
+        <Link to="/teacher/quizgame/1"><div className={styles.navIcon + " " + styles.text + ' ' + styles.Hover}>Question Bank Management</div></Link>
         <GoChevronRight className={styles.navIcon } />
         <div className={styles.navIcon + " " + styles.text}>Create Question Bank</div>
         <div className={styles.blackOverlay}></div>
@@ -134,7 +135,6 @@ const AddQuestionBankForm = () => {
             </div>
             <button type="submit" className={styles.mButton}>Create Question Bank</button>
         </form>
-        {error && <p className={styles.errorMessage}>Error: {error}</p>}
     </div>
     </>
     );

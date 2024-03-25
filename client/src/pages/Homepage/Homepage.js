@@ -7,6 +7,7 @@ import VanillaTilt from 'vanilla-tilt';
 import Header from '../../components/Header/Header';
 import axios from 'axios';
 import gameImgage from '../../assets/images/games/quizGame.png';
+import styles from './Homepage.module.css';
 
 
 const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
@@ -23,6 +24,8 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
             glare: true,
             'max-glare': 0.5
         });
+
+        console.log(userData);
     }, []);
 
 
@@ -53,10 +56,8 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
             try {
                 const token = localStorage.getItem('ultimate_genius0510_token');
 
-                const quizId = userData.gameLog[userData.gameLog.length - 1];
-
                 // Make API call to fetch latest quiz results
-                const response = await axios.get(`http://localhost:8000/api/teacher/quiz/getlog/${quizId}`, {
+                const response = await axios.get(`http://localhost:8000/api/teacher/quiz/getlog/3`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -66,29 +67,24 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
                 console.log(response.data);
             } catch (error) {
                 console.error('Error fetching latest quiz results:', error);
-                // Throw the error to handle it in the calling function
-                throw error;
             }
         };
 
         // Call the fetchResultLogs function
-        if(userData && userData.userType === 'student')
-        {
+        if (userData && userData.userType === 'student') {
             fetchResultLogs();
         }
-        else if(userData && userData.userType === 'teacher')
-        {
+        else if (userData && userData.userType === 'teacher') {
             fetchLastMatchLog();
-
         }
-    }, [userData]);
+    }, [userData, isLoggedIn]);
 
 
 
 
 
     return (
-        <div>
+        <div className={styles.windowWrapper}>
             {/* header section start */}
             <Header userData={userData} isLoggedIn={isLoggedIn} login={login} />
             {/* header section end */}
@@ -153,71 +149,87 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
 
 
                         {
-                            userData && resultLogs && (userData.userType === 'student')? (<div className="col-xl-4 col-lg-5 col-md-6 order-md-1 order-lg-last">
-                            <div className="hero-content">
-                                <div className="card-area py-lg-8 py-6 px-lg-6 px-3 rounded-5 tilt mb-10" data-tilt>
-                                    <h3 className="tcn-1 dot-icon cursor-scale growDown mb-6 title-anim">
-                                        Last Matches Score
-                                    </h3>
-                                    <div className="hr-line mb-6"></div>
-                                    <div className="card-items d-grid gap-5">
-                                        {
-                                            resultLogs && resultLogs.map((log, index) => (
-                                                <>
-                                                <div key={index} className="card-item d-flex align-items-center gap-4">
-                                                <div className="card-img-area rounded-circle overflow-hidden">
-                                                    <img className="w-100" src={gameImgage} alt="profile" />
-                                                </div>
-                                                <div className="card-info">
-                                                    <h4 className="card-title fw-semibold tcn-1 mb-1 cursor-scale growDown2 title-anim" style={{textTransform:'capitalize'}}>
-                                                    {log.quiz.title}
-                                                    </h4>
-                                                    <p className="card-text tcs-1 fw-medium">Score: {log.scoreObtained}/{log.totalScore}</p>
-                                                </div>
-                                            </div>
-                                            {(index < resultLogs.length - 1 )? <div className="hr-line mb-1"></div>: ""}
-                                            </>
-                                            ))
-                                        }
-                                        
+                            userData && resultLogs && (userData.userType === 'student') ? (<div className="col-xl-4 col-lg-5 col-md-6 order-md-1 order-lg-last">
+                                <div className="hero-content">
+                                    <div className="card-area py-lg-8 py-6 px-lg-6 px-3 rounded-5 tilt mb-10" data-tilt>
+                                        <h3 className="tcn-1 dot-icon cursor-scale growDown mb-6 title-anim">
+                                            Last Matches Score
+                                        </h3>
+                                        <div className="hr-line mb-6"></div>
+                                        <div className="card-items d-grid gap-5">
+                                            {
+                                                resultLogs && resultLogs.map((log, index) => (
+                                                    <>
+                                                        <div key={index} className="card-item d-flex align-items-center gap-4">
+                                                            <div className="card-img-area rounded-circle overflow-hidden">
+                                                                <img className="w-100" src={gameImgage} alt="profile" />
+                                                            </div>
+                                                            <div className="card-info">
+                                                                <h4 className="card-title fw-semibold tcn-1 mb-1 cursor-scale growDown2 title-anim" style={{ textTransform: 'capitalize' }}>
+                                                                    {log.quiz.title}
+                                                                </h4>
+                                                                <p className="card-text tcs-1 fw-medium">Your Score: {log.scoreObtained}/{log.totalScore}</p>
+                                                            </div>
+                                                        </div>
+                                                        {(index < resultLogs.length - 1) ? <div className="hr-line mb-1"></div> : ""}
+                                                    </>
+                                                ))
+                                            }
+                                            {
+                                                resultLogs && resultLogs.length === 0 ? (
+                                                    <div className={styles.centeredMessage}>
+                                                        No Matches to show..
+                                                    </div>
+                                                ) : null
+                                            }
 
+
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>)
-                        :
-                        (<div className="col-xl-4 col-lg-5 col-md-6 order-md-1 order-lg-last">
-                            <div className="hero-content">
-                                <div className="card-area py-lg-8 py-6 px-lg-6 px-3 rounded-5 tilt mb-10" >
-                                    <h3 className="tcn-1 dot-icon cursor-scale growDown mb-6 title-anim">
-                                        Last Match Score
-                                    </h3>
-                                    <div className="hr-line mb-6"></div>
-                                    <div className="card-items d-grid gap-5">
-                                        {
-                                            resultLogs && resultLogs.map((log, index) => (
-                                                <>
-                                                <div key={index} className="card-item d-flex align-items-center gap-4">
-                                                <div className="card-img-area rounded-circle overflow-hidden">
-                                                    <img className="w-100" src="./assets/img/avatar1.png" alt="profile" />
-                                                </div>
-                                                <div className="card-info">
-                                                    <h4 className="card-title fw-semibold tcn-1 mb-1 cursor-scale growDown2 title-anim" style={{textTransform:'capitalize'}}>
-                                                    {log.studentName}
-                                                    </h4>
-                                                    <p className="card-text tcs-1 fw-medium">Score: {log.scoreObtained}/{log.totalScore}</p>
-                                                </div>
-                                            </div>
-                                            {(index < resultLogs.length - 1 )? <div className="hr-line mb-1"></div>: ""}
-                                            </>
-                                            ))
-                                        }
-                                        
+                            </div>)
+                                :
+                                (<div className="col-xl-4 col-lg-5 col-md-6 order-md-1 order-lg-last">
+                                    <div className="hero-content">
+                                        <div className="card-area py-lg-8 py-6 px-lg-6 px-3 rounded-5 tilt mb-10" >
+                                            <h3 className="tcn-1 dot-icon cursor-scale growDown mb-6 title-anim">
+                                                Last Matches
+                                            </h3>
+                                            <div className="hr-line mb-6"></div>
+                                            <div className="card-items d-grid gap-5">
+                                                {
+                                                    resultLogs && resultLogs.map((log, index) => (
+                                                        <>
+                                                            <div key={index} className="card-item d-flex align-items-center gap-4">
+                                                                <div className="card-img-area rounded-circle overflow-hidden">
+                                                                    <img className="w-100" src={gameImgage} alt="profile" />
+                                                                </div>
+                                                                <div className="card-info">
+                                                                    <h4 className="card-title fw-semibold tcn-1 mb-1 cursor-scale growDown2 title-anim" style={{ textTransform: 'capitalize' }}>
+                                                                        {log.title}
+                                                                    </h4>
+                                                                    <p className="card-text tcs-1 fw-medium">Students Joined: {log.studentIds.length}</p>
+                                                                </div>
+                                                            </div>
+                                                            {(index < resultLogs.length - 1) ? <div className="hr-line mb-1"></div> : ""}
+                                                        </>
+                                                    ))
+                                                }
+                                                {
+                                                    resultLogs && resultLogs.length === 0 ? (
+                                                        <div className={styles.centeredMessage}>
+                                                            No Matches to show..
+                                                        </div>
+                                                    ) : null
+                                                }
 
+
+
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>)
+                                </div>)
                         }
 
 
@@ -261,8 +273,10 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
                     </div>
                 </div>
 
-                        {/* <p style={{textAlign:'right', marginRight:'4rem'}}>Made with <span style={{color:'white'}}>&#9829;</span> By Udit Gupta</p> */}
-                        <p style={{textAlign:'right', marginRight:'4rem', fontFamily:'Chakra Petch'}}>Made with <img src='https://cdn-icons-png.flaticon.com/128/210/210545.png' alt='heart' style={{width:'24px'}}/> By Udit Gupta</p>
+
+                {/* <p style={{textAlign:'right', marginRight:'4rem'}}>Made with <span style={{color:'white'}}>&#9829;</span> By Udit Gupta</p> */}
+                <p style={{ textAlign: 'right', marginRight: '4rem', fontFamily: 'Chakra Petch' }}>Made with <img src='https://cdn-icons-png.flaticon.com/128/210/210545.png' alt='heart' style={{ width: '24px' }} /> By Udit Gupta</p>
+
             </section>
             {/* Hero Section end */}
         </div>

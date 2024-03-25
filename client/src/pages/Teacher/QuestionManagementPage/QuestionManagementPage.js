@@ -4,6 +4,7 @@ import styles from './QuestionManagementPage.module.css';
 import { useNavigate } from 'react-router-dom';
 import { FaSearch, FaEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import { toast } from 'react-toastify';
 
 const QuestionManagementPage = () => {
   const [questions, setQuestions] = useState([]);
@@ -15,7 +16,11 @@ const QuestionManagementPage = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showPopup, setShowPopup] = useState(false);
+  const [showQBForm , setShowQBForm] = useState(false);
   const [sortBy, setSortBy] = useState('');
+  const [questionBankName, setQuestionBankName] = useState('');
+  const [questionBankDescription, setQuestionBankDescription] = useState('');
+
   const navigate = useNavigate();
 
   const fetchQuestions = async () => {
@@ -58,6 +63,13 @@ const QuestionManagementPage = () => {
   };
 
   const handleDeleteMultiple = async () => {
+
+    if(selectedQuestions.length === 0)
+      {
+        toast.error('No Question is selected');
+        setShowPopup(false);
+        return;
+      }
     try {
       // Make a POST request to delete questions
       const token = localStorage.getItem('ultimate_genius0510_token');
@@ -70,12 +82,13 @@ const QuestionManagementPage = () => {
           },
         }
       );
-  
+
       // Check if the deletion was successful
       if (response.status === 200) {
         console.log(response.data.message);
         setShowPopup(false);
         setSelectedQuestions([]);
+        toast.success('Deleted Successfully');
         fetchQuestions();
       } else {
         console.error('Error deleting multiple questions:', response.data.error);
@@ -84,12 +97,62 @@ const QuestionManagementPage = () => {
       console.error('Error deleting multiple questions:', error);
     }
   };
-  
+
+  const handleQuestionBankNameChange = (event) => {
+    setQuestionBankName(event.target.value);
+  };
+
+  const handleQuestionBankDescriptionChange = (event) => {
+    setQuestionBankDescription(event.target.value);
+  };
+
   // Function to handle creating a question bank using selected questions
   const handleCreateQuestionBank = () => {
-    // Implement logic to create question bank using selectedQuestions array
-    console.log('Creating question bank using selected questions:', selectedQuestions);
+    if(selectedQuestions.length === 0)
+    {
+      toast.error('No question selected');
+      return;
+    }
+    setShowQBForm(true);
   };
+
+  const handleCreateQuestionBankConfirm = async () => {
+    try {
+      // Send API call to create Question Bank
+      const token = localStorage.getItem('ultimate_genius0510_token');
+      const response = await axios.post(
+        'http://localhost:8000/api/teacher/create-qb',
+        {
+          name: questionBankName,
+          description: questionBankDescription,
+          questions: selectedQuestions
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Handle response
+      console.log('Question Bank created successfully:', response.data);
+
+      // Close the popup and clear selected questions
+      handleClosePopup();
+      setSelectedQuestions([]);
+      toast.success('Question Bank Created Successfully!');
+    } catch (error) {
+      console.error('Error creating Question Bank:', error);
+    }
+  };
+
+  const handleClosePopup = () => {
+    // Reset the input fields and hide the popup
+    setQuestionBankName('');
+    setQuestionBankDescription('');
+    setShowQBForm(false);
+  };
+
 
   // Function to handle canceling selection
   const handleCancelSelection = () => {
@@ -164,7 +227,7 @@ const QuestionManagementPage = () => {
   useEffect(() => {
     // Fetch questions when the component mounts
     fetchQuestions();
-  }, []);
+  }, []); 
 
   return (
     <>
@@ -254,7 +317,7 @@ const QuestionManagementPage = () => {
                   )}
                     <span className={styles.questionContent}>{question.content}</span></div>
                   <span>
-                    <FaEdit className={styles.iconButton} style={{ fontSize: '1.2rem', marginRight: '10px' }} />
+                    <FaEdit className={styles.iconButton} style={{ fontSize: '1.2rem', marginRight: '10px' }} onClick={() => {navigate(`/teacher/question/modify/${question._id}`)}}/>
                     <MdDeleteForever className={styles.iconButton} onClick={() => { setSelectedQuestions([`${question._id}`]); setShowPopup(true); }} />
                   </span>
                 </li>
@@ -269,10 +332,35 @@ const QuestionManagementPage = () => {
       <div className={`${styles.confirmationWindow} ${showPopup ? styles.active : ''}`}>
         <p>Are you sure you want to delete?</p>
         <div className={styles.flexBox}>
-          <button onClick={handleDeleteMultiple}>Yes</button>
-          <button onClick={() => setShowPopup(false)}>No</button>
+          <button onClick={handleDeleteMultiple} className={styles.removeButton}>Delete</button>
+          <button onClick={() => setShowPopup(false)} className={styles.mButton}>Cancel</button>
         </div>
       </div>
+
+      {/* Question Bank Creation Popup Window  */}
+      <div className={`${styles.confirmationWindow} ${showQBForm ? styles.active : ''}`}>
+        <p>Enter Question Bank Details:</p>
+        <input
+          type="text"
+          placeholder="Question Bank Name"
+          value={questionBankName}
+          onChange={handleQuestionBankNameChange}
+          className={styles.inputField} 
+          required
+        />
+        <textarea
+          placeholder="Question Bank Description"
+          value={questionBankDescription}
+          onChange={handleQuestionBankDescriptionChange}
+          className={styles.inputField} // Apply inputField class for styling
+        ></textarea>
+        <div className={styles.flexBox}>
+          <button onClick={handleClosePopup} className={styles.removeButton}>Cancel</button> {/* Apply removeButton class for styling */}
+          <button onClick={handleCreateQuestionBankConfirm} className={styles.mButton}>Create</button> {/* Apply mButton class for styling */}
+        </div>
+      </div>
+
+
     </>
   );
 };

@@ -217,3 +217,32 @@ exports.fetchQuestionBank = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+exports.updateQuestionBank =  async (req, res) => {
+    const { questionBankId } = req.params;
+    const { name, description, questions } = req.body;
+
+    try {
+        // Find the question bank by ID
+        let questionBank = await QuestionBank.findById(questionBankId);
+
+        if (!questionBank) {
+            return res.status(404).json({ error: 'Question bank not found' });
+        }
+
+        // Update the question bank fields
+        questionBank.name = name;
+        questionBank.description = description;
+        questionBank.questions = questions;
+
+        // Save the updated question bank
+        await questionBank.save();
+
+        // Respond with the updated question bank
+        res.status(200).json({ message: 'Question bank updated successfully', questionBank });
+    } catch (error) {
+        console.error('Error updating question bank:', error);
+        res.status(500).json({ error: 'Error updating question bank' });
+    }
+}

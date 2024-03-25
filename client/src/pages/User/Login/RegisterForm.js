@@ -5,8 +5,7 @@ import PopupMessage from '../../../components/Popup/PopupMessage';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../../assets/images/logo/logo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link} from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -17,10 +16,11 @@ const RegisterForm = () => {
     password: '',
     confirmPassword: '',
     gameName: '',
-    avatar: 'base.png' // Default value for avatar
+    avatar: 'http://localhost:8000/assets/avatar/avatar1.png'
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState('avatar1');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -37,7 +37,56 @@ const RegisterForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleAvatarClick = (avatar) => {
+    let avatarImageUrl = '';
+  
+    if (avatar === 'avatar1')
+      avatarImageUrl = 'http://localhost:8000/assets/avatar/avatar1.png';
+    else if (avatar === 'avatar2')
+      avatarImageUrl = 'http://localhost:8000/assets/avatar/avatar2.png';
+    else if (avatar === 'avatar3')
+      avatarImageUrl = 'http://localhost:8000/assets/avatar/avatar3.png';
+  
+    setSelectedAvatar(avatar);
+    
+    // Use functional update to ensure avatarImageUrl is up-to-date
+    
+      setFormData(prevState => ({
+        ...prevState,
+        avatar: avatarImageUrl
+      }));
+  };
+  
+  const handleFileChange = async (e) => {
+    const uploadedAvatar = e.target.files[0];
+  
+    try {
+      setSelectedAvatar('avatar4');
+      const formData = new FormData();
+      formData.append('avatar', uploadedAvatar);
+  
+      const response = await axios.post('http://localhost:8000/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+  
+      setFormData(prevState => ({
+        ...prevState,
+        avatar: response.data.imagePath
+      }));
+
+    } catch (error) {
+      console.error('Error uploading avatar:', error);
+      setPopupMessage('Error uploading avatar');
+      setShowPopup(true);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -78,16 +127,15 @@ const RegisterForm = () => {
       return;
     }
 
-    if (formData.userName.length > 20 || formData.email.length > 20 || formData.gameName.length > 20) {
-      setPopupMessage('Field value should not exceed 20 characters');
+    if (formData.userName.length > 20 || formData.email.length > 50 || formData.gameName.length > 20) {
+      setPopupMessage('UserName and GameName should not exceed 20 characters');
       setShowPopup(true);
       return;
     }
 
     try {
       // Check if gameName and email already exist
-      const existingUserCheck = await axios.get(`http://localhost:8000/api/user/check?gameName=${formData.gameName}&email=${formData.email}`);
-      console.log(existingUserCheck.data);
+      const existingUserCheck = await axios.get(`http://localhost:8000/api/user/check/${formData.gameName}/${formData.email}`);
       if (existingUserCheck.data.exists) {
         setPopupMessage('User with this game name or email already exists');
         setShowPopup(true);
@@ -105,7 +153,6 @@ const RegisterForm = () => {
       setPopupMessage('Error registering user');
       setShowPopup(true);
     }
-
   };
 
   return (
@@ -170,7 +217,6 @@ const RegisterForm = () => {
                 </div>
               </div>
               <div className={styles.formGroup}>
-
                 <label className={styles.label}>User Type:</label>
                 <div className={styles.radioGroup}>
                   <input
@@ -185,11 +231,10 @@ const RegisterForm = () => {
                   <label htmlFor="teacher" className={styles.labelRadio}>Teacher</label>
                 </div>
                 <div className={styles.radioGroup}>
-
-
                   <input
                     type="radio"
                     id="student"
+                   
                     name="userType"
                     value="student"
                     onChange={handleInputChange}
@@ -198,24 +243,26 @@ const RegisterForm = () => {
                   />
                   <label htmlFor="student" className={styles.labelRadio}>Student</label>
                 </div>
-              </div></div>
-            <div className='col-lg-6'><div className={styles.formGroup}>
-              <label htmlFor="email" className={styles.label}>Email:</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                className={styles.input}
-              />
+              </div>
             </div>
+            <div className='col-lg-6'>
+              <div className={styles.formGroup}>
+                <label htmlFor="email" className={styles.label}>Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className={styles.input}
+                />
+              </div>
               <div className={styles.formGroup}>
                 <label htmlFor="password" className={styles.label}>Password:</label>
                 <div style={{ position: 'relative' }}>
                   <input
-                    type={showPassword? 'text' : "password"}
+                    type={showPassword ? 'text' : "password"}
                     id="password"
                     name="password"
                     value={formData.password}
@@ -241,30 +288,47 @@ const RegisterForm = () => {
                 />
               </div>
 
+              {/* Avatar selection */}
               <div className={styles.formGroup}>
                 <label htmlFor="avatar" className={styles.label}>Choose your Avatar:</label>
-                <input
-                  type="text"
-                  id="avatar"
-                  name="avatar"
-                  value={formData.avatar}
-                  onChange={handleInputChange}
-                  className={styles.input}
-                />
-              </div></div>
+                <div className='row' >
+                  <div className={'col-3 ' + styles.avatarIcon + (selectedAvatar === 'avatar1' ? ' ' + styles.selected : '')} onClick={() => handleAvatarClick('avatar1')}>
+                    <img src='http://localhost:8000/assets/avatar/avatar1.png' alt="Avatar 1" />
+                  </div>
+                  <div className={'col-3 ' + styles.avatarIcon + (selectedAvatar === 'avatar2' ? ' ' + styles.selected : '')} onClick={() => handleAvatarClick('avatar2')}>
+                    <img src='http://localhost:8000/assets/avatar/avatar2.png' alt="Avatar 2" />
+                  </div>
+                  <div className={'col-3 ' + styles.avatarIcon + (selectedAvatar === 'avatar3' ? ' ' + styles.selected : '')} onClick={() => handleAvatarClick('avatar3')}>
+                    <img src='http://localhost:8000/assets/avatar/avatar3.png' alt="Avatar 3" />
+                  </div>
+                  {/* Upload button */}
+                  <div className={'col-3 ' + styles.avatarIcon + (selectedAvatar === 'avatar4' ? ' ' + styles.selected : '')} >
+                    <input type="file" id="avatar" name="avatar" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
+                    <label htmlFor="avatar" className={styles.uploadButton}>
+                      {selectedAvatar === 'avatar4' ?
+                        <p className={styles.uploadText}>Uploaded</p> :
+                        <>
+                          <div className={styles.uploadIconContainer}>
+                            <div className={styles.uploadIcon}></div>
+                            <div className={styles.uploadIcon}></div>
+                          </div>
+                          <p className={styles.uploadText}>Upload</p>
+                        </>
+                      }
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-
-
           <button type="submit" className={styles.button}>Register</button>
-          <br/>
-          <div style={{textAlign:'center'}}>
-          Already have a account? <Link to="/user/login" style={{color:'#60d600'}}>Click here</Link>
+          <br />
+          <div style={{ textAlign: 'center' }}>
+            Already have an account? <Link to="/user/login" style={{ color: '#60d600' }}>Click here</Link>
           </div>
           {showPopup && <PopupMessage message={popupMessage} onClose={closePopup} />}
         </form>
-
       </div>
-
     </div>
   );
 };

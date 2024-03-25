@@ -227,6 +227,7 @@ exports.removeStudent = async (req, res) => {
         // Remove the student from the list of participants (studentIds) in the quiz
         quiz.studentIds.pull(studentId);
         await quiz.save();
+        console.log(quiz.studentIds +"8");
 
         res.status(200).json({ message: 'Student removed from the quiz successfully' });
     } catch (error) {
@@ -281,7 +282,7 @@ exports.saveQuizResult = async (req, res) => {
     // Check if the quiz result already exists for the same student and quiz
     const existingResult = await StudentQuizResultLog.findOne({ studentId: req.user._id, 'quiz.quizId': quiz._id });
     if (existingResult) {
-      return res.status(400).json({ message: 'Quiz result already submitted for this student and quiz' });
+      return res.status(400).json({ message: 'Quiz result already submitted' });
     }   
 
    const student = await User.findById(req.user._id);
@@ -364,16 +365,22 @@ exports.getLastNResultLogs = async (req, res) => {
 
       let lastNResultLogs;
 
+      console.log('user ', req.user._id, "-> ", n);
+
+      const all = await StudentQuizResultLog.find();
+
+    
+
       // If n is 0, fetch all records
       if (n === 0) {
-          lastNResultLogs = await StudentQuizResultLog.findById(req.user._id).sort({ submittedAt: -1 });
+          lastNResultLogs = await StudentQuizResultLog.find({ studentId: req.user._id }).sort({ submittedAt: -1 });
       } else {
           // Fetch the last N records
-          lastNResultLogs = await StudentQuizResultLog.find()
+          lastNResultLogs = await StudentQuizResultLog.find({ studentId: req.user._id })
               .sort({ submittedAt: -1 }) 
               .limit(n); 
       }
-
+      console.log(lastNResultLogs);
       res.status(200).json(lastNResultLogs);
   } catch (error) {
       console.error('Error fetching last N result logs:', error);
@@ -381,27 +388,41 @@ exports.getLastNResultLogs = async (req, res) => {
   }
 };
 
-// Controller function to get top 3 students for a quiz
+// Controller function to get the last n quiz logs created by the teacher
 exports.getQuizLog = async (req, res) => {
     try {
-        // Extract quizId from request parameters
-        const { quizId } = req.params;
+        // Extract the value of n from request parameters
+        const { n } = req.params;
 
-        // Find the quiz by its ID and populate the resultLog field
-        const quiz = await QuizGame.findById(quizId).populate({
-            path: 'resultLog',
-            options: { sort: { scoreObtained: 1 }, limit: 3 } // Sort by scoreObtained in ascending order and limit to 3 results
-        });
+        // Ensure n is a valid number
+        if (isNaN(n) || n <= 0) {
+            return res.status(400).json({ message: 'Invalid value for n' });
+        }
+        console.log('here', req.user._id);
+        const teacher = await User.findById(req.user._id);
+        console.log(teacher);
 
-        // If quiz not found
-        if (!quiz) {
-            return res.status(404).json({ message: 'Quiz not found' });
+        let gameLogs;
+
+        // If n is 0, retrieve all game logs
+        if (n == 0) {
+            gameLogs = teacher.gameLog;
+        } else {
+            // Extract the latest n game log IDs
+            const latestGameLogs = teacher.gameLog.slice(-n);
+
+            // Populate the latest game logs
+            gameLogs = await QuizGame.find({ _id: { $in: latestGameLogs } }).populate('resultLog');
         }
 
-        // Return the top 3 students in ascending order of score obtained
-        res.status(200).json(quiz.resultLog);
+        // Reverse the order of the gameLogs array
+        gameLogs.reverse();
+
+        // Return the latest n quiz logs or all if n is 0
+        res.status(200).json(gameLogs);
+        
     } catch (error) {
-        console.error('Error fetching quiz log:', error);
+        console.error('Error fetching quiz logs:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };

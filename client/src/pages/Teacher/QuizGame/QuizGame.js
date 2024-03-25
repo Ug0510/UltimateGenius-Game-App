@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './QuizGame.module.css';
 import logo from '../../../assets/images/logo/logo.png'
 import QuestionManagementPage from '../QuestionManagementPage/QuestionManagementPage';
 import QuestionBankManagementPage from '../QuestionBankManagementPage/QuestionBankManagementPage';
 import QuizCustomizationPage from '../QuizCustomizationForm/QuizCustomizationForm';
-import AddQuestionBankForm from '../AddQuestionBankForm/AddQuestionBankForm';
 
 
 const QuizGame = ({ isLoggedIn, userData }) => {
   // Check if user is logged in and is a teacher
   const navigate = useNavigate();
-  const [activeIndex, setActiveIndex] = useState(2);
+  const { pageIndex } = useParams();
+  const [activeIndex, setActiveIndex] = useState(pageIndex? Number(pageIndex) : 2);
   const [currentPage, setCurrentPage] = useState(null);
 
   useEffect(() => {
@@ -30,7 +30,6 @@ const QuizGame = ({ isLoggedIn, userData }) => {
         break;
       case 1:
         setCurrentPage(<QuestionBankManagementPage />);
-        // setCurrentPage(<AddQuestionBankForm/>);
         break;
       case 2:
         setCurrentPage(<QuizCustomizationPage />);
@@ -44,7 +43,7 @@ const QuizGame = ({ isLoggedIn, userData }) => {
 
 
   const handleItemClick = (index) => {
-    setActiveIndex(index === activeIndex ? null : index);
+    setActiveIndex(index);
   };
 
 

@@ -162,16 +162,15 @@ exports.checkLogin = async (req, res) => {
 // Controller to check if gameName or email is already present 
 exports.checkUserExistence = async (req, res) => {
     try {
-      const { gameName, email } = req.query;
-  
+        const gameName = req.params.gameName;
+        const email = req.params.email;
+
       // Check if gameName or email already exists in the database
       const existingUser = await User.findOne({ $or: [{ gameName }, { email }] });
   
       if (existingUser) {
-        console.log("1");
         return res.json({ exists: true });
       } else {
-        console.log("2");
         return res.json({ exists: false });
       }
     } catch (error) {

@@ -44,7 +44,7 @@ const Header = ({userData, isLoggedIn, login}) => {
                 <div className="header-profile pointer" onClick={toggleProfilePopup}>
                     {isLoggedIn && userData ? (<div className="profile-wrapper d-flex align-items-center gap-3">
                         <div className="img-area overflow-hidden">
-                            <img className="w-100" src="assets/img/profile.png" alt="profile" />
+                            <img className="w-100" src={userData? userData.avatar: 'http://localhost:8000/assets/avatar/avatar1.png'} alt="profile" />
                         </div>
                         <span className="user-name d-none d-xxl-block text-nowrap">{userData? userData.userName : 'User' }</span>
                         <i className="ti ti-chevron-down d-none d-xxl-block"></i>

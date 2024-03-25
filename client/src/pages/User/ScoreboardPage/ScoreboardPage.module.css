@@ -203,9 +203,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    margin:0;
+    padding:0;
   }
   .profileContainer img{
-      width: 80%;
+      width: 100%;
   }
   .flexBox{
     display: flex;

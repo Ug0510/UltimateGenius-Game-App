@@ -6,6 +6,7 @@ import logo from '../../../assets/images/logo/logo.png';
 import { GoHomeFill } from "react-icons/go";
 import { GoChevronRight } from "react-icons/go";
 import { Link } from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 const AddQuestionForm = () => {
     const [questionText, setQuestionText] = useState('');
@@ -14,7 +15,6 @@ const AddQuestionForm = () => {
     const [difficultyLevel, setDifficultyLevel] = useState('easy');
     const [choices, setChoices] = useState([]);
     const [correctAnswers, setCorrectAnswers] = useState([]);
-    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleQuestionTypeChange = (e) => {
@@ -34,7 +34,7 @@ const AddQuestionForm = () => {
             setChoices([...choices, '']);
         }
         else {
-            // Show warning , more than 6 options not allowed
+            toast.warning('Max options limit reached');
         }
     };
 
@@ -46,6 +46,12 @@ const AddQuestionForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if(correctAnswers.length === 0)
+        {
+            toast.warning('Select correct option');
+            return;
+        }
         try {
             let questionData;
             if (questionType === 'multiple_choice') {
@@ -73,12 +79,11 @@ const AddQuestionForm = () => {
                 },
             });
 
-            console.log('Question added successfully:', response.data);
-            window.alert('Question Added');
-            navigate('/teacher/question/manage');
+            toast.success('Question added successfully');
+            navigate('/teacher/quizgame/0');
         } catch (error) {
             console.error('Error adding question:', error);
-            setError('Error adding question. Please try again.');
+            toast.error('Error adding question.\n Please try again.');
         }
     };
 
@@ -92,7 +97,7 @@ const AddQuestionForm = () => {
             <div className={styles.backBtn}>
                 <Link to="/"><GoHomeFill className={styles.navIcon + ' ' + styles.Hover} /></Link>
                 <GoChevronRight className={styles.navIcon} />
-                <Link to="/teacher/quizgame"><div className={styles.navIcon + " " + styles.text + ' ' + styles.Hover}>Quiz Game</div></Link>
+                <Link to="/teacher/quizgame/0"><div className={styles.navIcon + " " + styles.text + ' ' + styles.Hover}>Question Management</div></Link>
                 <GoChevronRight className={styles.navIcon} />
                 <div className={styles.navIcon + " " + styles.text}>Add Question</div>
                 <div className={styles.blackOverlay}></div>
@@ -219,7 +224,6 @@ const AddQuestionForm = () => {
 
                     <button type="submit" className={styles.submitButton}>Add Question</button>
                 </form>
-                {error && <p className={styles.error}>{error}</p>}
             </div>
         </>
     );
