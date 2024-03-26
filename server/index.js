@@ -44,7 +44,7 @@ app.post('/upload', upload.single('avatar'), (req, res) => {
     }
 
    // If file upload is successful, send the path of the uploaded image
-   const imagePath = `http://localhost:8000/assets/avatar/${req.file.filename}`;
+   const imagePath = `http://${req.hostname}/assets/avatar/${req.file.filename}`;
    res.send({ imagePath });
   } catch (error) {
     console.error('Error uploading file:', error);
