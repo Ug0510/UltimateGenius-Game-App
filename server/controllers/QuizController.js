@@ -365,11 +365,6 @@ exports.getLastNResultLogs = async (req, res) => {
 
       let lastNResultLogs;
 
-      console.log('user ', req.user._id, "-> ", n);
-
-      const all = await StudentQuizResultLog.find();
-
-    
 
       // If n is 0, fetch all records
       if (n === 0) {
