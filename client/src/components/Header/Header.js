@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Link } from 'react-router-dom';
 import logo from '../../assets/images/logo/logo.png';
 import VanillaTilt from 'vanilla-tilt';
+import {toast} from 'react-toastify';
+
 
 const Header = ({userData, isLoggedIn, login}) => {
 
@@ -15,6 +17,7 @@ const Header = ({userData, isLoggedIn, login}) => {
     const handlelogout = () => {
         setIsOpen(false);
         login(false);
+        toast.success("Log out successfully!");
     }
 
     

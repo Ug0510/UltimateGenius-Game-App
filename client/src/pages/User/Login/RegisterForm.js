@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../../../assets/images/logo/logo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -28,13 +29,8 @@ const RegisterForm = () => {
 
   const navigate = useNavigate();
 
-  const [popupMessage, setPopupMessage] = useState('');
-  const [showPopup, setShowPopup] = useState(false);
 
-  const closePopup = () => {
-    setShowPopup(false);
-  };
-
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -84,8 +80,8 @@ const RegisterForm = () => {
 
     } catch (error) {
       console.error('Error uploading avatar:', error);
-      setPopupMessage('Error uploading avatar');
-      setShowPopup(true);
+      toast.error('Error uploading avatar');
+      
     }
   };
 
@@ -94,42 +90,42 @@ const RegisterForm = () => {
 
     // Form validation
     if (!/^[a-zA-Z\s]+$/.test(formData.userName)) {
-      setPopupMessage('Username should only contain letters and whitespace');
-      setShowPopup(true);
+      toast.warning('Username should only contain letters and whitespace');
+      
       return;
     }
 
     const requiredFields = ['userName', 'userType', 'userGender', 'email', 'password'];
     for (const field of requiredFields) {
       if (!formData[field]) {
-        setPopupMessage(`Missing required field: ${field}`);
-        setShowPopup(true);
+        toast.warning(`Missing required field: ${field}`);
+        
         return;
       }
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      setPopupMessage('Invalid email address');
-      setShowPopup(true);
+      toast.warning('Invalid email address');
+      
       return;
     }
 
     if (!/^[a-zA-Z0-9]+$/.test(formData.password)) {
-      setPopupMessage('Password should be alphanumeric');
-      setShowPopup(true);
+      toast.warning('Password should be alphanumeric');
+      
       return;
     }
 
     if (formData.password.length < 8 || formData.password.length > 20) {
-      setPopupMessage('Password must be between 8 and 20 characters');
-      setShowPopup(true);
+      toast.warning('Password must be between 8 and 20 characters');
+      
       return;
     }
 
     if (formData.userName.length > 20 || formData.email.length > 50 || formData.gameName.length > 20) {
-      setPopupMessage('UserName and GameName should not exceed 20 characters');
-      setShowPopup(true);
+      toast.warning('UserName and GameName should not exceed 20 characters');
+      
       return;
     }
 
@@ -137,21 +133,21 @@ const RegisterForm = () => {
       // Check if gameName and email already exist
       const existingUserCheck = await axios.get(`http://localhost:8000/api/user/check/${formData.gameName}/${formData.email}`);
       if (existingUserCheck.data.exists) {
-        setPopupMessage('User with this game name or email already exists');
-        setShowPopup(true);
+        toast.error('User with this game name or email already exists');
+        
         return;
       }
 
       // Proceed with registration if validations pass
       const response = await axios.post('http://localhost:8000/api/user/register', formData);
-      console.log('User registered successfully:', response.data);
+      toast.success('User registered successfully');
 
       // Redirect to login page
       navigate('/user/login');
     } catch (error) {
       console.error('Error registering user:', error);
-      setPopupMessage('Error registering user');
-      setShowPopup(true);
+      toast.error('Error registering user');
+      
     }
   };
 
@@ -326,7 +322,6 @@ const RegisterForm = () => {
           <div style={{ textAlign: 'center' }}>
             Already have an account? <Link to="/user/login" style={{ color: '#60d600' }}>Click here</Link>
           </div>
-          {showPopup && <PopupMessage message={popupMessage} onClose={closePopup} />}
         </form>
       </div>
     </div>

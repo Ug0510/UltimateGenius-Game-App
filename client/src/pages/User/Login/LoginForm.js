@@ -5,7 +5,7 @@ import PopupMessage from '../../../components/Popup/PopupMessage';
 import { useNavigate, Link } from 'react-router-dom';
 import logo from '../../../assets/images/logo/logo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
+import { toast } from 'react-toastify';
 
 
 const LoginForm = ({ isLoggedIn, login }) => {
@@ -22,12 +22,7 @@ const togglePasswordVisibility = () => {
 
   const navigate = useNavigate();
 
-  const [popupMessage, setPopupMessage] = useState('');
-  const [showPopup, setShowPopup] = useState(false);
 
-  const closePopup = () => {
-    setShowPopup(false);
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -46,15 +41,14 @@ const togglePasswordVisibility = () => {
       localStorage.setItem('ultimate_genius0510_token', response.data.token);
 
 
-      // localStorage.setItem('isLoggedIn','true');
+      toast.success("Logged in successfully!")
       login();
 
       // Redirect to dashboard or profile page after successful login
       navigate('/');
     } catch (error) {
       console.error('Error logging in user:', error);
-      setPopupMessage('Invalid email or password');
-      setShowPopup(true);
+      toast.error('Invalid email or password');
     }
 
   };
@@ -103,7 +97,6 @@ const togglePasswordVisibility = () => {
           <div style={{textAlign:'center'}}>
           <Link to="/user/register" >New User? Create a account.</Link>
           </div>
-          {showPopup && <PopupMessage message={popupMessage} onClose={closePopup} />}
         </form>
       </div>
     </div>
