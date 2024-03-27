@@ -7,6 +7,7 @@ const multer = require('multer');
 const path = require('path');
 require('dotenv').config();
 const sendEmail  = require('./utils/mail');
+const fs = require('fs');
 
 // Allow requests from http://localhost:3000
 app.use(cors({ origin: 'http://localhost:3000' }));
@@ -56,13 +57,20 @@ app.post('/upload', upload.single('avatar'), (req, res) => {
 app.post('/send-mail', (req,res) => {
   // const {name, email} = req.body;
 
+  
+  
+  // Read HTML template file
+  const htmlTemplate = fs.readFileSync('./templates/email-verify.html', 'utf8');
+
+  // Replace placeholders in the HTML template with actual values
+  const formattedHtml = htmlTemplate.replace('{{otp}}', 654321);
+
   const emailOptions = {
     to: 'uditg0510@gmail.com',
-    subject: 'Test Email from Node.js',
-    text: 'This is a plain text message.',
-    html: '<b>This is an HTML message to test everything</b>',
+    subject: 'Email Verification',
+    html: formattedHtml
   };
-  
+
   sendEmail(emailOptions)
   .then(result => {
     console.log(result);

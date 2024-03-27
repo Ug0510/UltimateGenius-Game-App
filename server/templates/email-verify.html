@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; background-color: lightgrey; color:white; margin: 0; padding: 0; width:100%">
+
+    <div style="max-width:600px; margin:auto; background-color:black;">
+
+    
+    <table width="100%" bgcolor="#000" style="border-collapse: collapse; padding:0;margin:0">
+        <tr>
+            <td style="padding:0; padding-top:20px; text-align: center;">
+                <img src="https://shrishyamimpex.com/ug/logo.png" alt="Your Logo" style="max-width: 250px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding:0; text-align: center;">
+                <h1 style="color: #f6581e;">Verify Email Address</h1>
+            </td>
+        </tr>
+
+    <!-- Content -->
+        <tr>
+            <td style="padding: 20px; padding-top:0px;">
+                <p>Dear User,</p>
+                <p>Welcome to Ultimate Genius where learning meets excitement and every challenge is an opportunity to grow!</p>
+                <p>To kickstart your learning journey and ensure the security of your account, we need to verify your email address.</p>
+                <p>Please take a moment to verify your email by entering the OTP provided below:</p>
+                <p><strong>OTP: <span style="color:#60d600;" id="otp">{{otp}}</span></strong>
+                </p>
+                                <p>Your dedication to learning is about to be rewarded with access to a world of knowledge and fun challenges. But first, let's confirm your email address to get started!</p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+    <script>
+        document.getElementById("copyButton").addEventListener("click", function() {
+            var otp = document.getElementById("otp").innerText;
+        
+            // Create a temporary textarea element
+            var textarea = document.createElement("textarea");
+            textarea.value = otp;
+            textarea.style.position = "fixed";
+            textarea.style.opacity = 0;
+        
+            // Append the textarea to the document
+            document.body.appendChild(textarea);
+        
+            // Select and copy the text
+            textarea.select();
+            document.execCommand("copy");
+        
+            // Remove the textarea from the document
+            document.body.removeChild(textarea);
+        
+            // Show a confirmation message
+            alert("OTP copied to clipboard: " + otp);
+        });
+        </script>
+        
+
+</body>
+
+</html>
