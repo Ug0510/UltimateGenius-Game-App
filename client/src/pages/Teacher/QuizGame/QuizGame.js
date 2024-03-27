@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import styles from './QuizGame.module.css';
 import logo from '../../../assets/images/logo/logo.png'
 import QuestionManagementPage from '../QuestionManagementPage/QuestionManagementPage';
@@ -53,7 +53,7 @@ const QuizGame = ({ isLoggedIn, userData }) => {
 
       <nav className={styles.navbar}>
         <div className={styles.logoContainer}>
-          <img src={logo} alt='Logo' className={styles.logo} />
+          <Link to="/"><img src={logo} alt='Logo' className={styles.logo} /></Link>
         </div>
 
         <div className={styles.headList}>
