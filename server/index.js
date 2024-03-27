@@ -6,6 +6,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 require('dotenv').config();
+const sendEmail  = require('./utils/mail');
 
 // Allow requests from http://localhost:3000
 app.use(cors({ origin: 'http://localhost:3000' }));
@@ -50,6 +51,27 @@ app.post('/upload', upload.single('avatar'), (req, res) => {
     console.error('Error uploading file:', error);
     res.status(500).send('Error uploading file');
   }
+});
+
+app.post('/send-mail', (req,res) => {
+  // const {name, email} = req.body;
+
+  const emailOptions = {
+    to: 'uditg0510@gmail.com',
+    subject: 'Test Email from Node.js',
+    text: 'This is a plain text message.',
+    html: '<b>This is an HTML message to test everything</b>',
+  };
+  
+  sendEmail(emailOptions)
+  .then(result => {
+    console.log(result);
+    return res.send('Email Sent Successfully');
+  })
+  .catch(error => {
+    return res.send('not done');
+  })
+
 });
 
 // Start the server
