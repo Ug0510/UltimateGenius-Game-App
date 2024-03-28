@@ -80,7 +80,7 @@ const Header = ({userData, isLoggedIn, login}) => {
                         </div>
                     </div>
                     {/* links */}
-                    <Link href="profile.html" className="account-item">View Profile</Link>
+                    <Link to="/user/profile" className="account-item">View Profile</Link>
                     <button className="bttn account-item" onClick={handlelogout}>Logout</button>
                 </div>
             </div> 

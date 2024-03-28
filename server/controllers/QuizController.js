@@ -392,17 +392,22 @@ exports.getLastNResultLogs = async (req, res) => {
 exports.getQuizLog = async (req, res) => {
     try {
         // Extract the value of n from request parameters
-        const { n } = req.params;
+        let { n } = req.params;
+
+        n = Number(n);
 
         // Ensure n is a valid number
-        if (isNaN(n) || n <= 0) {
+        if (n === null || n < 0) {
             return res.status(400).json({ message: 'Invalid value for n' });
         }
         console.log('here', req.user._id);
-        const teacher = await User.findById(req.user._id);
-        console.log(teacher);
-
+        const teacher = await User.findById(req.user._id).populate({
+            path: 'gameLog',
+                model: 'QuizGame'
+        });
+        console.log(teacher.gameLog);
         let gameLogs;
+
 
         // If n is 0, retrieve all game logs
         if (n == 0) {
@@ -412,7 +417,7 @@ exports.getQuizLog = async (req, res) => {
             const latestGameLogs = teacher.gameLog.slice(-n);
 
             // Populate the latest game logs
-            gameLogs = await QuizGame.find({ _id: { $in: latestGameLogs } }).populate('resultLog');
+            gameLogs = await QuizGame.find({ _id: { $in: latestGameLogs } }).populate('gameLog');
         }
 
         // Reverse the order of the gameLogs array

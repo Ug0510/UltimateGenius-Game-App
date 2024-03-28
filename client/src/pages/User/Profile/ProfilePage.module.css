@@ -1,0 +1,218 @@
+.navbar {
+  padding: 0.7rem 3rem;
+  background-color: #0D0F14;
+  /* display: flex  */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoContainer {
+  width: fit-content;
+
+}
+
+.logo {
+  width: 220px;
+}
+
+.userInfo {
+  text-align: center;
+  margin-top: 1rem;
+  font-family: "Chakra Petch", 'sans-serif';
+}
+
+.userInfo h2 {
+  margin: 1rem;
+  ;
+}
+
+
+
+.matchesContainer {
+  margin-top: 3rem;
+}
+
+.matchesPlayed,
+.matchesCreated {
+  margin-bottom: 20px;
+  width: 60vw;
+  margin: auto;
+
+}
+
+.matchesPlayed h3,
+.matchesCreated h3 {
+  color: #f6561e;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.avatar {
+  width: 9rem;
+  height: 9rem;
+  border-radius: 50%;
+  border: 7px solid black;
+  outline: #f6561e solid 3px;
+  object-fit: cover;
+}
+.userDetails {
+  width: 40vw;
+  height: fit-content;
+  padding: 1rem 8rem;
+  position: relative;
+  margin: 7rem auto 0;
+  border: 3px solid #f6561e;
+  
+}
+.userDataInner {
+  display: flex;
+  flex-direction: column;
+}
+/* .userDetails h4{
+.userDataInner {
+  display: flex;
+  flex-direction: column;
+}
+  
+  border:1px solid cyan;
+} */
+.spaceFiller{
+  height: 5.5rem
+}
+.userData{
+  width: 10vw;
+}
+.avatar{
+  position: absolute;
+  top:0;
+  left:50%;
+  transform: translate(-50%, -50%);
+}
+button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: 1s all ease;
+}
+
+button:hover {
+  border-bottom: 1px solid #f6561e;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+/* td {
+  border:1px solid cyan;
+} */
+.userDataInner.values{
+  color:#60d600;
+  margin:0;
+  padding:0;
+}
+.profile {
+  max-width: 50px;
+}
+
+.ourList li {
+  display: flex;
+  background-color: #222;
+  padding: 1rem;
+  border-radius: 5px;
+  margin: 1rem auto;
+  max-width: 60vw;
+  font-family: 'Chakra Petch', sans-serif !important;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ourList li p {
+  font-size: 1.2rem;
+  font-family: 'Chakra Petch', 'sans-serif';
+  font-weight: 700;
+}
+
+.ourList li:hover {
+
+  cursor: pointer;
+  background-color: #333;
+
+  & .link {
+    color: #60d600;
+  }
+}
+
+.editIcon{
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+.editIcon:hover{
+  color:#60d600;
+}
+
+@media (max-width: 768px) {
+  nav{
+    box-shadow: 0px 2px 10px 4px #ffffff25;
+    position: sticky;
+    top:0;
+    background-color: #0D0F14;
+    z-index: 99;
+  }
+  .logo{
+    width:40vw;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  .actions button {
+    margin-top: 10px;
+  }
+
+  .ourList li {
+    max-width: 90vw;
+  }
+  .userInfo{
+    width: 90vw;
+  }
+
+  .matchesPlayed,
+  .matchesCreated {
+    width: 90vw;
+
+  }
+  .profile{
+    max-width: 40px;
+  }
+  .ourList li p {
+    font-size: 0.7rem;
+  }
+  .navbar {
+    padding: 0.7rem 1rem;
+  }
+  .navOption:not(:last-child)
+  {
+    display: none;
+  }
+  .userDetails {
+    width: 90vw;
+    margin-top:5rem;
+  }
+  .userData{
+    width: 30vw;
+  }
+  .userDataInner h6{
+    font-size: 1rem;
+  }
+}
