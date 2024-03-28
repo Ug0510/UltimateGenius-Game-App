@@ -12,6 +12,7 @@ router.get('/check/:gameName/:email', UserController.checkUserExistence);
 router.get('/profile', authenticate, UserController.profileUser);
 router.get('/check-login',authenticate,UserController.checkLogin);
 router.get('/quiz/results/:quizId',authenticate,QuizController.getQuizResults);
+router.post('/send-verification-otp', UserController.sendOtp);
 // router.post('/info', authenticate, UserController.getInfo);
 
 

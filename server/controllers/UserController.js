@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const sendEmail  = require('../utils/mail');
+const fs = require('fs');
 
 // Controller functions for CRUD operations
 exports.createUser = async (req, res) => {
@@ -178,3 +180,45 @@ exports.checkUserExistence = async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
+
+  // Function to generate a random OTP
+function generateOTP() {
+    return Math.floor(100000 + Math.random() * 900000);
+}
+
+
+// Controller to generate and send Otp to user for verification service
+exports.sendOtp = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        // Ensure email is provided
+        if (!email) {
+            return res.status(400).json({ message: 'Email address is required' });
+        }
+
+        // Generate a random OTP
+        const otp = generateOTP();
+
+        // Read HTML template file
+        const htmlTemplate = fs.readFileSync('./templates/email-verify.html', 'utf8');
+
+        // Replace placeholders in the HTML template with actual values
+        const formattedHtml = htmlTemplate.replace('<!--OTP_PLACEHOLDER-->', otp);
+
+        const emailOptions = {
+            to: email,
+            subject: 'Email Verification',
+            html: formattedHtml
+        };
+
+        // Send email
+        await sendEmail(emailOptions);
+
+        return res.json({ message: 'Email Sent Successfully' });
+    } catch (error) {
+        console.error('Error sending verification email:', error);
+        return res.status(500).json({ message: 'Unable to send verification email, please try again later' });
+    }
+};
+
