@@ -28,7 +28,7 @@ const RegisterForm = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
- 
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -39,38 +39,38 @@ const RegisterForm = () => {
 
   const handleAvatarClick = (avatar) => {
     let avatarImageUrl = '';
-  
+
     if (avatar === 'avatar1')
       avatarImageUrl = 'http://localhost:8000/assets/avatar/avatar1.png';
     else if (avatar === 'avatar2')
       avatarImageUrl = 'http://localhost:8000/assets/avatar/avatar2.png';
     else if (avatar === 'avatar3')
       avatarImageUrl = 'http://localhost:8000/assets/avatar/avatar3.png';
-  
+
     setSelectedAvatar(avatar);
-    
+
     // Use functional update to ensure avatarImageUrl is up-to-date
-    
-      setFormData(prevState => ({
-        ...prevState,
-        avatar: avatarImageUrl
-      }));
+
+    setFormData(prevState => ({
+      ...prevState,
+      avatar: avatarImageUrl
+    }));
   };
-  
+
   const handleFileChange = async (e) => {
     const uploadedAvatar = e.target.files[0];
-  
+
     try {
       setSelectedAvatar('avatar4');
       const formData = new FormData();
       formData.append('avatar', uploadedAvatar);
-  
+
       const response = await axios.post('http://localhost:8000/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-  
+
       setFormData(prevState => ({
         ...prevState,
         avatar: response.data.imagePath
@@ -79,7 +79,7 @@ const RegisterForm = () => {
     } catch (error) {
       console.error('Error uploading avatar:', error);
       toast.error('Error uploading avatar');
-      
+
     }
   };
 
@@ -125,15 +125,23 @@ const RegisterForm = () => {
     // Form validation
     if (!/^[a-zA-Z\s]+$/.test(formData.userName)) {
       toast.warning('Username should only contain letters and whitespace');
-      
       return;
     }
+
+    // Convert username to capitalize case
+    const capitalizedUserName = formData.userName.replace(/\b\w/g, (char) => char.toUpperCase());
+
+    // Update form data with capitalized username
+    setFormData(prevState => ({
+      ...prevState,
+      userName: capitalizedUserName
+    }));
 
     const requiredFields = ['userName', 'userType', 'userGender', 'email', 'password'];
     for (const field of requiredFields) {
       if (!formData[field]) {
         toast.warning(`Missing required field: ${field}`);
-        
+
         return;
       }
     }
@@ -141,31 +149,30 @@ const RegisterForm = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       toast.warning('Invalid email address');
-      
+
       return;
     }
 
     if (!/^[a-zA-Z0-9]+$/.test(formData.password)) {
       toast.warning('Password should be alphanumeric');
-      
+
       return;
     }
 
     if (formData.password.length < 8 || formData.password.length > 20) {
       toast.warning('Password must be between 8 and 20 characters');
-      
+
       return;
     }
 
-    if(formData.password !== formData.confirmPassword)
-    {
-        toast.warning('Your Passwords are not matching');
-        return;
+    if (formData.password !== formData.confirmPassword) {
+      toast.warning('Your Passwords are not matching');
+      return;
     }
 
     if (formData.userName.length > 20 || formData.email.length > 50 || formData.gameName.length > 20) {
       toast.warning('UserName and GameName should not exceed 20 characters');
-      
+
       return;
     }
 
@@ -174,7 +181,7 @@ const RegisterForm = () => {
       const existingUserCheck = await axios.get(`http://localhost:8000/api/user/check/${formData.gameName}/${formData.email}`);
       if (existingUserCheck.data.exists) {
         toast.error('User with this game name or email already exists');
-        
+
         return;
       }
 
@@ -183,7 +190,7 @@ const RegisterForm = () => {
     } catch (error) {
       console.error('Error registering user:', error);
       toast.error('Error registering user');
-      
+
     }
   };
 
@@ -266,7 +273,7 @@ const RegisterForm = () => {
                   <input
                     type="radio"
                     id="student"
-                   
+
                     name="userType"
                     value="student"
                     onChange={handleInputChange}
@@ -361,25 +368,25 @@ const RegisterForm = () => {
         </form>
       </div>
       {/* OTP Popup */}
-  {otpPopupVisible && (
-    <div className={styles.overlay}>
-      <div className={styles.popup}>
-        <h4>Verify your email address</h4>
-        <input
-          type="text"
-          placeholder="Enter OTP"
-          value={otp}
-          onChange={(e) => setOtp(e.target.value)}
-          className={styles.otpInput}
-        />
-        <button onClick={handleVerifyOtp} className={styles.verifyButton}>Verify</button>
-        <div className={styles.buttonGroup}>
-          <button onClick={() => setOtpPopupVisible(false)} className={styles.cancelButton}>Cancel</button>
-          <button onClick={handleSendOtp} className={styles.verifyButton}>Resend</button>
+      {otpPopupVisible && (
+        <div className={styles.overlay}>
+          <div className={styles.popup}>
+            <h4>Verify your email address</h4>
+            <input
+              type="text"
+              placeholder="Enter OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              className={styles.otpInput}
+            />
+            <button onClick={handleVerifyOtp} className={styles.verifyButton}>Verify</button>
+            <div className={styles.buttonGroup}>
+              <button onClick={() => setOtpPopupVisible(false)} className={styles.cancelButton}>Cancel</button>
+              <button onClick={handleSendOtp} className={styles.verifyButton}>Resend</button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  )}
+      )}
     </div>
   );
 };
