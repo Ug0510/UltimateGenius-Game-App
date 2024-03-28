@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const sendEmail  = require('../utils/mail');
 const fs = require('fs');
+const UserEmailVerification = require('../models/UserEmailVerification');
 
 // Controller functions for CRUD operations
 exports.createUser = async (req, res) => {
@@ -197,8 +198,23 @@ exports.sendOtp = async (req, res) => {
             return res.status(400).json({ message: 'Email address is required' });
         }
 
+        let userEmailVerification = await UserEmailVerification.findOne({ email });
+
+        if (userEmailVerification) {
+            // Calculate the time difference between current time and last OTP sent time
+            const currentTime = new Date();
+            const lastSentTime = userEmailVerification.createdAt;
+            const timeDifference = Math.ceil((currentTime - lastSentTime) / (1000 * 60)); // Convert milliseconds to minutes
+            const timeUntilResend = 10 - timeDifference; // Assuming OTP can be resent after 10 minutes
+
+            return res.status(400).json({ message: 'OTP already sent', resendTime:`${timeUntilResend} minutes` });
+        }
+
         // Generate a random OTP
         const otp = generateOTP();
+
+        userEmailVerification = new UserEmailVerification({ email, otp });
+        await userEmailVerification.save();
 
         // Read HTML template file
         const htmlTemplate = fs.readFileSync('./templates/email-verify.html', 'utf8');
@@ -222,3 +238,30 @@ exports.sendOtp = async (req, res) => {
     }
 };
 
+
+// Controller to verify otp
+exports.verifyOTP = async (req, res) => {
+    const { email, otp } = req.body;
+  
+    try {
+      const userEmailVerification = await UserEmailVerification.findOne({ email });
+  
+      if (!userEmailVerification) {
+        
+        return res.status(400).json({ message: 'OTP Expired' , verified:false });
+      }
+
+      if(userEmailVerification.otp !== otp)
+      {
+        return res.status(400).json({ message: 'Invalid OTP' , verified:false });
+      }
+  
+      // OTP is verified successfully
+      await UserEmailVerification.deleteOne({ _id: userEmailVerification._id});
+  
+      res.status(200).json({ message: 'OTP verified successfully', verified:true });
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+      res.status(500).json({ message: 'Internal server error'});
+    }
+  };
