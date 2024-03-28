@@ -88,36 +88,36 @@ exports.generateQuiz = async (req, res) => {
 // Controller to join Quiz
 exports.joinQuiz = async (req, res) => {
     try {
-      // Extract game code from request body
-      const { gameCode } = req.params;
-  
-      // Check if the quiz exists
-      const quiz = await QuizGame.findOne({ gameCode });
-      if (!quiz) {
-        return res.status(404).json({ message: 'Quiz not found' });
-      }
-  
-      // Check if the quiz is already started
-      if (quiz.isStarted) {
-        return res.status(403).json({ message: 'Quiz has already started' });
-      }
-  
-      // Check if the student is already joined
-      const isJoined = quiz.studentIds.includes(req.user._id);
-      if (isJoined) {
-        return res.status(400).json({ message: 'You have already joined this quiz' });
-      }
-  
-      // Add the student to the list of participants (studentIds) in the quiz
-      quiz.studentIds.push(req.user._id);
-      await quiz.save();
-  
-      res.status(200).json({ message: 'You have successfully joined the quiz',quizId:quiz._id });
+        // Extract game code from request body
+        const { gameCode } = req.params;
+
+        // Check if the quiz exists
+        const quiz = await QuizGame.findOne({ gameCode });
+        if (!quiz) {
+            return res.status(404).json({ message: 'Quiz not found' });
+        }
+
+        // Check if the quiz is already started
+        if (quiz.isStarted) {
+            return res.status(403).json({ message: 'Quiz has already started' });
+        }
+
+        // Check if the student is already joined
+        const isJoined = quiz.studentIds.includes(req.user._id);
+        if (isJoined) {
+            return res.status(400).json({ message: 'You have already joined this quiz' });
+        }
+
+        // Add the student to the list of participants (studentIds) in the quiz
+        quiz.studentIds.push(req.user._id);
+        await quiz.save();
+
+        res.status(200).json({ message: 'You have successfully joined the quiz', quizId: quiz._id });
     } catch (error) {
-      console.error('Error joining quiz:', error);
-      res.status(500).json({ message: 'Error joining quiz' });
+        console.error('Error joining quiz:', error);
+        res.status(500).json({ message: 'Error joining quiz' });
     }
-  };
+};
 
 //Controller to check if quiz is started 
 exports.checkQuizStarted = async (req, res) => {
@@ -227,7 +227,7 @@ exports.removeStudent = async (req, res) => {
         // Remove the student from the list of participants (studentIds) in the quiz
         quiz.studentIds.pull(studentId);
         await quiz.save();
-        console.log(quiz.studentIds +"8");
+        console.log(quiz.studentIds + "8");
 
         res.status(200).json({ message: 'Student removed from the quiz successfully' });
     } catch (error) {
@@ -242,7 +242,7 @@ exports.getQuizDetails = async (req, res) => {
         const { quizId } = req.params;
 
         // Find the quiz game based on the provided game code
-        const quizGame = await QuizGame.findOne({ '_id':quizId }).populate('questionBank');
+        const quizGame = await QuizGame.findOne({ '_id': quizId }).populate('questionBank');
 
         if (!quizGame) {
             return res.status(404).json({ message: 'Quiz not found' });
@@ -260,9 +260,14 @@ exports.getQuizDetails = async (req, res) => {
             category,
             description,
             timeLimit,
-            numberOfQuestions,
+            numberOfQuestions: questions.length,
             questions
         };
+
+
+        quizGame.numberOfQuestions = questions.length;
+        await quizGame.save();
+
 
         res.status(200).json(quizDetails);
     } catch (error) {
@@ -274,113 +279,113 @@ exports.getQuizDetails = async (req, res) => {
 
 // Controller function to save quiz result
 exports.saveQuizResult = async (req, res) => {
-  try {
-    const { quizId, answers, scoreObtained, totalScore } = req.body;
+    try {
+        const { quizId, answers, scoreObtained, totalScore } = req.body;
 
-    const quiz = await QuizGame.findById(quizId).populate('teacherId');
+        const quiz = await QuizGame.findById(quizId).populate('teacherId');
 
-    // Check if the quiz result already exists for the same student and quiz
-    const existingResult = await StudentQuizResultLog.findOne({ studentId: req.user._id, 'quiz.quizId': quiz._id });
-    if (existingResult) {
-      return res.status(400).json({ message: 'Quiz result already submitted' });
-    }   
+        // Check if the quiz result already exists for the same student and quiz
+        const existingResult = await StudentQuizResultLog.findOne({ studentId: req.user._id, 'quiz.quizId': quiz._id });
+        if (existingResult) {
+            return res.status(400).json({ message: 'Quiz result already submitted' });
+        }
 
-   const student = await User.findById(req.user._id);
+        const student = await User.findById(req.user._id);
 
 
-    // Construct the quiz object
-    const quizObj = {
-      title: quiz.title,
-      quizId: quiz._id,
-      category: quiz.category,
-      teacherName: quiz.teacherId.userName,
-      duration: quiz.timeLimit,
-      totalQuestions: quiz.numberOfQuestions
-    };
+        // Construct the quiz object
+        const quizObj = {
+            title: quiz.title,
+            quizId: quiz._id,
+            category: quiz.category,
+            teacherName: quiz.teacherId.userName,
+            duration: quiz.timeLimit,
+            totalQuestions: quiz.numberOfQuestions
+        };
 
-    // Construct the studentQuizResultLog object
-    const studentQuizResultLog = new StudentQuizResultLog({
-      studentId: student._id, 
-      studentName: student.userName, 
-      quiz:quizObj,
-      answers,
-      scoreObtained,
-      totalScore,
-      submittedAt: new Date()
-    });
+        // Construct the studentQuizResultLog object
+        const studentQuizResultLog = new StudentQuizResultLog({
+            studentId: student._id,
+            studentName: student.userName,
+            quiz: quizObj,
+            answers,
+            scoreObtained,
+            totalScore,
+            submittedAt: new Date()
+        });
 
-    quiz.resultLog.push(studentQuizResultLog);
+        quiz.resultLog.push(studentQuizResultLog);
 
-    // To save updated quiz in database
-    await quiz.save();
+        // To save updated quiz in database
+        await quiz.save();
 
-    // Save the quiz result log to the database
-    await studentQuizResultLog.save();
-    res.status(201).json({ message: 'Quiz result saved successfully' });
-  } catch (error) {
-    console.error('Error saving quiz result:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
+        // Save the quiz result log to the database
+        await studentQuizResultLog.save();
+        res.status(201).json({ message: 'Quiz result saved successfully' });
+    } catch (error) {
+        console.error('Error saving quiz result:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 };
 
 
 // Controller function to fetch quiz results
 exports.getQuizResults = async (req, res) => {
     try {
-      // Fetch quiz results from the database
-      const {quizId} = req.params;
-      let quiz = await QuizGame.findById(quizId).populate({
-        path: 'resultLog',
-        populate: {
-          path: 'studentId',
-          model: 'User'
-        }
-      });
+        // Fetch quiz results from the database
+        const { quizId } = req.params;
+        let quiz = await QuizGame.findById(quizId).populate({
+            path: 'resultLog',
+            populate: {
+                path: 'studentId',
+                model: 'User'
+            }
+        });
 
-      // Adding teacher name too
-      const teacher = await User.findById(quiz.teacherId);
-      
-      const quizModified = {...quiz._doc, teacherName:teacher.userName};
-    
-      // Return quiz results as JSON response
-      res.status(200).json(quizModified);
+        // Adding teacher name too
+        const teacher = await User.findById(quiz.teacherId);
+
+        const quizModified = { ...quiz._doc, teacherName: teacher.userName };
+
+        // Return quiz results as JSON response
+        res.status(200).json(quizModified);
     } catch (error) {
-      console.error('Error fetching quiz results:', error);
-      res.status(500).json({ message: 'Internal server error' });
+        console.error('Error fetching quiz results:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
-  };
+};
 
 // Controller function to fetch the last N result logs
 exports.getLastNResultLogs = async (req, res) => {
-  try {
-      let { n } = req.params;
-      
-      // Convert n to integer
-      n = parseInt(n); 
-      
-      // Check if n is less than 0
-      if (n < 0) {
-          return res.status(400).json({ message: 'Please enter a valid number of records' });
-      }
+    try {
+        let { n } = req.params;
 
-      let lastNResultLogs;
+        // Convert n to integer
+        n = parseInt(n);
+
+        // Check if n is less than 0
+        if (n < 0) {
+            return res.status(400).json({ message: 'Please enter a valid number of records' });
+        }
+
+        let lastNResultLogs;
 
 
-      // If n is 0, fetch all records
-      if (n === 0) {
-          lastNResultLogs = await StudentQuizResultLog.find({ studentId: req.user._id }).sort({ submittedAt: -1 });
-      } else {
-          // Fetch the last N records
-          lastNResultLogs = await StudentQuizResultLog.find({ studentId: req.user._id })
-              .sort({ submittedAt: -1 }) 
-              .limit(n); 
-      }
-      console.log(lastNResultLogs);
-      res.status(200).json(lastNResultLogs);
-  } catch (error) {
-      console.error('Error fetching last N result logs:', error);
-      res.status(500).json({ message: 'Internal server error' });
-  }
+        // If n is 0, fetch all records
+        if (n === 0) {
+            lastNResultLogs = await StudentQuizResultLog.find({ studentId: req.user._id }).sort({ submittedAt: -1 });
+        } else {
+            // Fetch the last N records
+            lastNResultLogs = await StudentQuizResultLog.find({ studentId: req.user._id })
+                .sort({ submittedAt: -1 })
+                .limit(n);
+        }
+        console.log(lastNResultLogs);
+        res.status(200).json(lastNResultLogs);
+    } catch (error) {
+        console.error('Error fetching last N result logs:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
 };
 
 // Controller function to get the last n quiz logs created by the teacher
@@ -415,7 +420,7 @@ exports.getQuizLog = async (req, res) => {
 
         // Return the latest n quiz logs or all if n is 0
         res.status(200).json(gameLogs);
-        
+
     } catch (error) {
         console.error('Error fetching quiz logs:', error);
         res.status(500).json({ message: 'Internal server error' });
