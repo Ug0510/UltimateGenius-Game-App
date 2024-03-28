@@ -195,7 +195,7 @@ exports.sendOtp = async (req, res) => {
     try {
         // Ensure email is provided
         if (!email) {
-            return res.status(400).json({ message: 'Email address is required' });
+            return res.status(200).json({ message: 'Email address is required' });
         }
 
         let userEmailVerification = await UserEmailVerification.findOne({ email });
@@ -207,7 +207,7 @@ exports.sendOtp = async (req, res) => {
             const timeDifference = Math.ceil((currentTime - lastSentTime) / (1000 * 60)); // Convert milliseconds to minutes
             const timeUntilResend = 10 - timeDifference; // Assuming OTP can be resent after 10 minutes
 
-            return res.status(400).json({ message: 'OTP already sent', resendTime:`${timeUntilResend} minutes` });
+            return res.status(200).json({ message: 'OTP already sent', resendTime:`${timeUntilResend} minutes` });
         }
 
         // Generate a random OTP
@@ -248,12 +248,12 @@ exports.verifyOTP = async (req, res) => {
   
       if (!userEmailVerification) {
         
-        return res.status(400).json({ message: 'OTP Expired' , verified:false });
+        return res.status(200).json({ message: 'OTP Expired' , verified:false });
       }
 
       if(userEmailVerification.otp !== otp)
       {
-        return res.status(400).json({ message: 'Invalid OTP' , verified:false });
+        return res.status(200).json({ message: 'Invalid OTP' , verified:false });
       }
   
       // OTP is verified successfully

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './LoginForm.module.css';
-import PopupMessage from '../../../components/Popup/PopupMessage';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../../assets/images/logo/logo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -22,14 +21,13 @@ const RegisterForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState('avatar1');
+  const [otpPopupVisible, setOtpPopupVisible] = useState(false);
+  const [otp, setOtp] = useState('');
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
-  const navigate = useNavigate();
-
-
  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -85,6 +83,42 @@ const RegisterForm = () => {
     }
   };
 
+  const handleSendOtp = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/user/send-otp', { email: formData.email });
+      if (response.data.resendTime !== undefined) {
+        toast.warning(`OTP already sent. Please wait ${response.data.resendTime} minutes before resending.`);
+      } else {
+        toast.success('OTP sent successfully. Please check your email.');
+        setOtpPopupVisible(true);
+      }
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      toast.error('Error sending OTP. Please try again later.');
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/user/verify-otp', { email: formData.email, otp });
+      if (response.data.verified) {
+        toast.success('Email verified successfully. Proceeding with registration.');
+
+        // Proceed with registration if email is verified
+        const registerResponse = await axios.post('http://localhost:8000/api/user/register', formData);
+        toast.success('User registered successfully');
+
+        // Redirect to login page
+        navigate('/user/login');
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+      toast.error('Error verifying OTP. Please try again later.');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -123,6 +157,12 @@ const RegisterForm = () => {
       return;
     }
 
+    if(formData.password !== formData.confirmPassword)
+    {
+        toast.warning('Your Passwords are not matching');
+        return;
+    }
+
     if (formData.userName.length > 20 || formData.email.length > 50 || formData.gameName.length > 20) {
       toast.warning('UserName and GameName should not exceed 20 characters');
       
@@ -138,12 +178,8 @@ const RegisterForm = () => {
         return;
       }
 
-      // Proceed with registration if validations pass
-      const response = await axios.post('http://localhost:8000/api/user/register', formData);
-      toast.success('User registered successfully');
+      handleSendOtp();
 
-      // Redirect to login page
-      navigate('/user/login');
     } catch (error) {
       console.error('Error registering user:', error);
       toast.error('Error registering user');
@@ -324,6 +360,26 @@ const RegisterForm = () => {
           </div>
         </form>
       </div>
+      {/* OTP Popup */}
+  {otpPopupVisible && (
+    <div className={styles.overlay}>
+      <div className={styles.popup}>
+        <h4>Verify your email address</h4>
+        <input
+          type="text"
+          placeholder="Enter OTP"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+          className={styles.otpInput}
+        />
+        <button onClick={handleVerifyOtp} className={styles.verifyButton}>Verify</button>
+        <div className={styles.buttonGroup}>
+          <button onClick={() => setOtpPopupVisible(false)} className={styles.cancelButton}>Cancel</button>
+          <button onClick={handleSendOtp} className={styles.verifyButton}>Resend</button>
+        </div>
+      </div>
+    </div>
+  )}
     </div>
   );
 };
