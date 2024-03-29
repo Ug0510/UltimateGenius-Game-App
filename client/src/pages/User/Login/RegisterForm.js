@@ -212,7 +212,6 @@ const RegisterForm = () => {
                   name="userName"
                   value={formData.userName}
                   onChange={handleInputChange}
-                  required
                   className={styles.input}
                 />
               </div>
@@ -236,7 +235,6 @@ const RegisterForm = () => {
                     name="userGender"
                     value="male"
                     onChange={handleInputChange}
-                    required
                     className={styles.inputRadio}
                   />
                   <label htmlFor="male" className={styles.labelRadio}>Male</label>
@@ -249,7 +247,6 @@ const RegisterForm = () => {
                     name="userGender"
                     value="female"
                     onChange={handleInputChange}
-                    required
                     className={styles.inputRadio}
                   />
                   <label htmlFor="female" className={styles.labelRadio}>Female</label>
@@ -264,7 +261,6 @@ const RegisterForm = () => {
                     name="userType"
                     value="teacher"
                     onChange={handleInputChange}
-                    required
                     className={styles.inputRadio}
                   />
                   <label htmlFor="teacher" className={styles.labelRadio}>Teacher</label>
@@ -277,7 +273,6 @@ const RegisterForm = () => {
                     name="userType"
                     value="student"
                     onChange={handleInputChange}
-                    required
                     className={styles.inputRadio}
                   />
                   <label htmlFor="student" className={styles.labelRadio}>Student</label>
@@ -293,7 +288,6 @@ const RegisterForm = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  required
                   className={styles.input}
                 />
               </div>
@@ -306,7 +300,6 @@ const RegisterForm = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    required
                     className={styles.input}
                   />
                   <div className={styles.eyeIcon} onClick={togglePasswordVisibility}>
@@ -322,7 +315,6 @@ const RegisterForm = () => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
-                  required
                   className={styles.input}
                 />
               </div>
