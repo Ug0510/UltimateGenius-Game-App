@@ -93,7 +93,7 @@
   left:50%;
   transform: translate(-50%, -50%);
 }
-button {
+.navOptions {
   background-color: transparent;
   color: white;
   border: none;
@@ -104,11 +104,11 @@ button {
   transition: 1s all ease;
 }
 
-button:hover {
+.navOptions:hover {
   border-bottom: 1px solid #f6561e;
 }
 
-button:active {
+.navOptions:active {
   transform: translateY(1px);
 }
 /* td {
