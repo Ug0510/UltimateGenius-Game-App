@@ -93,7 +93,7 @@
   left:50%;
   transform: translate(-50%, -50%);
 }
-.navOptions {
+.navOption {
   background-color: transparent;
   color: white;
   border: none;
@@ -104,11 +104,11 @@
   transition: 1s all ease;
 }
 
-.navOptions:hover {
+.navOption:hover {
   border-bottom: 1px solid #f6561e;
 }
 
-.navOptions:active {
+.navOption:active {
   transform: translateY(1px);
 }
 /* td {

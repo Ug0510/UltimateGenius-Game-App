@@ -89,7 +89,7 @@ const togglePasswordVisibility = () => {
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </div>
             </div>
-            <Link to="/user/forget-password" style={{fontSize:'0.8rem',color:'#60d600'}}>Forget Password?</Link>
+            <Link to="/user/forgot-password" style={{fontSize:'0.8rem',color:'#60d600'}}>Forgot Password?</Link>
           </div>
           <button type="submit" className={styles.button}>Login</button>
           <br />

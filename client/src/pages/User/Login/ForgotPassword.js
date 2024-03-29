@@ -45,6 +45,7 @@ const ForgotPassword = () => {
       const response = await axios.post('http://localhost:8000/api/user/check-email', { email: formData.email });
       if (response.data.exists) {
         setIsEmailEntered(true);
+        handleSendOtp();
         toast.success('User exists. Please enter the OTP sent to your email.');
       } else {
         toast.error('User does not exist with this email.');
@@ -57,7 +58,7 @@ const ForgotPassword = () => {
 
   const handleSendOtp = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/user/send-otp', { email: formData.email });
+      const response = await axios.post('http://localhost:8000/api/user/send-otp', { email: formData.email, reason:'forgot password' });
       if (response.data.resendTime !== undefined) {
         toast.warning(`OTP already sent. Please wait ${response.data.resendTime} minutes before resending.`);
       } else {
@@ -94,6 +95,25 @@ const ForgotPassword = () => {
     } else {
       // Proceed with updating password
       try {
+        if(formData.newPassword !== formData.confirmNewPassword)
+        {
+          toast.warning('Both Passwords Mismatches!');
+          return;
+        }
+        if (formData.password.length < 8 || formData.password.length > 20) {
+          toast.warning('Password must be between 8 and 20 characters');
+    
+          return;
+        }
+
+        if (!/^[a-zA-Z0-9]+$/.test(formData.password)) {
+          toast.warning('Password should be alphanumeric');
+    
+          return;
+        }
+    
+        
+
         const response = await axios.post('http://localhost:8000/api/user/reset-password', { email: formData.email, newPassword: formData.newPassword });
         if (response.data.success) {
           toast.success('Password reset successful. You can now login with your new password.');

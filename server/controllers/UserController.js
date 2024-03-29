@@ -190,7 +190,7 @@ function generateOTP() {
 
 // Controller to generate and send Otp to user for verification service
 exports.sendOtp = async (req, res) => {
-    const { email } = req.body;
+    const { email, reason } = req.body;
 
     try {
         // Ensure email is provided
@@ -217,7 +217,18 @@ exports.sendOtp = async (req, res) => {
         await userEmailVerification.save();
 
         // Read HTML template file
-        const htmlTemplate = fs.readFileSync('./templates/email-verify.html', 'utf8');
+        let htmlTemplate;
+
+        if(reason === 'forgot password')
+        {
+            htmlTemplate = fs.readFileSync('./templates/forgot-password.html', 'utf8');
+        }
+        else
+        {
+            htmlTemplate = fs.readFileSync('./templates/email-verify.html', 'utf8');
+        }
+
+        
 
         // Replace placeholders in the HTML template with actual values
         const formattedHtml = htmlTemplate.replace('<!--OTP_PLACEHOLDER-->', otp);

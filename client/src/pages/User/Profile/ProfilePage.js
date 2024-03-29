@@ -80,11 +80,11 @@ const ProfilePage = ({ userData, login }) => {
   }
 
   const handleEditProfile = () => {
-    // Add logic to handle editing profile
+    
   };
 
   const handleChangePassword = () => {
-    // Add logic to handle changing password
+    navigate('/user/forgot-password');
   };
 
   const handleLogout = () => {
@@ -145,10 +145,14 @@ const ProfilePage = ({ userData, login }) => {
         {userData.userType === 'student' && (
           <div className={styles.matchesPlayed}>
             <h3>Matches Played</h3>
-            <ul>
+            <ul className={styles.ourList}>
               {resultLogs.map((match, index) => (
                 <li key={index}>{match}</li>
               ))}
+              {
+                resultLogs.length === 0?
+                <li>You have not played any matches yet.</li>:<></>
+              }
             </ul>
           </div>
         )}
@@ -167,6 +171,10 @@ const ProfilePage = ({ userData, login }) => {
                   <p>Total Students played: {match.studentIds.length}</p>
                 </li>
               ))}
+              {
+                resultLogs.length === 0?
+                <li >You have not created any matches yet.</li>:<></>
+              }
             </ul>
           </div>
         )}

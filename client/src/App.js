@@ -70,7 +70,7 @@ const App = () => {
                 <Route path="/user/quiz/scoreboard" element={<ScoreboardPage userData={userData} />} />
                 <Route path="/teacher/question-banks/:questionBankId" element={<ModifyQuestionBankForm />} />
                 <Route path="/user/profile" element={<ProfilePage userData={userData} login={login}/>}/>
-                <Route path="/user/forget-password" element={<ForgotPassword/>}/>
+                <Route path="/user/forgot-password" element={<ForgotPassword/>}/>
                 
             </Routes>
             <ToastContainer

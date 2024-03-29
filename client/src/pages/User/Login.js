@@ -31,7 +31,7 @@ const LoginPage = () => {
                                                 <input type="password" placeholder="Your password" required />
                                             </fieldset>
                                         </div>
-                                        <a href="forget-password.html" className="fogot-pass">Forgot password?</a>
+                                        <Link to="/user/forgot-password" className="fogot-pass">Forgot password?</Link>
                                     </div>
                                     <div className="wrap-btn">
                                         <button type="submit" className="tf-button style2">
