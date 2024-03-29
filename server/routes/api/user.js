@@ -14,6 +14,8 @@ router.get('/check-login',authenticate,UserController.checkLogin);
 router.get('/quiz/results/:quizId',authenticate,QuizController.getQuizResults);
 router.post('/send-otp', UserController.sendOtp);
 router.post('/verify-otp', UserController.verifyOTP);
+router.post('/check-email', UserController.checkEmail);
+router.post('/reset-password', UserController.updatePassword);
 // router.post('/info', authenticate, UserController.getInfo);
 
 

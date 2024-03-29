@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const sendEmail  = require('../utils/mail');
+const sendEmail = require('../utils/mail');
 const fs = require('fs');
 const UserEmailVerification = require('../models/UserEmailVerification');
 
@@ -12,10 +12,10 @@ exports.createUser = async (req, res) => {
         if (!/^[a-zA-Z\s]+$/.test(req.body.userName)) {
             return res.status(400).json({ error: 'Username should only contain letters and whitespace' });
         }
-        
+
 
         // Check if required fields are missing
-        const requiredFields = ['userName', 'userType','userGender', 'email', 'password'];
+        const requiredFields = ['userName', 'userType', 'userGender', 'email', 'password'];
         const missingFields = requiredFields.filter(field => !req.body[field]);
         if (missingFields.length > 0) {
             return res.status(400).json({ error: `Missing required fields: ${missingFields.join(', ')}` });
@@ -49,8 +49,8 @@ exports.createUser = async (req, res) => {
 
         // Check if gameName already exists
         const existingUser = await User.findOne({ gameName: req.body.gameName });
-        const existingUserEmail = await User.findOne({ email: req.body.email});
-        console.log(existingUserEmail? existingUserEmail:existingUser);
+        const existingUserEmail = await User.findOne({ email: req.body.email });
+        console.log(existingUserEmail ? existingUserEmail : existingUser);
         if (existingUser || existingUserEmail) {
             return res.status(400).json({ error: 'User already exists' });
         }
@@ -93,7 +93,7 @@ exports.loginUser = async (req, res) => {
 
         // Compare passwords
         const isPasswordValid = await bcrypt.compare(password, user.password);
-        
+
         if (!isPasswordValid) {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
@@ -101,7 +101,7 @@ exports.loginUser = async (req, res) => {
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '10h' });
         console.log(process.env.JWT_SECRET);
         // Create a copy of the user object and delete sensitive fields
-        const userToSend = { ...user.toObject() }; 
+        const userToSend = { ...user.toObject() };
         delete userToSend.password;
         delete userToSend.__v;
         delete userToSend._id;
@@ -154,7 +154,7 @@ exports.checkLogin = async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        res.status(200).json({isLoggedIn:true});
+        res.status(200).json({ isLoggedIn: true });
     } catch (error) {
         console.error('Error fetching user profile:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -168,21 +168,21 @@ exports.checkUserExistence = async (req, res) => {
         const gameName = req.params.gameName;
         const email = req.params.email;
 
-      // Check if gameName or email already exists in the database
-      const existingUser = await User.findOne({ $or: [{ gameName }, { email }] });
-  
-      if (existingUser) {
-        return res.json({ exists: true });
-      } else {
-        return res.json({ exists: false });
-      }
-    } catch (error) {
-      console.error('Error checking user existence:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  };
+        // Check if gameName or email already exists in the database
+        const existingUser = await User.findOne({ $or: [{ gameName }, { email }] });
 
-  // Function to generate a random OTP
+        if (existingUser) {
+            return res.json({ exists: true });
+        } else {
+            return res.json({ exists: false });
+        }
+    } catch (error) {
+        console.error('Error checking user existence:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+// Function to generate a random OTP
 function generateOTP() {
     return Math.floor(100000 + Math.random() * 900000);
 }
@@ -207,7 +207,7 @@ exports.sendOtp = async (req, res) => {
             const timeDifference = Math.ceil((currentTime - lastSentTime) / (1000 * 60)); // Convert milliseconds to minutes
             const timeUntilResend = 10 - timeDifference; // Assuming OTP can be resent after 10 minutes
 
-            return res.status(200).json({ message: 'OTP already sent', resendTime:`${timeUntilResend} minutes` });
+            return res.status(200).json({ message: 'OTP already sent', resendTime: `${timeUntilResend} minutes` });
         }
 
         // Generate a random OTP
@@ -242,26 +242,66 @@ exports.sendOtp = async (req, res) => {
 // Controller to verify otp
 exports.verifyOTP = async (req, res) => {
     const { email, otp } = req.body;
-  
-    try {
-      const userEmailVerification = await UserEmailVerification.findOne({ email });
-  
-      if (!userEmailVerification) {
-        
-        return res.status(200).json({ message: 'OTP Expired' , verified:false });
-      }
 
-      if(userEmailVerification.otp !== otp)
-      {
-        return res.status(200).json({ message: 'Invalid OTP' , verified:false });
-      }
-  
-      // OTP is verified successfully
-      await UserEmailVerification.deleteOne({ _id: userEmailVerification._id});
-  
-      res.status(200).json({ message: 'OTP verified successfully', verified:true });
+    try {
+        const userEmailVerification = await UserEmailVerification.findOne({ email });
+
+        if (!userEmailVerification) {
+
+            return res.status(200).json({ message: 'OTP Expired', verified: false });
+        }
+
+        if (userEmailVerification.otp !== otp) {
+            return res.status(200).json({ message: 'Invalid OTP', verified: false });
+        }
+
+        // OTP is verified successfully
+        await UserEmailVerification.deleteOne({ _id: userEmailVerification._id });
+
+        res.status(200).json({ message: 'OTP verified successfully', verified: true });
     } catch (error) {
-      console.error('Error verifying OTP:', error);
-      res.status(500).json({ message: 'Internal server error'});
+        console.error('Error verifying OTP:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
-  };
+};
+
+
+// Controller to check if email present in database
+exports.checkEmail = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+        if (user) {
+            res.json({ exists: true });
+        } else {
+            res.json({ exists: false });
+        }
+    } catch (error) {
+        console.error('Error checking email:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+
+exports.updatePassword = async (req, res) => {
+    const { email, newPassword } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        console.log(user);
+
+        const saltRounds = 10;
+        user.password = await bcrypt.hash(newPassword, saltRounds);
+
+        await user.save();
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error updating password:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};

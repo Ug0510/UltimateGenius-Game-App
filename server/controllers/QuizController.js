@@ -405,7 +405,7 @@ exports.getQuizLog = async (req, res) => {
             path: 'gameLog',
                 model: 'QuizGame'
         });
-        console.log(teacher.gameLog);
+        console.log(teacher);
         let gameLogs;
 
 
@@ -417,7 +417,7 @@ exports.getQuizLog = async (req, res) => {
             const latestGameLogs = teacher.gameLog.slice(-n);
 
             // Populate the latest game logs
-            gameLogs = await QuizGame.find({ _id: { $in: latestGameLogs } }).populate('gameLog');
+            gameLogs = latestGameLogs;
         }
 
         // Reverse the order of the gameLogs array
