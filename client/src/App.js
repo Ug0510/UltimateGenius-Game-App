@@ -21,6 +21,8 @@ import { ToastContainer, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ModifyQuestionForm from './pages/Teacher/ModifyQuestionForm/ModifyQuestionForm';
 import ProfilePage from './pages/User/Profile/ProfilePage';
+import ForgotPassword from './pages/User/Login/ForgotPassword';
+
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -68,6 +70,7 @@ const App = () => {
                 <Route path="/user/quiz/scoreboard" element={<ScoreboardPage userData={userData} />} />
                 <Route path="/teacher/question-banks/:questionBankId" element={<ModifyQuestionBankForm />} />
                 <Route path="/user/profile" element={<ProfilePage userData={userData} login={login}/>}/>
+                <Route path="/user/forget-password" element={<ForgotPassword/>}/>
                 
             </Routes>
             <ToastContainer
