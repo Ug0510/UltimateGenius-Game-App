@@ -332,16 +332,24 @@ const ProfilePage = ({ userData, login  }) => {
       </table>
 
       <div className={styles.matchesContainer}>
-        {userData.userType === 'student' && (
-          <div className={styles.matchesPlayed}>
+      {userData.userType === 'student' && (
+          <div className={styles.matchesCreated}>
             <h3>Matches Played</h3>
             <ul className={styles.ourList}>
               {resultLogs.map((match, index) => (
-                <li key={index}>{match}</li>
+                <li key={match._id} onClick={() => { navigateToScoreboard(match.quiz.quizId) }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+                    <div className="card-img-area rounded-circle overflow-hidden">
+                      <img src={gameImgage} alt="profile" className={styles.profile + " w-100"} />
+                    </div>
+                    <p className={styles.link}>{match.quiz.title}</p>
+                  </span>
+                  <p>Your Score: {match.scoreObtained} / {match.totalScore}</p>
+                </li>
               ))}
               {
                 resultLogs.length === 0 ?
-                  <li>You have not played any matches yet.</li> : <></>
+                  <li >You have not played any matches yet.</li> : <></>
               }
             </ul>
           </div>
