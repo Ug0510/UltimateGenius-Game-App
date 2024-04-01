@@ -29,7 +29,7 @@ const App = () => {
     const [userData, setUserData] = useState(null);
 
     const addUserData = (data) => {
-        setUserData(data);
+        setUserData({...data});
     }
 
     const login = (LoggedIn = true) => {
@@ -38,7 +38,6 @@ const App = () => {
             localStorage.setItem('ultimate_genius0510_token', null);
         }
     };
-
 
     useEffect(() => {
 
@@ -65,11 +64,11 @@ const App = () => {
                 <Route path="/teacher/question/modify/:questionId" element={<ModifyQuestionForm />} />
                 <Route path="/teacher/question-banks/manage" element={<QuestionBankManagementPage />} />
                 <Route path="/teacher/question-banks/add" element={<AddQuestionBankForm />} />
-                <Route path="/student/quiz/play/:quizId" element={<QuizPlay />} />
+                <Route path="/student/quiz/play/:quizId" element={<QuizPlay/>}/>
                 <Route path="/user/quiz/scoreboard/:quizId" element={<ScoreboardPage userData={userData} />} />
                 <Route path="/user/quiz/scoreboard" element={<ScoreboardPage userData={userData} />} />
                 <Route path="/teacher/question-banks/:questionBankId" element={<ModifyQuestionBankForm />} />
-                <Route path="/user/profile" element={<ProfilePage userData={userData} login={login}/>}/>
+                <Route path="/user/profile" element={<ProfilePage userData={userData} login={login} />}/>
                 <Route path="/user/forgot-password" element={<ForgotPassword/>}/>
                 
             </Routes>

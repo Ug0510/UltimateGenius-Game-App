@@ -182,6 +182,48 @@ exports.checkUserExistence = async (req, res) => {
     }
 };
 
+// Controller to check if gameName or email is already present 
+exports.checkEmailExistence = async (req, res) => {
+    try {
+        const email = req.params.email;
+
+        // Check if gameName or email already exists in the database
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            return res.json({ exists: true });
+        } else {
+            return res.json({ exists: false });
+        }
+    } catch (error) {
+        console.error('Error checking user existence:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+// Controller to check if gameName or email is already present 
+exports.checkGamenameExistence = async (req, res) => {
+    try {
+        const gameName = req.params.gameName;
+
+        console.log(gameName);
+
+        // Check if gameName or email already exists in the database
+        const existingUser = await User.findOne({ gameName:gameName });
+
+        console.log(existingUser);
+
+        if (existingUser === null) {
+            return res.json({ exists: false });
+        } else {
+            return res.json({ exists: true });
+        }
+    } catch (error) {
+        console.error('Error checking user existence:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 // Function to generate a random OTP
 function generateOTP() {
     return Math.floor(100000 + Math.random() * 900000);
@@ -205,9 +247,9 @@ exports.sendOtp = async (req, res) => {
             const currentTime = new Date();
             const lastSentTime = userEmailVerification.createdAt;
             const timeDifference = Math.ceil((currentTime - lastSentTime) / (1000 * 60)); // Convert milliseconds to minutes
-            const timeUntilResend = 10 - timeDifference; // Assuming OTP can be resent after 10 minutes
+            const timeUntilResend = 10 - timeDifference; 
 
-            return res.status(200).json({ message: 'OTP already sent', resendTime: `${timeUntilResend} minutes` });
+            return res.status(400).json({ message: `OTP already sent, try again after ${timeUntilResend} minutes`, resendTime: `${timeUntilResend} minutes` });
         }
 
         // Generate a random OTP
@@ -219,7 +261,7 @@ exports.sendOtp = async (req, res) => {
         // Read HTML template file
         let htmlTemplate;
 
-        if(reason === 'forgot password')
+        if(reason === '1')
         {
             htmlTemplate = fs.readFileSync('./templates/forgot-password.html', 'utf8');
         }
@@ -316,3 +358,55 @@ exports.updatePassword = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+
+// Controller to update profile details
+exports.updateProfile = async (req, res) => {
+    try {
+      // Extract user data from request body
+      const { userName, userGender, email, gameName } = req.body;
+  
+      // Validation: Check if required fields are present
+      if (!userName || !userGender || !email || !gameName) {
+        return res.status(400).json({ message: 'All fields are required' });
+      }
+  
+      // Validation: Check if email is in correct format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: 'Invalid email format' });
+      }
+  
+      // Validation: Check maximum length of fields
+      const maxLength = 50; // Adjust the maximum length as needed
+      if (userName.length > maxLength || email.length > maxLength || gameName.length > maxLength) {
+        return res.status(400).json({ message: 'Maximum length exceeded for one or more fields' });
+      }
+  
+      // Validation: Duplicate User Check (only if email and gameName are different from current user)
+      const currentUser = req.user; 
+  
+      // Update user profile in the database
+      const user = await User.findById(currentUser.id);
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Update user data
+      user.userName = userName;
+      user.userGender = userGender;
+      user.email = email;
+      user.gameName = gameName;
+  
+      // Save updated user data
+      await user.save();
+  
+      // Return success response
+      res.status(200).json({ message: 'Profile updated successfully', user: user });
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      res.status(500).json({ message: 'Failed to update profile. Please try again.' });
+    }
+  };
+  
