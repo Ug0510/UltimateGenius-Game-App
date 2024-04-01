@@ -5,7 +5,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Chakra Petch', sans-serif;
 }
 
 /* Body styles */
@@ -92,6 +92,7 @@
   font-size: 2em;
   color: #f6581e;
   text-transform: uppercase;
+  font-family: 'Chakra Petch', sans-serif;
 }
 
 .signinContent .form {
@@ -104,6 +105,7 @@
 .signinContent .form .inputBox {
   position: relative;
   width: 100%;
+  font-family: 'Chakra Petch', sans-serif;
 }
 
 .signinContent .form .inputBox input {
@@ -117,6 +119,7 @@
   color: #fff;
   font-weight: 500;
   font-size: 1em;
+  font-family: 'Chakra Petch', sans-serif;
 }
 
 .signinContent .form .inputBox i {
@@ -127,6 +130,7 @@
   color: #aaa;
   transition: 0.5s;
   pointer-events: none;
+  font-family: 'Chakra Petch', sans-serif;
 }
 
 .signinContent .form .inputBox input:focus ~ i,
@@ -146,6 +150,7 @@
 .signinContent .form .links a {
   color: #fff;
   text-decoration: none;
+  font-family: 'Chakra Petch', sans-serif;
 }
 
 .signinContent .form .links a:nth-child(2) {
