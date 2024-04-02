@@ -113,14 +113,14 @@ useEffect(() => {
           quizResults && quizResults.resultLog ? (<div className={styles.quizDetails}>
             <h1 className={styles.scoreboardHeading}>Quiz Scoreboard</h1>
             <div className='row'>
-              <div className='col-4'>  <p>Title: {quizResults.title}</p>
+              <div className='col-4 text-nowrap'>  <p>Title: {quizResults.title}</p>
                 <p>Category: {quizResults.category}</p>
               </div>
 
-              <div className='col-4'><p>Duration: {quizResults.timeLimit} minutes</p>
+              <div className='col-4 text-nowrap'><p>Duration: {quizResults.timeLimit} minutes</p>
                 <p>Total Questions: {quizResults.numberOfQuestions}</p>
               </div>
-              <div className='col-3'>
+              <div className='col-3 text-nowrap'>
               <Link to={`/user/profile/${quizResults.teacherId}`} ><p className={styles.Hover}>Teacher Name:  {quizResults.teacherName} {userData && (quizResults.teacherId == userData._id) ? '(You)' : ""}</p></Link>
                 <p>Quiz Status: {quizOnGoing? 'Ongoing':'Ended'}</p>
               </div>
