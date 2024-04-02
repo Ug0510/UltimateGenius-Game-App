@@ -8,12 +8,32 @@
   font-family: 'Chakra Petch', sans-serif;
 }
 
+.navbar
+{
+  padding: 0.7rem 3rem;
+  /* background-color: #0D0F14; */
+  background-color: #222;
+  /* display: flex  */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoContainer{
+  width: fit-content;
+  
+}
+.logo {
+  width:220px;
+}
+
 /* Body styles */
 .bodyContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 90vh;
   background: #000;
 }
 

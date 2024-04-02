@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import styles from './JoinQuizPage.module.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {toast} from 'react-toastify';
+import logo from '../../../assets/images/logo/logo.png';
 
 const JoinQuizPage = () => {
   const spans = [];
@@ -59,6 +60,11 @@ const JoinQuizPage = () => {
 
   return (
     <div className={styles.container}>
+      <nav className={styles.navbar}>
+        <div className={styles.logoContainer}>
+          <Link to="/"><img src={logo} alt='Logo' className={styles.logo} /></Link>
+        </div>
+        </nav>
       <section className={styles.sectionContainer} >
         {spans}
         <div className={styles.signinContainer}>
