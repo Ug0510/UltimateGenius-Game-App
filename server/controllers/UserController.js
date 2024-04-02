@@ -209,7 +209,7 @@ exports.checkGamenameExistence = async (req, res) => {
         console.log(gameName);
 
         // Check if gameName or email already exists in the database
-        const existingUser = await User.findOne({ gameName:gameName });
+        const existingUser = await User.findOne({ gameName: gameName });
 
         console.log(existingUser);
 
@@ -247,9 +247,14 @@ exports.sendOtp = async (req, res) => {
             const currentTime = new Date();
             const lastSentTime = userEmailVerification.createdAt;
             const timeDifference = Math.ceil((currentTime - lastSentTime) / (1000 * 60)); // Convert milliseconds to minutes
-            const timeUntilResend = 10 - timeDifference; 
+            const timeUntilResend = 2 - timeDifference;
 
-            return res.status(400).json({ message: `OTP already sent, try again after ${timeUntilResend} minutes`, resendTime: `${timeUntilResend} minutes` });
+            if (timeUntilResend < 0) {
+                await UserEmailVerification.deleteOne({ _id: userEmailVerification._id });
+            }
+            else {
+                return res.status(400).json({ message: `OTP already sent, try again after ${timeUntilResend > 0 ? timeUntilResend : '1'} minutes`, resendTime: `${timeUntilResend} minutes` });
+            }
         }
 
         // Generate a random OTP
@@ -262,25 +267,22 @@ exports.sendOtp = async (req, res) => {
         let htmlTemplate;
         let subject;
 
-        console.log("code: " , code);
+        console.log("code: ", code);
 
-        if(code === '1')
-        {
+        if (code === '1') {
             htmlTemplate = fs.readFileSync('./templates/change-email.html', 'utf8');
             subject = 'To Change Email address';
         }
-        else if(code === '2')
-        {
+        else if (code === '2') {
             htmlTemplate = fs.readFileSync('./templates/forgot-password.html', 'utf8');
             subject = 'To Change Password';
         }
-        else if(code === '0')
-        {
+        else if (code === '0') {
             htmlTemplate = fs.readFileSync('./templates/email-verify.html', 'utf8');
             subject = 'To Verify Email address';
         }
 
-        
+
 
         // Replace placeholders in the HTML template with actual values
         const formattedHtml = htmlTemplate.replace('<!--OTP_PLACEHOLDER-->', otp);
@@ -373,50 +375,49 @@ exports.updatePassword = async (req, res) => {
 // Controller to update profile details
 exports.updateProfile = async (req, res) => {
     try {
-      // Extract user data from request body
-      const { userName, userGender, email, gameName } = req.body;
-  
-      // Validation: Check if required fields are present
-      if (!userName || !userGender || !email || !gameName) {
-        return res.status(400).json({ message: 'All fields are required' });
-      }
-  
-      // Validation: Check if email is in correct format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        return res.status(400).json({ message: 'Invalid email format' });
-      }
-  
-      // Validation: Check maximum length of fields
-      const maxLength = 50; // Adjust the maximum length as needed
-      if (userName.length > maxLength || email.length > maxLength || gameName.length > maxLength) {
-        return res.status(400).json({ message: 'Maximum length exceeded for one or more fields' });
-      }
-  
-      // Validation: Duplicate User Check (only if email and gameName are different from current user)
-      const currentUser = req.user; 
-  
-      // Update user profile in the database
-      const user = await User.findById(currentUser.id);
-  
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-  
-      // Update user data
-      user.userName = userName;
-      user.userGender = userGender;
-      user.email = email;
-      user.gameName = gameName;
-  
-      // Save updated user data
-      await user.save();
-  
-      // Return success response
-      res.status(200).json({ message: 'Profile updated successfully', user: user });
+        // Extract user data from request body
+        const { userName, userGender, email, gameName } = req.body;
+
+        // Validation: Check if required fields are present
+        if (!userName || !userGender || !email || !gameName) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        // Validation: Check if email is in correct format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ message: 'Invalid email format' });
+        }
+
+        // Validation: Check maximum length of fields
+        const maxLength = 50; // Adjust the maximum length as needed
+        if (userName.length > maxLength || email.length > maxLength || gameName.length > maxLength) {
+            return res.status(400).json({ message: 'Maximum length exceeded for one or more fields' });
+        }
+
+        // Validation: Duplicate User Check (only if email and gameName are different from current user)
+        const currentUser = req.user;
+
+        // Update user profile in the database
+        const user = await User.findById(currentUser.id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update user data
+        user.userName = userName;
+        user.userGender = userGender;
+        user.email = email;
+        user.gameName = gameName;
+
+        // Save updated user data
+        await user.save();
+
+        // Return success response
+        res.status(200).json({ message: 'Profile updated successfully', user: user });
     } catch (error) {
-      console.error('Error updating profile:', error);
-      res.status(500).json({ message: 'Failed to update profile. Please try again.' });
+        console.error('Error updating profile:', error);
+        res.status(500).json({ message: 'Failed to update profile. Please try again.' });
     }
-  };
-  
+};
