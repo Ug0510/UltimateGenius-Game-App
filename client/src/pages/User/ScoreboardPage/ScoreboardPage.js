@@ -7,10 +7,12 @@ import { GoHomeFill } from "react-icons/go";
 import { GoChevronRight } from "react-icons/go";
 import { Link } from 'react-router-dom';
 import profile from '../../../assets/images/common/team_3.png';
+import LoadingText from '../../../components/LoadingText/LoadingText';
 
 const ScoreboardPage = ({ userData }) => {
   const [quizResults, setQuizResults] = useState([]);
   const [quizOnGoing, setQuizOnGoing] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   let { quizId } = useParams();
 
@@ -76,6 +78,15 @@ const ScoreboardPage = ({ userData }) => {
     return () => clearInterval(intervalId); 
 }, [userData]);
 
+useEffect(() => {
+  
+  if(userData && quizResults && quizResults.resultLog)
+  {
+    setIsLoading(false);
+  }
+
+},[userData, quizResults]);
+
 
   return (
     <div className={styles.scoreboardWrapper} >
@@ -94,7 +105,9 @@ const ScoreboardPage = ({ userData }) => {
         <div className={styles.blackOverlay}></div>
         <div className={styles.triangle}></div>
       </div>
-      <div className={styles.scoreboardContainer}>
+      {
+        !isLoading? 
+        <div className={styles.scoreboardContainer}>
 
         {
           quizResults && quizResults.resultLog ? (<div className={styles.quizDetails}>
@@ -152,7 +165,9 @@ const ScoreboardPage = ({ userData }) => {
           </ul>
         </div>
 
-      </div>
+      </div>:
+      <div className={styles.loadingText}> Content is Loading <LoadingText fontSize='1.8rem'/> </div>
+      }
     </div>
   );
 };
