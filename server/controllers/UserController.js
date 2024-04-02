@@ -232,7 +232,7 @@ function generateOTP() {
 
 // Controller to generate and send Otp to user for verification service
 exports.sendOtp = async (req, res) => {
-    const { email, reason } = req.body;
+    const { email, code } = req.body;
 
     try {
         // Ensure email is provided
@@ -260,14 +260,24 @@ exports.sendOtp = async (req, res) => {
 
         // Read HTML template file
         let htmlTemplate;
+        let subject;
 
-        if(reason === '1')
+        console.log("code: " , code);
+
+        if(code === '1')
+        {
+            htmlTemplate = fs.readFileSync('./templates/change-email.html', 'utf8');
+            subject = 'To Change Email address';
+        }
+        else if(code === '2')
         {
             htmlTemplate = fs.readFileSync('./templates/forgot-password.html', 'utf8');
+            subject = 'To Change Password';
         }
-        else
+        else if(code === '0')
         {
             htmlTemplate = fs.readFileSync('./templates/email-verify.html', 'utf8');
+            subject = 'To Verify Email address';
         }
 
         
@@ -277,7 +287,7 @@ exports.sendOtp = async (req, res) => {
 
         const emailOptions = {
             to: email,
-            subject: 'Email Verification',
+            subject: subject,
             html: formattedHtml
         };
 

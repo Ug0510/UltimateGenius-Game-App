@@ -85,7 +85,7 @@ const RegisterForm = () => {
 
   const handleSendOtp = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/user/send-otp', { email: formData.email });
+      const response = await axios.post('http://localhost:8000/api/user/send-otp', { email: formData.email, code:'0' });
       if (response.data.resendTime !== undefined) {
         toast.warning(`OTP already sent. Please wait ${response.data.resendTime} minutes before resending.`);
       } else {
