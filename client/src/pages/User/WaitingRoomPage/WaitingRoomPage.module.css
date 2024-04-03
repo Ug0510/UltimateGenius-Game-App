@@ -4,6 +4,10 @@
     color: #ffffff;
     padding: 20px;
     text-align: center;
+
+    & h1,& h2,& h3,& h5{
+      font-family: "Poppins", sans-serif;
+    }
   }
   
   .studentList {

@@ -36,14 +36,19 @@ const AddQuestionBankForm = () => {
         }
     };
 
-    const handleCheckboxChange = (e) => {
-        const { value, checked } = e.target;
-        if (checked) {
-            setSelectedQuestions([...selectedQuestions, value]);
+    const handleCheckboxChange = (questionId) => {
+        const newSelectedQuestions = [...selectedQuestions]; 
+        const questionIndex = newSelectedQuestions.indexOf(questionId);
+      
+        if (questionIndex !== -1) {
+          newSelectedQuestions.splice(questionIndex, 1); // Remove if already selected
         } else {
-            setSelectedQuestions(selectedQuestions.filter(id => id !== value));
+          newSelectedQuestions.push(questionId); // Add if not selected
         }
-    };
+      
+        setSelectedQuestions(newSelectedQuestions);
+      };
+      
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -116,20 +121,19 @@ const AddQuestionBankForm = () => {
                 <h3>Available Questions<span className={styles.instructionText}> &ensp;(Select all questions you want to add in your Question Bank)</span></h3>
                 <ul className={styles.questionListContainer}>
                 {questions.map(question => (
-                    <li key={question._id} className={styles.questionItem}>
-                        <span>
-                        <input
-                            type="checkbox"
-                            id={question._id}
-                            value={question._id}
-                            onChange={handleCheckboxChange}
-                            checked={selectedQuestions.includes(question._id)}
-                            className={styles.listCheckbox}
-                        />
-                        <label htmlFor={question._id}>{question.content}</label>
-                        </span>
-
-                    </li>
+                    <li key={question._id} className={styles.questionItem} onClick={() => handleCheckboxChange(question._id)}>
+                    <span>
+                      <input
+                        type="checkbox"
+                        id={question._id}
+                        value={question._id}
+                        checked={selectedQuestions.includes(question._id)}
+                        className={styles.listCheckbox}
+                      />
+                      <label >{question.content}</label>
+                    </span>
+                  </li>
+                  
                 ))}
                 </ul>
             </div>

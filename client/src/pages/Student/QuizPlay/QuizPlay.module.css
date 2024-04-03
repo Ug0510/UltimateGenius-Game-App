@@ -95,6 +95,7 @@ Header css
   min-height: 5vh;
   max-height: 10vh;
   overflow-y: auto;
+  font-family: "Poppins", sans-serif;
 }
 
 .options {
@@ -111,6 +112,10 @@ Header css
   border-radius: 30px;
   padding-left: 2rem;
   text-transform: capitalize;
+  cursor:pointer;
+   & label{
+    font-family: "Poppins", sans-serif;
+   }
 }
 
 .navigation {

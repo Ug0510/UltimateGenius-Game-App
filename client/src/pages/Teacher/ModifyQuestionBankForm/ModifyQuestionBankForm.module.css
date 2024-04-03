@@ -56,10 +56,12 @@
 
 .navIcon.text {
   font-size: 1.2rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
 }
 
 .navIcon.Hover:hover {
-  color: black;
+  color: #333;
   margin-right: 5px;
 }
 .formGroup{
@@ -87,6 +89,7 @@
   padding: 10px;
   display: block;
   width: 100%;
+  font-family: "Poppins", sans-serif;
 }
 
 .inputText::placeholder {
@@ -142,6 +145,11 @@
   color: white !important;
   display: flex;
   justify-content: space-between;
+  font-family: "Poppins", sans-serif;
+
+  & label {
+    font-family: "Poppins", sans-serif;
+  }
 }
 
 .listCheckbox {

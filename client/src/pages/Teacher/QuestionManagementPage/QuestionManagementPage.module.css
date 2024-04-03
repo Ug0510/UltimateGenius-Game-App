@@ -30,6 +30,8 @@
     color:white !important;
     display: flex;
     justify-content: space-between;
+  }
+  .questionItem:has(.listCheckbox) {
     cursor: pointer;
   }
   .questionContent{
@@ -118,7 +120,7 @@
   border-radius: 30px;
   margin: 0 0.4rem;
   font-family: "Poppins", sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 0.87rem;
   cursor: pointer;
   padding: 14px 20px;

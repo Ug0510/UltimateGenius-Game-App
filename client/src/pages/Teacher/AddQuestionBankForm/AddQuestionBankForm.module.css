@@ -87,6 +87,8 @@
   }
   .navIcon.text{
     font-size: 1.2rem;
+    font-weight: 500;
+    font-family: "Poppins", sans-serif;
   }
   .navIcon.Hover:hover {
     color:black;
@@ -116,6 +118,7 @@
         padding: 10px; 
         display: block;
         width: 100%;
+        font-family: "Poppins", sans-serif;
     }
     
     & .inputText::placeholder{
@@ -164,6 +167,12 @@
     color:white !important;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
+
+    & label{
+      font-family: "Poppins", sans-serif;
+      cursor: pointer;
+    }
   }
 
 /* checkbox css */

@@ -29,6 +29,8 @@
   margin: 1rem auto;
   text-align: center;
   color: #f6561e;
+  text-transform: capitalize;
+  font-family: "Poppins", sans-serif;
 }
 
 .formGroup {
@@ -51,6 +53,7 @@
   padding: 10px; 
   display: block;
   width: 100%;
+  font-family: "Poppins", sans-serif;
 }
 
 .formGroup input[type="text"]::placeholder {
@@ -68,6 +71,7 @@
 
 .choicesContainer input[type="text"] {
   margin-bottom: 0.5rem;
+  font-family: "Poppins", sans-serif;
 }
 
 .choicesContainer button {
@@ -237,6 +241,7 @@
   width: fit-content;
   padding-right: 4%;
   position: relative;
+  
 
   /* Triangle after the button */
   &::after {
@@ -262,11 +267,13 @@
   font-size: 1.4rem;
   margin-right: 5px;
   color: white;
+  font-weight: 500;
 }
 .navIcon.text{
   font-size: 1.2rem;
+  font-family: "Poppins", sans-serif;
 }
 .navIcon.Hover:hover {
-  color: black;
+  color: #333;
   margin-right: 5px;
 }

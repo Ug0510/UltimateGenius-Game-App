@@ -160,7 +160,7 @@ useEffect(() => {
                 </li>
               ))
             ) : (
-              <li style={{textAlign:'center'}}>No student has finished the game yet!</li>
+              <li style={{textAlign:'center', fontFamily: `"Poppins", sans-serif`}}>No student has finished the game yet!</li>
             )}
           </ul>
         </div>
