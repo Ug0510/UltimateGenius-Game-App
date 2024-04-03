@@ -57,6 +57,7 @@
   margin-right: 20px;
   cursor: pointer;
   color: #fff; /* Initial link color */
+  font-family: "Poppins", sans-serif;;
 }
 
 .headList ul li.active {

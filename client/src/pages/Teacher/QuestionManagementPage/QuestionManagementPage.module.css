@@ -82,6 +82,7 @@
   transition: border-color 0.3s ease;
   background-color: #333;
   color:white;
+  font-family: "Poppins", sans-serif;
 }
 
 .searchInput:focus {
@@ -205,6 +206,8 @@
 }
 .categoryFilter{
   width: 100%;
+
+  font-family: "Poppins", sans-serif;
 }
 
 

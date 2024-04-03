@@ -110,6 +110,9 @@
     border: 2px solid var(--color-orange);
 
 }
+.labelCheckbox{
+    font-family: "Poppins", sans-serif;;
+}
 .logo{
     top:30px;
 }

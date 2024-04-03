@@ -22,10 +22,11 @@
     color:white !important;
     display: flex;
     justify-content: space-between;
+    font-family: "Poppins", sans-serif;
   }
   .link{
 
-    font-family: "Inria Sans", sans-serif !important;
+    font-family: "Poppins", sans-serif;
     font-size: 1.3rem;
   }
 .button {
@@ -35,8 +36,8 @@
     color: white;
     border-radius: 30px;
     margin-bottom: 1rem;
-    font-family: "Inria Sans", sans-serif;
-    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
     font-size: 0.87rem;
     cursor: pointer;
     padding: 14px 20px;
@@ -99,6 +100,7 @@
   .searchBox {
     width: 100%;
     max-width: 300px;
+    font-family: "Poppins", sans-serif;
   }
   .searchIcon{
     position: absolute;
