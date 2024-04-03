@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styles from './JoinQuizPage.module.css';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import logo from '../../../assets/images/logo/logo.png';
 
 const JoinQuizPage = () => {
@@ -15,16 +15,15 @@ const JoinQuizPage = () => {
 
   const [gameCode, setGameCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
-  const navigate =  useNavigate();
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setGameCode(e.target.value);
   };
 
   const handleJoinQuiz = async () => {
-    if(gameCode === '' || gameCode.length < 6)
-    {
+    if (gameCode === '' || gameCode.length < 6) {
       toast.warning('Enter a valid game code')
       return;
     }
@@ -44,10 +43,10 @@ const JoinQuizPage = () => {
           },
         }
       );
-      
-      localStorage.setItem('ug_game_id',response.data.quizId);
-      localStorage.setItem('ug_game_code',gameCode);
-        toast.success("Joined successfully");
+
+      localStorage.setItem('ug_game_id', response.data.quizId);
+      localStorage.setItem('ug_game_code', gameCode);
+      toast.success("Joined successfully");
       navigate('/user/quiz/waiting-room');
     } catch (error) {
       // Handle errors
@@ -59,12 +58,12 @@ const JoinQuizPage = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.wrapper}>
       <nav className={styles.navbar}>
         <div className={styles.logoContainer}>
           <Link to="/"><img src={logo} alt='Logo' className={styles.logo} /></Link>
         </div>
-        </nav>
+      </nav>
       <section className={styles.sectionContainer} >
         {spans}
         <div className={styles.signinContainer}>
@@ -72,11 +71,11 @@ const JoinQuizPage = () => {
             <h2>Join Quiz Game</h2>
             <div className={styles.form}>
               <div className={styles.inputBox}>
-                <input type="number" required onChange={handleInputChange}/>
+                <input type="number" required onChange={handleInputChange} />
                 <i>Enter Game Code</i>
               </div>
               <div className={styles.inputBox}>
-                <input type="button" value={isLoading ? 'Joining...' : 'Join Quiz'} onClick={handleJoinQuiz}/>
+                <input type="button" value={isLoading ? 'Joining...' : 'Join Quiz'} onClick={handleJoinQuiz} />
               </div>
             </div>
           </div>

@@ -11,6 +11,11 @@
 .navbar
 {
   padding: 0.7rem 3rem;
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100vw;
+  z-index: 9999;
   /* background-color: #0D0F14; */
   background-color: #222;
   /* display: flex  */
