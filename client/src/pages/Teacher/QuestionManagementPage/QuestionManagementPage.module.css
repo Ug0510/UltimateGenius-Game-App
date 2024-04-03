@@ -30,10 +30,10 @@
     color:white !important;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
   }
   .questionContent{
-
-    font-family: "Inria Sans", sans-serif !important;
+  font-family: "Poppins", sans-serif;
   }
   .removeButton {
     background-color: #333;
@@ -117,8 +117,8 @@
   color:white;
   border-radius: 30px;
   margin: 0 0.4rem;
-  font-family: "Inria Sans", sans-serif;
-  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
   font-size: 0.87rem;
   cursor: pointer;
   padding: 14px 20px;
@@ -224,6 +224,8 @@
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display:none;
+  
+  font-family: "Poppins", sans-serif;
 }
 .active{
   display:block;
@@ -243,7 +245,9 @@
   color: #fff;
   cursor: pointer;
 }
-
+.confirmationWindow .mButton{
+  font-size: 16px;
+}
 .confirmationWindow .removeButton:hover {
   background-color: rgba(232, 46, 46,0.8);
 }

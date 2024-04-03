@@ -306,7 +306,7 @@ const QuestionManagementPage = () => {
           {questions && questions.length > 0 ? (
             questions
               .map((question) => (
-                <li key={question._id} className={styles.questionItem} style={{ color: 'black' }}>
+                <li key={question._id} className={styles.questionItem} style={{ color: 'black' }} onClick={() => toggleQuestionSelection(question._id)}>
                   <div>{isSelectMultipleClicked && (
                     <input
                       type="checkbox"
