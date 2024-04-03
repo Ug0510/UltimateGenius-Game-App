@@ -122,6 +122,14 @@ const QuizPlay = () => {
     setCurrentQuestionIndex(currentQuestionIndex - 1);
   };
 
+  const handleDivClick = (questionIndex, option) => {
+    if (currentQuestion.type === 'true_false' || currentQuestion.correctAnswers.length === 1) {
+      handleRadioSelect(questionIndex, option); // Call handleRadioSelect for radio buttons
+    } else {
+      handleCheckboxSelect(questionIndex, option); // Call handleCheckboxSelect for checkboxes
+    }
+  };
+  
   const handleSubmitQuiz = async () => {
     try {
       let total = 0;
@@ -211,7 +219,7 @@ const QuizPlay = () => {
                 <h2 className={styles.question}>Q. {currentQuestion.content}</h2>
                 <div className={styles.options}>
                   {currentQuestion.options.map((option, index) => (
-                    <div key={index} className={styles.option}>
+                    <div key={index} className={styles.option} onClick={() => handleDivClick(currentQuestionIndex, option)}>
                       {currentQuestion.type === 'true_false' || currentQuestion.correctAnswers.length === 1 ? (
                         <input
                           type="radio"
