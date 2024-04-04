@@ -7,6 +7,8 @@ const multer = require('multer');
 const path = require('path');
 require('dotenv').config();
 
+const genAi = require('./config/generativeAi');
+
 
 // Allow requests from http://localhost:3000
 app.use(cors({ origin: 'http://localhost:3000' }));

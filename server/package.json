@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Ug0510/UltimateGenius-Game-App#readme",
   "dependencies": {
+    "@google/generative-ai": "^0.5.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",

@@ -3,6 +3,7 @@ const router = express.Router();
 const authenticate = require('../../middleware/jwt_strategy');
 const UserController = require('../../controllers/UserController');
 const QuizController = require('../../controllers/QuizController');
+const QuestionController = require('../../controllers/QuestionController');
 
 // Define routes for different CRUD operations
 router.post('/register', UserController.createUser);
@@ -19,6 +20,9 @@ router.post('/verify-otp', UserController.verifyOTP);
 router.post('/check-email', UserController.checkEmail);
 router.post('/reset-password', UserController.updatePassword);
 router.put('/profile', authenticate, UserController.updateProfile);
+
+router.post('/generate-questions',authenticate,QuestionController.generateQuestions);
+
 // router.post('/info', authenticate, UserController.getInfo);
 
 

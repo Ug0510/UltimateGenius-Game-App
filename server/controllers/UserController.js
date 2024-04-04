@@ -99,7 +99,6 @@ exports.loginUser = async (req, res) => {
         }
         // Generate JWT token
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '10h' });
-        console.log(process.env.JWT_SECRET);
         // Create a copy of the user object and delete sensitive fields
         const userToSend = { ...user.toObject() };
         delete userToSend.password;

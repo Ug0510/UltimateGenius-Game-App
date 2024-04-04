@@ -2,6 +2,7 @@ const Question = require('../models/Question');
 const { deleteQuestion } = require('../utils/questionUtils');
 const User = require('../models/User');
 
+
 // Create questions
 exports.createQuestions = async (req, res) => {
     try {
@@ -139,5 +140,18 @@ exports.getQuestionById = async (req, res) => {
     } catch (error) {
         console.error('Error fetching question:', error);
         res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+exports.generateQuestions = async (req,res) => {
+    try{
+        const {numberofQuestions, course, code, specialInstructions} = req.body;
+
+
+
+    }catch(error)
+    {
+        console.error('Error generating Questions: ', error);
+        res.status(500).json({message: 'Service not working now, Try again later!'});
     }
 };
