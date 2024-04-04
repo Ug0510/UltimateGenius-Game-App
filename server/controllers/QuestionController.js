@@ -1,6 +1,7 @@
 const Question = require('../models/Question');
 const { deleteQuestion } = require('../utils/questionUtils');
 const User = require('../models/User');
+const getQuestions  = require('../config/generativeAi.js');
 
 
 // Create questions
@@ -153,5 +154,63 @@ exports.generateQuestions = async (req,res) => {
     {
         console.error('Error generating Questions: ', error);
         res.status(500).json({message: 'Service not working now, Try again later!'});
+    }
+};
+
+exports.generateQuestions = async (req, res) => {
+    try {
+        const { numberOfQuestions, course, code, specialInstruction } = req.body;
+
+        console.log(specialInstruction);
+
+        // Call the getQuestions function to generate questions
+        const questionsData = await getQuestions(numberOfQuestions, course, code, specialInstruction);
+
+
+        // If questionsData is not an array, wrap it in an array
+        if (!Array.isArray(questionsData)) {
+            questionsData = [questionsData];
+        }
+
+        // Get the ID of the authenticated user
+        const createdBy = req.user._id;
+
+        // Array to store saved questions
+        const savedQuestions = [];
+
+        // Iterate over each question data in the array
+        for (const questionData of questionsData) {
+            const { content, options, correctAnswers, difficultyLevel } = questionData;
+
+            // Convert difficultyLevel to capital case (first letter capital, rest lowercase)
+            const capitalizedDifficultyLevel = difficultyLevel.charAt(0).toUpperCase() + difficultyLevel.slice(1).toLowerCase();
+
+            // Create a new question object
+            const question = new Question({
+                content,
+                options,
+                correctAnswers,
+                category:course,
+                difficultyLevel:capitalizedDifficultyLevel,
+                createdBy
+            });
+
+            // Save the question to the database
+            const savedQuestion = await question.save();
+
+            // Add saved question to the array
+            savedQuestions.push(savedQuestion);
+
+            // Add the ID of the saved question to the questions array in the user document
+            await User.updateOne(
+                { _id: createdBy },
+                { $push: { questions: savedQuestion._id } }
+            );
+        }
+
+        res.status(201).json(savedQuestions);
+    } catch (error) {
+        console.error('Error creating questions:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
