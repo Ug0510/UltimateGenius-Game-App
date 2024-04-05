@@ -89,8 +89,10 @@ const QuestionBankManagementPage = () => {
                     <FaSearch className={styles.searchIcon} />
                     {searchText && <FaTimes className={styles.clearButton} onClick={clearSearchText} />}
                 </div>
-
+                <div className={styles.flexBox}>
+                <button onClick={() => {navigate('/user/generate-qb') }} className={styles.button + " me-3"}>Create QB using Ai</button>
                 <button onClick={handleCreateQuestionBank} className={styles.button}>Create a Question Bank</button>
+                </div>
             </div>
 
             <div className={styles.questionBankContainer}>

@@ -1,0 +1,341 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Luckiest+Guy&family=Madimi+One&display=swap');
+
+.navbar
+{
+  padding: 0.7rem 3rem;
+  background-color: #0D0F14;
+  /* display: flex  */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoContainer{
+  width: fit-content;
+  
+}
+.logo {
+  width:220px;
+}
+
+ /* Back button container */
+ .backBtn {
+  height: 3rem;
+  background-color: #f6581e;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  width: fit-content;
+  padding-right: 4%;
+  position: relative;
+
+  /* Triangle after the button */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-right: 60px solid transparent;
+    border-bottom: 3rem solid #f6581e;
+    transform: translateX(100%);
+  }
+}
+.backBtn .blackOverlay {
+  width: 20px;
+  height: inherit;
+  background-color: black;
+  transform: skewX(45deg);
+  margin-left: 20px;
+}/* Back button container */
+.backBtn {
+  height: 3rem;
+  background-color: #f6581e;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  width: fit-content;
+  padding-right: 4%;
+  position: relative;
+  
+
+  /* Triangle after the button */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-right: 60px solid transparent;
+    border-bottom: 3rem solid #f6581e;
+    transform: translateX(100%);
+  }
+}
+.backBtn .blackOverlay {
+  width: 20px;
+  height: inherit;
+  background-color: black;
+  transform: skewX(45deg);
+  margin-left: 20px;
+}
+.navIcon {
+  font-size: 1.4rem;
+  margin-right: 5px;
+  color: white;
+  font-weight: 500;
+}
+.navIcon.text{
+  font-size: 1.2rem;
+  font-family: "Poppins", sans-serif;
+}
+.navIcon.Hover:hover {
+  color: #333;
+  margin-right: 5px;
+}
+
+.questionsContainer {
+    max-width: 90vw;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #0D0F15;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  
+  .inputField {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+
+  .questionList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .questionItem {
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: #333;
+    color:white !important;
+    display: flex;
+    justify-content: space-between;
+    
+    & span:not(:first-child){
+      text-wrap: nowrap;
+    }
+
+    & span:first-child{
+      margin-right: 2rem;
+
+    }
+
+  }
+  .questionItem:has(.listCheckbox) {
+    cursor: pointer;
+  }
+  .questionContent{
+  font-family: "Poppins", sans-serif;
+  }
+  .removeButton {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .removeButton:hover {
+    background-color: #000;
+  }
+  
+
+  .optionsBox{
+    max-width: 90vw;
+    /* background-color: #333; */
+    /* border:1px solid cyan; */
+    padding:1rem;
+    margin:auto;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+
+
+.inputBox {
+  width: 100%;
+  max-width: 300px;
+  position: relative;
+
+  & span{
+    font-size: 12px;
+    margin-top: 0;
+    position: absolute;
+    transform: translateY(-120%);
+  }
+  &.instructions{
+    max-width: 85%;
+    margin-right: 2rem;
+  }
+  & input::placeholder{
+    font-size: 0.9rem;
+  }
+}
+
+
+
+.searchInput {
+  width: 100%;
+  padding: 10px;
+  /* border: 1px solid #f6561e; */
+  border:none;
+  outline: none;
+  transition: border-color 0.3s ease;
+  background-color: #333;
+  color:white;
+  font-family: "Poppins", sans-serif;
+}
+
+.searchInput:focus {
+  border-color: #f6561e; 
+}
+
+.flexBox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mButton{
+  outline:none;
+  border:none;
+  background-color: #333;
+  color:white;
+  border-radius: 30px;
+  margin: 0 0.4rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 0.87rem;
+  cursor: pointer;
+  padding: 14px 20px;
+  text-wrap: nowrap;
+}
+.mButton:hover{
+  background-color: #60d600;
+}
+.mButton:nth-child(even){
+  background-color: #60d600;
+  border-bottom: 3px solid #3e8901;
+  border-right: 2px solid #3e8901;
+}
+.mButton:nth-child(even):active{
+  background-color: #333;
+  border-color:#333;
+}
+.mButton.second{
+  background-color: #f6581e;
+  border-bottom: 3px solid #9a3511;
+  border-right: 2px solid #9a3511;
+}
+.mButton.second:active{
+  background-color: #9a3511;
+}
+.listCheckbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  background-color: #fff;
+  cursor: pointer;
+  outline: none;
+  margin-right:10px;
+  vertical-align:middle;
+  position: relative;
+}
+.listCheckbox:checked{
+  background-color: yellow;
+}
+.listCheckbox:checked:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 8px;
+  width: 6px;
+  height: 14px;
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.iconButton{
+  cursor: pointer;
+  font-size: 1.5rem;
+  color:#fff;
+}
+.iconButton:nth-child(even){
+  color:#f6561e;
+}
+.iconButton:hover{
+  color:#60d600;
+}
+.iconButton:nth-child(even):hover{
+  color:#60d600;
+}
+
+
+
+.confirmationWindow {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display:none;
+  
+  font-family: "Poppins", sans-serif;
+}
+.active{
+  display:block;
+}
+.confirmationWindow p {
+  margin-bottom: 15px;
+  color:black;
+  padding: 1rem;
+}
+
+.confirmationWindow button {
+  margin-right: 10px;
+  padding: 8px 40px;
+  border: none;
+  border-radius: 4px;
+  background-color: rgba(232, 46, 46, 1);
+  color: #fff;
+  cursor: pointer;
+}
+.confirmationWindow .mButton{
+  font-size: 16px;
+}
+.confirmationWindow .removeButton:hover {
+  background-color: rgba(232, 46, 46,0.8);
+}
+.confirmationWindow .mButton:hover{
+  background-color: #3e8901;
+}

@@ -16,10 +16,17 @@ const QuizGame = ({ isLoggedIn, userData }) => {
 
   useEffect(() => {
 
-    const isTeacher = isLoggedIn && userData && userData.userType === 'teacher';
-
-    if (!isTeacher) {
+    if(!isLoggedIn)
+    {
       navigate('/');
+    }
+    if(userData)
+    {
+      if(userData.userType.trim() !== 'teacher')
+      {
+        navigate('/');
+        
+      }
     }
   }, [isLoggedIn]);
 

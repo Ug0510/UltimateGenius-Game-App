@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Homepage from './pages/Homepage/Homepage';
 import LoginPage from './pages/User/Login/LoginForm';
 import checkIsLoggedIn from './utils/checkIsLoggedIn';
@@ -22,6 +22,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ModifyQuestionForm from './pages/Teacher/ModifyQuestionForm/ModifyQuestionForm';
 import ProfilePage from './pages/User/Profile/ProfilePage';
 import ForgotPassword from './pages/User/Login/ForgotPassword';
+import CreateQuestionBankPage from './pages/User/CreateQuestionBankPage/CreateQuestionBankPage';
 
 
 const App = () => {
@@ -34,7 +35,7 @@ const App = () => {
 
     const login = (LoggedIn = true) => {
         setIsLoggedIn(LoggedIn);
-        if (LoggedIn == false) {
+        if (LoggedIn === false) {
             localStorage.setItem('ultimate_genius0510_token', null);
         }
     };
@@ -70,12 +71,14 @@ const App = () => {
                 <Route path="/teacher/question-banks/:questionBankId" element={<ModifyQuestionBankForm />} />
                 <Route path="/user/profile" element={<ProfilePage userData={userData} login={login} />}/>
                 <Route path="/user/forgot-password" element={<ForgotPassword/>}/>
+                <Route path="/user/generate-qb" element={<CreateQuestionBankPage/>}/>
                 
             </Routes>
             <ToastContainer
             position="bottom-left"
             autoClose={2000} 
-            transition={Flip}/>
+            transition={Flip}
+            style={{fontFamily:`'Poppins',sans-serif`}}/>
         </Router>
     );
 };
