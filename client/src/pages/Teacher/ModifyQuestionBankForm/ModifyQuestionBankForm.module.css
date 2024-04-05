@@ -144,9 +144,20 @@
   background-color: #333;
   color: white !important;
   display: flex;
+
   justify-content: space-between;
   font-family: "Poppins", sans-serif;
 
+  &>span{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: start;
+  }
+
+  & input {
+    margin-right: 1rem;
+  }
   & label {
     font-family: "Poppins", sans-serif;
   }

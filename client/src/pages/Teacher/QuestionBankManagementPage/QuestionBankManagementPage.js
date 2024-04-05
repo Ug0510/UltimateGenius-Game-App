@@ -115,7 +115,7 @@ const QuestionBankManagementPage = () => {
             {/* Confirmation Window */}
             <div className={`${styles.confirmationWindow} ${showPopup ? styles.active : ''}`}>
                 <p>Are you sure you want to delete?</p>
-                <div className={styles.flexBox}>
+                <div className={styles.flexBox} style={{textWrap:'nowrap'}}>
                     <button onClick={handleDeleteQuestionBank} className={styles.removeButton}>Delete</button>
                     <button onClick={() => setShowPopup(false)} className={styles.mButton}>Cancel</button>
                 </div>

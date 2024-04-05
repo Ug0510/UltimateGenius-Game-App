@@ -159,6 +159,7 @@ const ModifyQuestionBankForm = () => {
                             {allQuestions.filter(question => !questionsInBank.find(q => q._id === question._id)).map(question => (
                                 <li key={question._id} className={styles.questionItem}>
                                     <span>
+                                        <span >
                                         <input
                                             type="checkbox"
                                             id={question._id}
@@ -167,6 +168,7 @@ const ModifyQuestionBankForm = () => {
                                             checked={selectedQuestions.includes(question._id)}
                                             className={styles.listCheckbox}
                                         />
+                                        </span>
                                         <label htmlFor={question._id}>{question.content}</label>
                                     </span>
                                 </li>

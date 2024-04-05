@@ -138,7 +138,7 @@ Header css
 }
 
 .progress {
-  font-size: 16px;
+  font-size: 12px;
   display: flex;
   justify-content: end;
   margin-top: 20px;
@@ -147,6 +147,7 @@ Header css
   width: fit-content;
   background-color: #f6581e;;
   border-radius: 30px;
+  font-size: 14px;
   padding:7px 15px;
 
 }
@@ -205,6 +206,7 @@ Header css
   margin: 1rem 0 2rem;
   color:#f6581e;
   text-align: center;
+  font-family: 'Chakra Petch', sans-serif;
   /* color:white; */
   /* color:#60d600; */
 }

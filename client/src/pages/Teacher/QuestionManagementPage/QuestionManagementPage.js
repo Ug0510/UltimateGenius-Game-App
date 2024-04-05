@@ -316,7 +316,7 @@ const QuestionManagementPage = () => {
                     />
                   )}
                     <span className={styles.questionContent}>{question.content}</span></div>
-                  <span>
+                  <span style={{textWrap:'nowrap', marginLeft:'2rem'}}>
                     <FaEdit className={styles.iconButton} style={{ fontSize: '1.2rem', marginRight: '10px' }} onClick={() => {navigate(`/teacher/question/modify/${question._id}`)}}/>
                     <MdDeleteForever className={styles.iconButton} onClick={() => { setSelectedQuestions([`${question._id}`]); setShowPopup(true); }} />
                   </span>
@@ -331,7 +331,7 @@ const QuestionManagementPage = () => {
       {/* Confirmation Window */}
       <div className={`${styles.confirmationWindow} ${showPopup ? styles.active : ''}`}>
         <p>Are you sure you want to delete?</p>
-        <div className={styles.flexBox}>
+        <div className={styles.flexBox} >
           <button onClick={handleDeleteMultiple} className={styles.removeButton}>Delete</button>
           <button onClick={() => setShowPopup(false)} className={styles.mButton}>Cancel</button>
         </div>
