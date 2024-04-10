@@ -64,30 +64,36 @@ const QuizPlay = () => {
     const fetchQuiz = async () => {
       try {
         const token = localStorage.getItem('ultimate_genius0510_token');
+        const storedQuizData = localStorage.getItem('quizData'); // Check if quizData exists in localStorage
+  
+        if (storedQuizData) {
+          // If quizData exists in localStorage, use it instead of fetching from the API
+          setQuiz(JSON.parse(storedQuizData));
+        } else {
           const response = await axios.get(`http://localhost:8000/api/student/quiz/play/${quizId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-
-        setQuiz(response.data);
-        
-
-        
-        if(localStorage.getItem(`timer${gameId}`) === 'null' || localStorage.getItem(`timer${gameId}`) === null)
-        {
-          console.log('here');
-          setTime({minutes: response.data.timeLimit, seconds: 0});
+  
+          setQuiz(response.data);
+  
+          // Store quizData in localStorage
+          localStorage.setItem('quizData', JSON.stringify(response.data));
+  
+          if (localStorage.getItem(`timer${gameId}`) === 'null' || localStorage.getItem(`timer${gameId}`) === null) {
+            setTime({ minutes: response.data.timeLimit, seconds: 0 });
+          }
         }
-        
       } catch (error) {
         toast.error('Error fetching quiz. Please try again later.');
         console.error('Error fetching quiz:', error);
       }
     };
-
+  
     fetchQuiz();
   }, [quizId]);
+  
 
   const handleRadioSelect = (questionIndex, optionText) => {
     setSelectedAnswers({
