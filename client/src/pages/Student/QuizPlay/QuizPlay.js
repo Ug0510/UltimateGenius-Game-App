@@ -76,7 +76,13 @@ const QuizPlay = () => {
             },
           });
   
-          setQuiz(response.data);
+          // Shuffle options array for each question
+          const shuffledQuestions = response.data.questions.map(question => ({
+            ...question,
+            options: shuffleOptions(question.options)
+          }));
+
+          setQuiz({ ...response.data, questions: shuffledQuestions });
   
           // Store quizData in localStorage
           localStorage.setItem('quizData', JSON.stringify(response.data));
@@ -189,6 +195,10 @@ const QuizPlay = () => {
     }
   };
 
+
+  const shuffleOptions = (options) => {
+    return options.sort(() => Math.random() - 0.5);
+  };
   
 
 
