@@ -64,13 +64,16 @@ const QuizPlay = () => {
     const fetchQuiz = async () => {
       try {
         const token = localStorage.getItem('ultimate_genius0510_token');
-        const response = await axios.get(`http://localhost:8000/api/student/quiz/play/${quizId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+          const response = await axios.get(`http://localhost:8000/api/student/quiz/play/${quizId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
         setQuiz(response.data);
-        // localStorage.removeItem(`timer${gameId}`);
+        
+
+        
         if(localStorage.getItem(`timer${gameId}`) === 'null' || localStorage.getItem(`timer${gameId}`) === null)
         {
           console.log('here');
@@ -180,6 +183,8 @@ const QuizPlay = () => {
     }
   };
 
+  
+
 
   if (!quiz) {
     return <div className={styles.loading}>Loading...</div>;
@@ -187,6 +192,26 @@ const QuizPlay = () => {
 
   const { questions } = quiz;
   const currentQuestion = questions[currentQuestionIndex];
+  
+    
+  const renderQuestionContent = (content) => {
+    if (content.includes('```')) {
+      // Split content into parts before and after code block
+      const parts = content.split('```');
+      return (
+        
+        <div className={styles.question}>
+           Q. {parts[0]} {/* Display text before code block */}
+          <pre className={styles.codeBox}>
+            <code>{parts[1]}</code> {/* Display code block */}
+          </pre>
+          {parts[2]} {/* Display text after code block */}
+        </div>
+      );
+    } else {
+      return <p className={styles.question}>Q. {content}</p>; // Display regular text
+    }
+  };
 
   return (
     <div className={styles.wrapper} style={{ backgroundImage: `url(${bg})` }}>
@@ -216,7 +241,8 @@ const QuizPlay = () => {
                 <div className={styles.progress}>
                   <span>Question {currentQuestionIndex + 1} of {questions.length}</span>
                 </div>
-                <h2 className={styles.question}>Q. {currentQuestion.content}</h2>
+                <div className={styles.questionContentScroller}>
+                {renderQuestionContent(currentQuestion.content)}
                 <div className={styles.options}>
                   {currentQuestion.options.map((option, index) => (
                     <div key={index} className={styles.option} onClick={() => handleDivClick(currentQuestionIndex, option)}>
@@ -240,6 +266,7 @@ const QuizPlay = () => {
                       <label htmlFor={`option-${index}`}>{option}</label>
                     </div>
                   ))}
+                </div>
                 </div>
               </div>
               <div className={styles.navigation}>

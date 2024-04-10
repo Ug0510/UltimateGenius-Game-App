@@ -77,10 +77,17 @@ Header css
   justify-content: space-between;
   box-shadow: 5px 5px 15px 5px rgba(255, 255, 255, 0.15);
   border-radius: 20px;
+  /* overflow-y: auto; */
 }
 
+.questionContentScroller
+{
+  max-height: 58vh;
+  overflow-y: auto;
+  padding-right: 2rem;
+  margin-top: 2rem;
 
-
+}
 
 .questionContainer {
   margin-bottom: 20px;
@@ -89,32 +96,34 @@ Header css
 }
 
 .question {
-  font-size: 1.8rem;
+  font-size: 1rem;
   margin: 2rem auto;
+  margin-top:0;
   padding-left: 1rem;
-  min-height: 5vh;
-  max-height: 10vh;
+  /* min-height: 5vh; */
+  /* max-height: 10vh; */
   overflow-y: auto;
   font-family: "Poppins", sans-serif;
 }
 
 .options {
   margin-bottom: 10px;
-  max-height: 42vh;
-  overflow-y: auto;
+  /* max-height: 42vh;
+  overflow-y: auto; */
   padding: 0 0.5rem;
 }
 
 .option {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   background-color: #33333390;
-  padding:1rem;
+  padding:0.8rem;
   border-radius: 30px;
   padding-left: 2rem;
   text-transform: capitalize;
   cursor:pointer;
    & label{
     font-family: "Poppins", sans-serif;
+    font-size: 0.8rem;
    }
 }
 
@@ -315,8 +324,8 @@ Header css
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  width: 25px;
-  height: 25px;
+  width: 1.4rem;
+  height: 1.4rem;
   border-radius: 50%;
   border: 2px solid #333;
   background-color: #fff;
@@ -335,14 +344,20 @@ Header css
   position: absolute;
   top: 3px;
   left: 8px;
-  width: 6px;
-  height: 14px;
+  width: 5px;
+  height: 12px;
   border: solid black;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
 .listCheckbox.square{
   border-radius: 0;
+  width: 1.2rem;
+  height: 1.2rem;
 }
-
+.listCheckbox.square:checked:before{
+  left:6px;
+  width:4px;
+  height: 10px;
+}
 
