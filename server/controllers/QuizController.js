@@ -252,7 +252,10 @@ exports.getQuizDetails = async (req, res) => {
         const { title, category, description, timeLimit, numberOfQuestions, questionBank } = quizGame;
 
         // Fetch questions for the quiz from the associated question bank
-        const questions = await Question.find({ _id: { $in: questionBank.questions } }).limit(numberOfQuestions);
+        const questions = await Question.aggregate([
+            { $match: { _id: { $in: questionBank.questions } } },
+            { $sample: { size: numberOfQuestions } } // Randomly select numberOfQuestions questions
+        ]);
 
         // Prepare the quiz details response
         const quizDetails = {
