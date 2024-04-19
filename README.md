@@ -2,9 +2,12 @@
 
 * A gamified educational web application to make study interesting and inspiring.
 
-# Tech Stack
+#### Tech Stack
 * Reactjs
 * Expressjs
 * Nodejs
 * MongoDB
   
+#### Modules
+* Teacher Module
+* Student Module
