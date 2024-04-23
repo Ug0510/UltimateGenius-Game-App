@@ -252,7 +252,7 @@ exports.sendOtp = async (req, res) => {
                 await UserEmailVerification.deleteOne({ _id: userEmailVerification._id });
             }
             else {
-                return res.status(400).json({ message: `OTP already sent, try again after ${timeUntilResend > 0 ? timeUntilResend : '1'} minutes`, resendTime: `${timeUntilResend} minutes` });
+                return res.status(200).json({ message: `OTP already sent, try again after ${timeUntilResend > 0 ? timeUntilResend : '1'} minutes`, resendTime: `${timeUntilResend} minutes` });
             }
         }
 

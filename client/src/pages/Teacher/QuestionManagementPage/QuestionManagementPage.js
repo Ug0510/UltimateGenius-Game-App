@@ -306,6 +306,7 @@ const QuestionManagementPage = () => {
           {questions && questions.length > 0 ? (
             questions
               .map((question) => (
+                <>
                 <li key={question._id} className={styles.questionItem} style={{ color: 'black' }} onClick={() => toggleQuestionSelection(question._id)}>
                   <div>{isSelectMultipleClicked && (
                     <input
@@ -320,7 +321,10 @@ const QuestionManagementPage = () => {
                     <FaEdit className={styles.iconButton} style={{ fontSize: '1.2rem', marginRight: '10px' }} onClick={() => {navigate(`/teacher/question/modify/${question._id}`)}}/>
                     <MdDeleteForever className={styles.iconButton} onClick={() => { setSelectedQuestions([`${question._id}`]); setShowPopup(true); }} />
                   </span>
+                  
                 </li>
+                {/* <hr style={{color:'red', border:'1px solid red', margin:'0'}}/> */}
+                </>
               ))
           ) : (
             <p style={{ color: 'white' }}>No Questions are available to show. <br /> Click above button to add new questions...</p>

@@ -7,9 +7,7 @@
   justify-content: space-between;
   align-items: center;
 }
-*{
-  font-family: 'Chakra Pech';
-}
+
 .logoContainer {
   width: fit-content;
 

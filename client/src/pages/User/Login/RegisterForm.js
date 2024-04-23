@@ -87,7 +87,7 @@ const RegisterForm = () => {
     try {
       const response = await axios.post('http://localhost:8000/api/user/send-otp', { email: formData.email, code:'0' });
       if (response.data.resendTime !== undefined) {
-        toast.warning(`OTP already sent. Please wait ${response.data.resendTime} minutes before resending.`);
+        toast.warning(`OTP already sent. Please wait ${response.data.resendTime} before resending.`);
       } else {
         toast.success('OTP sent successfully. Please check your email.');
         setOtpPopupVisible(true);
@@ -205,7 +205,7 @@ const RegisterForm = () => {
           <div className='row'>
             <div className='col-lg-6'>
               <div className={styles.formGroup}>
-                <label htmlFor="userName" className={styles.label}>User Name:</label>
+                <label htmlFor="userName" className={styles.label}>Full Name:</label>
                 <input
                   type="text"
                   id="userName"
@@ -216,7 +216,7 @@ const RegisterForm = () => {
                 />
               </div>
               <div className={styles.formGroup}>
-                <label htmlFor="gameName" className={styles.label}>Game Name:</label>
+                <label htmlFor="gameName" className={styles.label}>User Name: <span style={{fontSize:"12px", textTransform:"initial"}}>(Your gaming name)</span></label>
                 <input
                   type="text"
                   id="gameName"
