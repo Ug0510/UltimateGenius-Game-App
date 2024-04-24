@@ -88,9 +88,16 @@ const RegisterForm = () => {
     }
   };
 
+  
   const handleSendOtp = async () => {
     try {
+
+      // showing sending otp toast
+      toast.info('Sending Otp on Email for Verification!');
+
       const response = await axios.post('http://localhost:8000/api/user/send-otp', { email: formData.email, code:'0' });
+      
+      
       if (response.data.resendTime !== undefined) {
         toast.warning(`OTP already sent. Please wait ${response.data.resendTime} before resending.`);
       } else {
@@ -99,6 +106,8 @@ const RegisterForm = () => {
       }
     } catch (error) {
       console.error('Error sending OTP:', error);
+      
+      // show error toast
       toast.error('Error sending OTP. Please try again later.');
     }
   };
