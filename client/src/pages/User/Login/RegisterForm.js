@@ -384,10 +384,14 @@ const RegisterForm = () => {
           <div className={styles.popup}>
             <h4>Verify your email address</h4>
             <input
-              type="text"
+              type="number"
               placeholder="Enter OTP"
               value={otp}
-              onChange={(e) => setOtp(e.target.value)}
+              onChange={(e) => {
+                // Limit the input value to 6 characters
+                const newValue = e.target.value.slice(0, 6);
+                setOtp(newValue);
+              }}
               className={styles.otpInput}
             />
             <button onClick={handleVerifyOtp} className={styles.verifyButton}>Verify</button>

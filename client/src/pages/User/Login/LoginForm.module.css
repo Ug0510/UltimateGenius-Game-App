@@ -231,7 +231,7 @@
   }
   
   .popup h4 {
-    margin: 20px 0 50px 30px;
+    margin: 20px 0 40px 30px;
     color:#f6581e;
     text-align: left;
   }
@@ -240,10 +240,12 @@
     width: 70%;
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
     outline:none;
     font-size: 1rem;
+    background-color: transparent;
+    border:none;
+    border-bottom: 1px solid #f6581e;
+    color:white;
   }
   
   .buttonGroup {
