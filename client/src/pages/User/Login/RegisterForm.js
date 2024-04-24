@@ -20,6 +20,7 @@ const RegisterForm = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showCPassword, setShowCPassword] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState('avatar1');
   const [otpPopupVisible, setOtpPopupVisible] = useState(false);
   const [otp, setOtp] = useState('');
@@ -27,6 +28,10 @@ const RegisterForm = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const toggleCPasswordVisibility = () => {
+    setShowCPassword(!showPassword);
   };
 
   const handleInputChange = (e) => {
@@ -309,14 +314,19 @@ const RegisterForm = () => {
               </div>
               <div className={styles.formGroup}>
                 <label htmlFor="confirmpassword" className={styles.label}>Confirm Password:</label>
+                <div style={{ position: 'relative' }}>
                 <input
-                  type="text"
+                  type={showCPassword ? 'text' : "password"}
                   id="c-password"
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
                   className={styles.input}
                 />
+                <div className={styles.eyeIcon} onClick={toggleCPasswordVisibility}>
+                    {showCPassword ? <FaEyeSlash /> : <FaEye />}
+                  </div>
+              </div>
               </div>
 
               {/* Avatar selection */}
