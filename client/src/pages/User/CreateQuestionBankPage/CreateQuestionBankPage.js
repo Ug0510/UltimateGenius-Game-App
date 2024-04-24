@@ -9,6 +9,7 @@ import logo from '../../../assets/images/logo/logo.png';
 import { GoHomeFill } from "react-icons/go";
 import { GoChevronRight } from "react-icons/go";
 import LoadingText from '../../../components/LoadingText/LoadingText';
+import loader from '../../../assets/loader.gif';
 
 const CreateQuestionBankPage = () => {
     const [questionQuery, setQuestionQuery] = useState({
@@ -256,7 +257,7 @@ const CreateQuestionBankPage = () => {
             </div>
             <div className={styles.optionsBox + " mt-3"} >
             <div className={styles.inputBox + " " + styles.instructions}>
-                        <span>Enter any special instructions:</span>
+                        <span>Enter anyf special instructions:</span>
                         <input
                             type="text"
                             placeholder="eg. only write questions of this <any-chapter> chapter || only write GATE Exam questions "
@@ -276,7 +277,10 @@ const CreateQuestionBankPage = () => {
                 {/* List of existing questions */}
                 {
                     isGenerating ? 
-                    <div className={styles.flexBox}> Generating <LoadingText fontSize='1.8rem'/> </div>
+                    <div>
+                    <img src={loader} style={{mixBlendMode:"difference", margin:"auto", display:'block'}} />
+                    <div className={styles.flexBox} style={{marginTop:'-2.2rem'}}> Generating..... </div>
+                    </div>
                     :
                     <ul className={styles.questionList}>
                     {questions && questions.length > 0 ? (
