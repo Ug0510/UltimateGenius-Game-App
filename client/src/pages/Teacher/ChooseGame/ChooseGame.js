@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../../assets/images/logo/logo.png';
 import quizGameImg from '../../../assets/images/post/post_25.png';
 import { GoArrowRight } from "react-icons/go";
+import style from '../../../assets/css/common.module.css';
 
 const ChooseGame = ({ isLoggedIn, userData }) => {
   // Check if user is logged in and is a teacher
@@ -46,7 +47,7 @@ const ChooseGame = ({ isLoggedIn, userData }) => {
         <div className={styles.gameCardContainer}>
 
           {/* Card for Quiz Game  */}
-          <div className={styles.card}>
+          <div className={styles.card + " " + style.cursorPointer} onClick={handleQuizGameClick}>
             <div className={styles.imgStatusContainer}>
               <div className={styles.imgContainer}>
                 <img src={quizGameImg} alt='Quiz Game image' />
@@ -57,14 +58,14 @@ const ChooseGame = ({ isLoggedIn, userData }) => {
             </div>
             <div className={styles.flexBar}>
               <h3 >Quiz Game</h3>
-              <button className={styles.goButton} onClick={handleQuizGameClick}>
+              <button className={styles.goButton} >
                 <GoArrowRight />
               </button>
             </div>
           </div>
 
           {/* Card for Words Maker */}
-          <div className={styles.card}>
+          <div className={styles.card + " " +style.cursorNotAllowed}>
           <div className={styles.imgStatusContainer}>
               <div className={styles.imgContainer}>
                 <img src={quizGameImg} alt='Quiz Game image' />
