@@ -283,22 +283,37 @@ const CreateQuestionBankPage = () => {
                     </div>
                     :
                     <ul className={styles.questionList}>
-                    {questions && questions.length > 0 ? (
-                        questions
-                            .map((question) => (
-                                <li key={question._id} className={styles.questionItem} style={{ color: 'black' }} >
-                                    <div>
-                                        <span className={styles.questionContent}>{question.content}</span>
-                                    </div>
-                                    <span>
-                                        <FaEdit className={styles.iconButton} style={{ fontSize: '1.2rem', marginRight: '10px' }} target='_blank' onClick={() => { navigate(`/teacher/question/modify/${question._id}`) }} />
-                                        <MdDeleteForever className={styles.iconButton} onClick={() => handleDelete(question._id)} />
-                                    </span>
-                                </li>
-                            ))
-                    ) : (
-                        <p style={{ color: 'white' }}>No Questions are available to show. <br /> Fill above fields and click Generate button to create new questions...</p>
-                    )}
+              {questions && questions.length > 0 ? (
+    questions.map((question) => (
+        <li key={question._id} className={styles.questionItem} style={{ color: 'black' }}>
+            <div>
+                <span className={styles.questionContent}>{question.content}</span>
+                <hr/>
+                <ul className={styles.optionsList}>
+                    {question.options.map((option, index) => (
+                        <li key={index} className={styles.optionItem}>
+                            <input
+                                type="radio"
+                                id={`option-${index}`}
+                                className={styles.listCheckbox}
+                                checked={question.correctAnswers.includes(option)} // Check if option is correct
+                                readOnly
+                            />
+                            <label htmlFor={`option-${index}`}>{option}</label>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <span>
+                <FaEdit className={styles.iconButton} style={{ fontSize: '1.2rem', marginRight: '10px' }} target='_blank' onClick={() => { navigate(`/teacher/question/modify/${question._id}`) }} />
+                <MdDeleteForever className={styles.iconButton} onClick={() => handleDelete(question._id)} />
+            </span>
+        </li>
+    ))
+) : (
+    <p style={{ color: 'white' }}>No Questions are available to show. <br /> Fill above fields and click Generate button to create new questions...</p>
+)}
+      
                 </ul>
                 }
             </div>
