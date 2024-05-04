@@ -5,7 +5,8 @@ import { GoHomeFill } from "react-icons/go";
 import { GoChevronRight } from "react-icons/go";
 import { Link } from 'react-router-dom';
 import logo from '../../../assets/images/logo/logo.png';
-import quizGameImg from '../../../assets/images/post/post_25.png';
+import quizGameBanner from '../../../assets/images/quiz-game-banner.png';
+import wordMakerBanner from '../../../assets/images/word-maker-banner.png';
 import { GoArrowRight } from "react-icons/go";
 import style from '../../../assets/css/common.module.css';
 
@@ -50,7 +51,7 @@ const ChooseGame = ({ isLoggedIn, userData }) => {
           <div className={styles.card + " " + style.cursorPointer} onClick={handleQuizGameClick}>
             <div className={styles.imgStatusContainer}>
               <div className={styles.imgContainer}>
-                <img src={quizGameImg} alt='Quiz Game image' />
+                <img src={quizGameBanner} alt='Quiz Game image' />
               </div>
               <div className={styles.gameStatus + " " + styles.dotIcon}>
                 Active
@@ -68,7 +69,7 @@ const ChooseGame = ({ isLoggedIn, userData }) => {
           <div className={styles.card + " " +style.cursorNotAllowed}>
           <div className={styles.imgStatusContainer}>
               <div className={styles.imgContainer}>
-                <img src={quizGameImg} alt='Quiz Game image' />
+                <img src={wordMakerBanner} alt='Quiz Game image' />
               </div>
               <div className={styles.gameStatus + " " + styles.dotIcon}>
                 Upcoming
