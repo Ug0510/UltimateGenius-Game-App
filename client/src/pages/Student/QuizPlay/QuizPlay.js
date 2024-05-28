@@ -64,8 +64,7 @@ const QuizPlay = () => {
     const fetchQuiz = async () => {
       try {
         const token = localStorage.getItem('ultimate_genius0510_token');
-        const storedQuizData = localStorage.getItem('quizData'); // Check if quizData exists in localStorage
-  
+        const storedQuizData = localStorage.getItem(`quizData${quizId}`); // Check if quizData exists in localStorage
         if (storedQuizData) {
           // If quizData exists in localStorage, use it instead of fetching from the API
           setQuiz(JSON.parse(storedQuizData));
@@ -86,7 +85,6 @@ const QuizPlay = () => {
   
           // Store quizData in localStorage
           localStorage.setItem('quizData', JSON.stringify(response.data));
-  
           if (localStorage.getItem(`timer${gameId}`) === 'null' || localStorage.getItem(`timer${gameId}`) === null) {
             setTime({ minutes: response.data.timeLimit, seconds: 0 });
           }
