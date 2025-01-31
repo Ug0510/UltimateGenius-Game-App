@@ -42,7 +42,6 @@ Transform education into an adventure with this AI-powered gamified learning pla
 
 **Frontend**  
 [![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)](https://reactjs.org/)  
-[![Game UI](https://img.shields.io/badge/Phaser-FC3E44?logo=phaser.js&logoColor=white)](https://phaser.io/)
 
 **Backend**  
 [![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs)](https://nodejs.org/)  
@@ -54,17 +53,8 @@ Transform education into an adventure with this AI-powered gamified learning pla
 **AI Integration**  
 [![Gemini](https://img.shields.io/badge/Gemini_AI-4285F4?logo=google)](https://ai.google.dev/)
 
-## ⚙️ System Workflow
 
-### 🎒 Student Journey
-
-    1. ```🔑 Login/Signup --> 🎮 Enter Quiz Code
-    B --> C[👥 Waiting Lobby]
-    C --> D[⚔️ Live Quiz Battle]
-    D --> E[🏆 Results & Rewards]
-    E --> F[📊 Progress Dashboard]
-
-### 👩🏫 Teacher Control Flow
+### 🔄 Real-Time Interaction Flow
 
 ```diff
 +------------------+       +------------------+       +------------------+
