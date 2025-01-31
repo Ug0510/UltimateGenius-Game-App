@@ -1,6 +1,6 @@
 # 🚀 UltimateGenius - Gamified Learning Platform
 
-[956 (1).webm](https://github.com/user-attachments/assets/4e9a818b-7b84-4a9b-8515-40e8aab537be)
+https://github.com/user-attachments/assets/463ce8d3-e908-4eb5-8c66-f5536285f0d5
 
 Transform education into an adventure with this AI-powered gamified learning platform. Engage students through interactive quizzes and empower teachers with smart content creation tools.
 
