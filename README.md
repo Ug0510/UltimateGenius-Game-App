@@ -58,8 +58,6 @@ Transform education into an adventure with this AI-powered gamified learning pla
 
 ### 🎒 Student Journey
 
-```mermaid
-graph LR
     A[🔑 Login/Signup] --> B[🎮 Enter Quiz Code]
     B --> C[👥 Waiting Lobby]
     C --> D[⚔️ Live Quiz Battle]
@@ -67,4 +65,22 @@ graph LR
     E --> F[📊 Progress Dashboard]
 
 ### 👩🏫 Teacher Control Flow
+
+
++------------------+       +------------------+       +------------------+
+|  Teacher Portal  |       |   Game Server    |       | Student Interface|
++------------------+       +------------------+       +------------------+
+|                  |       |                  |       |                  |
+|  Create Quiz     |------>|  Generate ID     |<------|  Enter Code      |
+|      🚀          |       |       🔑         |       |       📥         |
+|                  |       |                  |       |                  |
+|  Start Session   |------>|  Initiate Lobby  |<----->|  Join Lobby      |
+|      ▶️          |       |       👥         |       |       🕹️         |
+|                  |       |                  |       |                  |
+|  Push Questions  |------>|  Broadcast Q/A   |<----->|  Answer Stream   |
+|      📨          |       |       📡         |       |       💡         |
+|                  |       |                  |       |                  |
+|  End Session     |------>|  Calculate Scores|<----->|  Display Results |
+|      🏁          |       |       🧮         |       |       🏅         |
++------------------+       +------------------+       +------------------+
 
