@@ -58,7 +58,7 @@ Transform education into an adventure with this AI-powered gamified learning pla
 
 ### 🎒 Student Journey
 
-    A[🔑 Login/Signup] --> B[🎮 Enter Quiz Code]
+    1. ```🔑 Login/Signup --> 🎮 Enter Quiz Code
     B --> C[👥 Waiting Lobby]
     C --> D[⚔️ Live Quiz Battle]
     D --> E[🏆 Results & Rewards]
@@ -66,7 +66,7 @@ Transform education into an adventure with this AI-powered gamified learning pla
 
 ### 👩🏫 Teacher Control Flow
 
-
+```diff
 +------------------+       +------------------+       +------------------+
 |  Teacher Portal  |       |   Game Server    |       | Student Interface|
 +------------------+       +------------------+       +------------------+
