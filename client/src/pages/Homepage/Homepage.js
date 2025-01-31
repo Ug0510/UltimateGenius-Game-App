@@ -275,7 +275,7 @@ const Homepage = ({ isLoggedIn, login, userData, addUserData }) => {
 
 
                 {/* <p style={{textAlign:'right', marginRight:'4rem'}}>Made with <span style={{color:'white'}}>&#9829;</span> By Udit Gupta</p> */}
-                <p style={{ textAlign: 'right', marginRight: '4rem', fontFamily: 'Chakra Petch' }} title='Sofiya, Nikunj & Udit'>Made with <img src='https://cdn-icons-png.flaticon.com/128/210/210545.png' alt='heart' style={{ width: '24px' }} /> by the developers
+                <p style={{ textAlign: 'right', marginRight: '4rem', fontFamily: 'Chakra Petch' }} title='Sofiya, Nikunj & Udit'>Made with <img src='https://cdn-icons-png.flaticon.com/128/210/210545.png' alt='heart' style={{ width: '24px' }} /> by Udit Gupta
                 {/* <a href="https://www.linkedin.com/in/udit-gupta-ug0510/" target="_blank"> the developers</a> */}
                 {/* <a href="https://www.linkedin.com/in/udit-gupta-ug0510/" target="_blank" style={{ textAlign: 'right', marginRight: '4rem', fontFamily: 'Chakra Petch' }}>&nbsp; </a> */}
                 </p>
